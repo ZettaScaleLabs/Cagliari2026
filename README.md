@@ -2,4 +2,10 @@
 
 Zenoh is a distributed data exchange middleware for connecting application processes through a shared namespace of keys. A key is a slash-separated resource path such as `robot/sensor/temp`; a key expression is a selector over keys, with wildcards such as `robot/sensor/*` for one path segment or `robot/**` for a subtree.
 
-Zenoh supports publish/subscribe for continuous updates and query/reply for request-driven access to values or computations. In the Rust API, `zenoh::open` creates the runtime handle used to declare publishers, subscribers, queriers, and queryables. A Zenoh process is configured as a client that connects to another Zenoh process, a peer that exchanges traffic directly with other peers, or a router that forwards traffic between clients, peers, and network segments. Forwarding is based on declared interest in key expressions, so data and queries are routed toward matching subscribers or queryables instead of being broadcast blindly. The crate also exposes channel or callback handlers for received data and replies, plus optional features for transports, authentication, shared memory, compression, liveliness, matching status, and DDS interoperability.
+Zenoh supports publish/subscribe for continuous updates and query/reply for request-driven access to values or computations.
+
+- **Transport/link-protocol agnostic:** Zenoh operations are not bound to one network transport; endpoints can use link protocols such as TCP, TLS, QUIC, UDP, WebSocket, serial, Unix sockets, pipes, or vsock.
+- **Various topologies:** A Zenoh node is a running Zenoh process; nodes can be arranged as peer-to-peer meshes, brokered client-router deployments, routed router meshes, or hierarchical regions.
+- **Scouting:** Zenoh's discovery step finds peer or router endpoints before a transport connection is opened, using mechanisms such as local multicast, configured entry points, or gossip between already discovered nodes.
+- **Liveliness:** A node can declare a named token on a key expression, and other nodes can query or subscribe to token appearance and disappearance to track presence.
+- **Matching:** Senders and requesters can observe whether a matching receiver or responder exists, which avoids producing or requesting data when no endpoint can consume or answer it.
