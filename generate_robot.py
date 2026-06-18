@@ -87,10 +87,8 @@ for f in body_faces:
         visible_faces.append({
             'pts_2d': proj_pts,
             'depth': sum(depths)/len(depths),
-            'group': 2.0,
-            'color': f['color'],
-            'stroke': 9, 
-            'stroke_color': stroke_color
+            'part': 'body',
+            'color': f['color']
         })
 
 head_h = 30.0
@@ -127,10 +125,8 @@ for f in head_faces:
         visible_faces.append({
             'pts_2d': proj_pts,
             'depth': sum(depths)/len(depths),
-            'group': 1.0,
-            'color': f['color'],
-            'stroke': 9,
-            'stroke_color': stroke_color
+            'part': 'head',
+            'color': f['color']
         })
 
 eye_z_center = (head_z_base + head_z_top) / 2.0
@@ -146,10 +142,8 @@ for cx_eye in [-12, 12]:
     visible_faces.append({
         'pts_2d': proj_pts,
         'depth': sum(depths)/len(depths),
-        'group': 4.0,
-        'color': 'white',
-        'stroke': 6, 
-        'stroke_color': stroke_color
+        'part': 'eyes',
+        'color': 'white'
     })
 
 def convex_hull(points):
@@ -167,7 +161,7 @@ def convex_hull(points):
         upper.append(p)
     return lower[:-1] + upper[:-1]
 
-def add_wheel_2d(cx, cy, cz, radius, thickness, color, group_hull, group_cap):
+def add_wheel_2d(cx, cy, cz, radius, thickness, color, part_name):
     N = 40
     pts_inner = []
     pts_outer = []
@@ -189,38 +183,27 @@ def add_wheel_2d(cx, cy, cz, radius, thickness, color, group_hull, group_cap):
     
     visible_cap = proj_outer if thickness > 0 else proj_inner
     
-    # Check normals to see if we should shade the cap
-    # The reference image has brightly lit caps and shadowed hulls
-    
     visible_faces.append({
         'pts_2d': hull,
         'depth': depth,
-        'group': group_hull,
-        'color': shadow_color, 
-        'stroke': 9,
-        'stroke_color': stroke_color
+        'part': part_name,
+        'color': shadow_color
     })
+    # ensure cap renders over hull by slightly tweaking depth
     visible_faces.append({
         'pts_2d': visible_cap,
-        'depth': depth,
-        'group': group_cap,
-        'color': base_color, 
-        'stroke': 9,
-        'stroke_color': stroke_color
+        'depth': depth + 0.1, 
+        'part': part_name,
+        'color': base_color
     })
 
-add_wheel_2d(40.1, 32.5, -10, 25, 20, base_color, 3.0, 3.1)   # Front Right
-add_wheel_2d(40.1, -20, -10, 25, 20, base_color, 3.0, 3.1)  # Back Right
-# Crucial fix here: 
-# The left wheels were drawn at group 0.0 (behind the body), but because the user wants them
-# rendered "exactly the same as the correctly placed wheels", it seems the issue is that they are completely obscured or misaligned.
-# Also, they must be drawn BEFORE the body because they are on the far side of the robot!
-# Group 0.0 is drawn before group 2.0 (the body). So they are correctly placed behind.
-# BUT wait! If they are exactly the same, maybe they need the same color configuration. We already use base_color.
-add_wheel_2d(-40.1, 32.5, -10, 25, -20, base_color, 0.0, 0.1) # Front Left
-add_wheel_2d(-40.1, -20, -10, 25, -20, base_color, 0.0, 0.1)# Back Left
+add_wheel_2d(40.1, 32.5, -10, 25, 20, base_color, 'wheel_fr')   
+add_wheel_2d(40.1, -20, -10, 25, 20, base_color, 'wheel_br')  
+add_wheel_2d(-40.1, 32.5, -10, 25, -20, base_color, 'wheel_fl') 
+add_wheel_2d(-40.1, -20, -10, 25, -20, base_color, 'wheel_bl')
 
-visible_faces.sort(key=lambda f: (f['group'], f['depth']))
+# Parts rendering order
+render_order = ['wheel_bl', 'wheel_fl', 'body', 'wheel_br', 'wheel_fr', 'head', 'eyes']
 
 svg = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">']
 svg.append('''<defs>
@@ -231,9 +214,29 @@ svg.append('''<defs>
   </filter>
 </defs>''')
 
-for face in visible_faces:
-    pts_str = " ".join([f"{px:.2f},{py:.2f}" for px, py in face['pts_2d']])
-    svg.append(f'<polygon points="{pts_str}" fill="{face["color"]}" stroke="{face["stroke_color"]}" stroke-width="{face["stroke"]}" stroke-linejoin="round" stroke-linecap="round" />')
+for part_name in render_order:
+    part_faces = [f for f in visible_faces if f['part'] == part_name]
+    # Sort faces within the part by depth
+    part_faces.sort(key=lambda f: f['depth'])
+    
+    svg.append(f'  <g id="{part_name}">')
+    
+    # 1. Silhouette strokes
+    svg.append(f'    <g stroke="{stroke_color}" stroke-width="16" stroke-linejoin="round" fill="none">')
+    for face in part_faces:
+        pts_str = " ".join([f"{px:.2f},{py:.2f}" for px, py in face['pts_2d']])
+        svg.append(f'      <polygon points="{pts_str}" />')
+    svg.append('    </g>')
+    
+    # 2. Fills with 1px stroke to hide anti-aliasing seams
+    svg.append('    <g stroke-linejoin="round">')
+    for face in part_faces:
+        pts_str = " ".join([f"{px:.2f},{py:.2f}" for px, py in face['pts_2d']])
+        svg.append(f'      <polygon points="{pts_str}" fill="{face["color"]}" stroke="{face["color"]}" stroke-width="1.5" />')
+    svg.append('    </g>')
+    
+    svg.append('  </g>')
+
 svg.append('</svg>')
 
 with open("robot.svg", "w") as f:
