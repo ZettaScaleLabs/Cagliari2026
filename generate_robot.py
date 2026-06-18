@@ -213,11 +213,12 @@ def add_wheel_2d(cx, cy, cz, radius, thickness, color, group_hull, group_cap):
         'stroke_color': stroke_color
     })
 
-# Wheel diameter = 40. Radius = 20.
-add_wheel_2d(40.1, 20, -10, 20, 20, base_color, 3.0, 3.1)   # Front Right
-add_wheel_2d(40.1, -20, -10, 20, 20, base_color, 3.0, 3.1)  # Back Right
-add_wheel_2d(-40.1, 20, -10, 20, -20, base_color, 0.0, 0.1) # Front Left
-add_wheel_2d(-40.1, -20, -10, 20, -20, base_color, 0.0, 0.1)# Back Left
+# Wheel diameter = 50. Radius = 25. (Increased by 1/4 from 40)
+# Front wheels moved forward by 1/4 diameter (12.5) -> cy = 20 + 12.5 = 32.5
+add_wheel_2d(40.1, 32.5, -10, 25, 20, base_color, 3.0, 3.1)   # Front Right
+add_wheel_2d(40.1, -20, -10, 25, 20, base_color, 3.0, 3.1)  # Back Right
+add_wheel_2d(-40.1, 32.5, -10, 25, -20, base_color, 0.0, 0.1) # Front Left
+add_wheel_2d(-40.1, -20, -10, 25, -20, base_color, 0.0, 0.1)# Back Left
 
 visible_faces.sort(key=lambda f: (f['group'], f['depth']))
 
