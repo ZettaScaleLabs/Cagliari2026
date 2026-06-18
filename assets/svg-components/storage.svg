@@ -16,8 +16,8 @@
     <circle cx="0" cy="13.5" r="2.2" fill="#49ca50" stroke="#07315f" stroke-width="1"/>
   </g>
   <g id="storage">
-    <use href="#computer" y="-20"/>
-    <use href="#computer" y="-10"/>
     <use href="#computer" y="0"/>
+    <use href="#computer" y="-10"/>
+    <use href="#computer" y="-20"/>
   </g>
 </svg>
