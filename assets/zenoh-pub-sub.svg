@@ -134,8 +134,8 @@
 
         <g id="storage">
       <use href="#computer" y="0"/>
-      <use href="#computer" y="-15"/>
-      <use href="#computer" y="-30"/>
+      <use href="#computer" y="-22"/>
+      <use href="#computer" y="-44"/>
     </g>
 
     <g id="workstation">
