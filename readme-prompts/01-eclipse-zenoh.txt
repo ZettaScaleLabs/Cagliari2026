@@ -1,1 +1,1 @@
-Zenoh network connecting edge devices, sensors, routers, and cloud services, with subtle eclipse and zen-light motifs.
+Mesh network of different kinds of nodes: computers, robots, sensors, storages, and workstations. Several nodes have key expression names under them, such as "sensor/room1/temp" and "robot/joe/position".
