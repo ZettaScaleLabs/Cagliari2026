@@ -115,8 +115,6 @@
     .endpoint { filter: url(#softShadow); }
     .publisher, .subscriber, .storageLabel { fill: var(--gold); font: 700 16px Arial, sans-serif; }
     .key { fill: var(--text); font: 16px Arial, sans-serif; }
-    .logoText { fill: #1d2430; font: 700 22px Arial, sans-serif; letter-spacing: -.7px; }
-    .logoSub { fill: #1d2430; font: 700 22px Arial, sans-serif; letter-spacing: -.7px; }
     .sleep { fill: var(--deep); font: 700 19px Arial, sans-serif; }
     .pulse {
       opacity: 0;
@@ -243,9 +241,8 @@
     <text class="key" x="603" y="542">fleet/2/robot/*/position</text>
   </g>
 
-  <g id="zetta-scale-logo" transform="translate(920 48)">
-    <path d="M4 0 H27 C33 0 36 8 31 13 L24 20 H4 C-3 20 -3 9 4 9 H24 M31 21 H8 C2 21 -1 29 4 34 L11 41 H33 C40 41 40 30 33 30 H12" fill="none" stroke="#0b7cff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-    <text class="logoText" x="35" y="17">zetta</text>
-    <text class="logoSub" x="35" y="39">scale</text>
+  <g id="zetta-scale-logo" transform="translate(920 48)" fill-rule="evenodd">
+    <path fill="#147dff" d="M2 8 L0 12 L0 19 L1 21 L4 24 L6 25 L4 27 L4 28 L2 30 L0 34 L0 42 L26 42 L27 41 L30 41 L34 38 L36 34 L36 29 L34 25 L32 23 L31 23 L30 21 L32 19 L32 18 L35 14 L35 12 L36 11 L36 5 L7 5 L3 8 Z M4 36 L5 35 L5 33 L11 27 L13 26 L16 26 L17 25 L26 25 L27 26 L29 26 L32 30 L32 33 L28 37 L5 37 Z M4 17 L4 13 L7 10 L9 9 L30 9 L31 10 L31 12 L29 16 L24 20 L22 20 L21 21 L8 21 L6 20 Z"/>
+    <path fill="#0b1641" d="M102 27 L98 30 L97 32 L97 36 L99 40 L105 42 L106 41 L108 41 L111 38 L111 37 L109 37 L106 40 L103 40 L101 39 L99 36 L100 35 L111 35 L111 31 L107 27 Z M99 32 L102 29 L106 29 L109 32 L108 33 L100 33 Z M78 28 L76 30 L76 32 L75 33 L75 36 L77 40 L79 41 L81 41 L82 42 L86 40 L87 41 L89 41 L89 27 L87 27 L86 28 L84 27 L80 27 Z M80 29 L84 29 L87 32 L87 37 L83 40 L81 40 L78 37 L77 35 L77 33 Z M64 27 L61 29 L59 33 L59 35 L60 36 L60 38 L63 41 L65 41 L67 42 L68 41 L70 41 L73 38 L73 37 L72 36 L68 40 L66 40 L64 39 L61 35 L62 33 L62 31 L65 29 L68 29 L70 30 L71 32 L73 32 L72 29 L69 27 Z M49 27 L46 29 L46 33 L49 35 L52 35 L54 36 L55 38 L53 40 L50 40 L47 37 L45 38 L47 41 L52 42 L53 41 L55 41 L57 39 L57 36 L55 34 L53 34 L52 33 L49 33 L48 32 L48 30 L49 29 L53 29 L55 31 L57 31 L57 30 L53 27 Z M92 23 L92 41 L94 41 L94 23 Z M100 5 L97 8 L96 10 L96 14 L97 16 L100 19 L106 19 L107 18 L108 19 L111 19 L111 5 L108 5 L107 6 L105 5 Z M102 8 L106 8 L108 11 L108 13 L107 15 L104 17 L100 14 L100 10 Z M62 5 L59 8 L58 10 L58 15 L62 19 L69 19 L72 17 L72 15 L69 15 L67 17 L64 17 L61 14 L62 13 L73 13 L73 10 L72 8 L69 5 Z M61 10 L65 7 L69 9 L68 11 L62 11 Z M46 5 L46 8 L51 8 L52 9 L47 14 L47 15 L45 17 L45 19 L57 19 L57 17 L56 16 L51 16 L50 15 L56 9 L57 7 L57 5 Z M77 0 L77 4 L76 5 L74 5 L74 8 L76 8 L77 9 L77 17 L79 19 L83 19 L83 17 L82 17 L80 15 L80 9 L81 8 L87 8 L88 9 L88 18 L89 19 L94 19 L94 17 L92 17 L91 16 L91 9 L92 8 L95 8 L95 5 L92 5 L91 4 L91 0 L88 0 L88 4 L87 5 L81 5 L80 4 L80 0 Z"/>
   </g>
 </svg>
