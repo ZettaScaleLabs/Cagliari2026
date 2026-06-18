@@ -1,0 +1,1 @@
+Illustrate liveliness as a named token being announced and followed across the network, with connection and disconnection pulses around a shared identity marker, minimal vector art.

@@ -1,0 +1,1 @@
+Illustrate rich packet metadata by showing a compact data sample with optional tags for timestamp, encoding, priority, and attachments, elegant infographic style.

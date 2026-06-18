@@ -1,0 +1,1 @@
+Illustrate wildcard key lookup such as */sensor/temp and room/** with a search beam sweeping across hierarchical keys, clean technical infographic, no text.

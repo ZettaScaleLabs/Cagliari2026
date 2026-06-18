@@ -1,0 +1,1 @@
+Illustrate query/reply as a requester sending a key-based question and multiple services returning replies, with clear request-response arrows, technical vector style.

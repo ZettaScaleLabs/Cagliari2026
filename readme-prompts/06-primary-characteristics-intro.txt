@@ -1,0 +1,1 @@
+Illustrate the four core Zenoh characteristics as a balanced network diagram: location transparency, transport agnosticism, flexible topology, and wire efficiency, using symbolic nodes, paths, and compact packets, clean infographics style.

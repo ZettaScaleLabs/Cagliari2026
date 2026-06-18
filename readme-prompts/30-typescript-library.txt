@@ -1,0 +1,1 @@
+Illustrate zenoh-ts as a TypeScript client connecting by WebSocket to a server plugin that implements the protocol side, with browser and server separated by a socket link, clean modern vector art.

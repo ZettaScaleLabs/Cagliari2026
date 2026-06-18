@@ -1,0 +1,1 @@
+Illustrate a slash-separated key namespace such as room/sensor/temp as a network of labeled data paths, with structured messages traveling through a protocol layer, modern editorial vector style, wide format, no text beyond key examples.

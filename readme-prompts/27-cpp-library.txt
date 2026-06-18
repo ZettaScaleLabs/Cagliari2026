@@ -1,0 +1,1 @@
+Illustrate zenoh-cpp as a header-only C++ wrapper over zenoh-pico and zenoh-c, with a layered dependency diagram and C++ code motifs, modern technical art.

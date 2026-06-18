@@ -1,0 +1,1 @@
+Create a wide section illustration for an overview of Zenoh as a data-oriented pub/sub and query/reply protocol: abstract keys and messages flowing between sensors, applications, and cloud nodes, clean technical vector art, light background, blue/cyan accents, no text.

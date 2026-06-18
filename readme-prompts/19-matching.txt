@@ -1,0 +1,1 @@
+Illustrate matching as publishers and queriers detecting active subscribers and queriables before sending data, using glowing match indicators between endpoints, technical infographic.

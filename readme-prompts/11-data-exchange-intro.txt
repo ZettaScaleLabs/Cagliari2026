@@ -1,0 +1,1 @@
+Illustrate two data exchange modes side by side: publish/subscribe broadcast on one side and query/reply request-response on the other, clean split-panel technical illustration, wide.

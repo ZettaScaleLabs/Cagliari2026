@@ -1,0 +1,1 @@
+Illustrate the Zenoh ecosystem of language bindings surrounding a shared core implementation, with Rust at the center and other languages connected around it, clean software architecture infographic.

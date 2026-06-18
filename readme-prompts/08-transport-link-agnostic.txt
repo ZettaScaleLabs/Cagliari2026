@@ -1,0 +1,1 @@
+Illustrate transport/link-protocol agnosticism with the same Zenoh network riding over TCP, TLS, QUIC, UDP, and shared memory lanes, shown as multiple transport layers beneath one protocol, clean technical infographic.

@@ -1,0 +1,1 @@
+Illustrate publish/subscribe as a broadcaster sending one message to many subscribers attached to the same key, with fan-out arrows and synchronized consumers, clean vector infographic.
