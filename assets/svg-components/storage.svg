@@ -2,23 +2,22 @@
   <title id="storage-title">Storage icon</title>
   <desc id="storage-desc">A reusable blue storage cylinder used for Zenoh storage nodes.</desc>
   <defs>
-    <linearGradient id="storage-fill" x1="0" x2="0" y1="0" y2="1">
+    <linearGradient id="node-fill" x1="0" x2="0" y1="0" y2="1">
       <stop offset="0" stop-color="#62bfff"/>
       <stop offset="1" stop-color="#247fbd"/>
     </linearGradient>
   </defs>
+    <g id="computer">
+    <path d="M-24,-8 v16 c0,6 11,11 24,11s24,-5 24,-11V-8" fill="url(#node-fill)"/>
+    <ellipse cx="0" cy="-8" rx="24" ry="10" fill="#61bdf5"/>
+    <path d="M -24,-8 A 24 10 0 0 1 24,-8 V 8 A 24 10 0 0 1 -24,8 Z" fill="none" stroke="#072f61" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="-16" cy="10.5" r="2.2" fill="#49ca50" stroke="#07315f" stroke-width="1"/>
+    <circle cx="-8" cy="13" r="2.2" fill="#49ca50" stroke="#07315f" stroke-width="1"/>
+    <circle cx="0" cy="13.5" r="2.2" fill="#49ca50" stroke="#07315f" stroke-width="1"/>
+  </g>
   <g id="storage">
-    <ellipse cx="0" cy="-24" rx="26" ry="9" fill="#62bfff" stroke="#07315f" stroke-width="3"/>
-    <path d="M-26,-24 v48 c0,6 12,10 26,10s26,-4 26,-10v-48" fill="url(#storage-fill)" stroke="#07315f" stroke-width="3"/>
-    <path d="M-26,-8 c0,6 12,10 26,10s26,-4 26,-10 M-26,9 c0,6 12,10 26,10s26,-4 26,-10" fill="none" stroke="#07315f" stroke-width="2"/>
-    <circle cx="-12" cy="-7" r="2" fill="#fff"/>
-    <circle cx="-3" cy="-7" r="2" fill="#fff"/>
-    <circle cx="7" cy="-7" r="2" fill="#fff"/>
-    <circle cx="-12" cy="10" r="2" fill="#fff"/>
-    <circle cx="-3" cy="10" r="2" fill="#fff"/>
-    <circle cx="7" cy="10" r="2" fill="#fff"/>
-    <circle cx="-12" cy="27" r="2" fill="#fff"/>
-    <circle cx="-3" cy="27" r="2" fill="#fff"/>
-    <circle cx="7" cy="27" r="2" fill="#fff"/>
+    <use href="#computer" y="-20"/>
+    <use href="#computer" y="-10"/>
+    <use href="#computer" y="0"/>
   </g>
 </svg>
