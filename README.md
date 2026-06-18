@@ -20,6 +20,10 @@ Zenoh supports two mechanisms of data exchange:
 - **Publish/Subscribe:** Data is broadcast on a key, and instances subscribed to this key receive it.
 - **Query/Reply:** Data is requested by key, and instances that serve this key send replies.
 
+<p align="center">
+  <img src="assets/zenoh-pub-sub.svg" alt="Animated Zenoh publish/subscribe data flow" width="860">
+</p>
+
 Zenoh provides multiple convenient features:
 
 - **Wildcard support:** Data can be requested using wildcards, e.g. `*/sensor/temp` for all temperature sensors or `room/**` for all data available for `room`.

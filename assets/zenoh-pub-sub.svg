@@ -1,0 +1,242 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 668" role="img" aria-labelledby="title desc">
+  <title id="title">Zenoh publish/subscribe data flow animation</title>
+  <desc id="desc">Animated topology showing publishers, subscribers, storage nodes, routers, and yellow data paths moving through a Zenoh network.</desc>
+  <defs>
+    <linearGradient id="routerFill" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#62bfff"/>
+      <stop offset="1" stop-color="#247fbd"/>
+    </linearGradient>
+    <linearGradient id="robotFill" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#5bbcff"/>
+      <stop offset="1" stop-color="#1f78c9"/>
+    </linearGradient>
+    <linearGradient id="screenFill" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f7fdff"/>
+      <stop offset="1" stop-color="#caeef9"/>
+    </linearGradient>
+    <marker id="arrow" markerHeight="8" markerWidth="10" orient="auto-start-reverse" refX="9" refY="4">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#f5aa00"/>
+    </marker>
+    <filter id="softShadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#0b2547" flood-opacity=".25"/>
+    </filter>
+
+    <g id="router">
+      <ellipse cx="0" cy="-8" rx="24" ry="10" fill="#61bdf5" stroke="#072f61" stroke-width="3"/>
+      <path d="M-24,-8 v16 c0,6 11,11 24,11s24,-5 24,-11V-8" fill="url(#routerFill)" stroke="#072f61" stroke-width="3"/>
+      <ellipse cx="0" cy="8" rx="24" ry="10" fill="#2e91cc" stroke="#072f61" stroke-width="3"/>
+      <path d="M-9,-1 L-2,-5 M-2,-5 L-4,0 M-2,-5 L-7,-6" stroke="#07315f" stroke-width="3" stroke-linecap="round"/>
+      <path d="M9,-2 L2,-6 M2,-6 L5,-1 M2,-6 L8,-7" stroke="#07315f" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="-12" cy="12" r="2.2" fill="#f7c400" stroke="#07315f" stroke-width="1"/>
+      <circle cx="-4" cy="15" r="2.2" fill="#49ca50" stroke="#07315f" stroke-width="1"/>
+      <circle cx="5" cy="13" r="2.2" fill="#49ca50" stroke="#07315f" stroke-width="1"/>
+    </g>
+
+    <g id="robot">
+      <path d="M-22,1 h33 c8,0 15,7 15,15 v7 c0,5 -4,9 -9,9 h-39 c-6,0 -11,-5 -11,-11v-9c0,-6 5,-11 11,-11Z" fill="url(#robotFill)" stroke="#092b5c" stroke-width="3"/>
+      <circle cx="-31" cy="18" r="10" fill="#58b8ff" stroke="#092b5c" stroke-width="3"/>
+      <circle cx="1" cy="27" r="12" fill="#58b8ff" stroke="#092b5c" stroke-width="3"/>
+      <circle cx="27" cy="23" r="10" fill="#58b8ff" stroke="#092b5c" stroke-width="3"/>
+      <path d="M-17,-21 h33 l8,8 v20 h-41Z" fill="#2f93d2" stroke="#092b5c" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="-4" cy="-7" r="3" fill="#d9f4ff" stroke="#092b5c" stroke-width="1.5"/>
+      <circle cx="12" cy="-7" r="3" fill="#d9f4ff" stroke="#092b5c" stroke-width="1.5"/>
+    </g>
+
+    <g id="storage">
+      <ellipse cx="0" cy="-24" rx="26" ry="9" fill="#62bfff" stroke="#07315f" stroke-width="3"/>
+      <path d="M-26,-24 v48 c0,6 12,10 26,10s26,-4 26,-10v-48" fill="url(#routerFill)" stroke="#07315f" stroke-width="3"/>
+      <path d="M-26,-8 c0,6 12,10 26,10s26,-4 26,-10 M-26,9 c0,6 12,10 26,10s26,-4 26,-10" fill="none" stroke="#07315f" stroke-width="2"/>
+      <circle cx="-12" cy="-7" r="2" fill="#fff"/>
+      <circle cx="-3" cy="-7" r="2" fill="#fff"/>
+      <circle cx="7" cy="-7" r="2" fill="#fff"/>
+      <circle cx="-12" cy="10" r="2" fill="#fff"/>
+      <circle cx="-3" cy="10" r="2" fill="#fff"/>
+      <circle cx="7" cy="10" r="2" fill="#fff"/>
+      <circle cx="-12" cy="27" r="2" fill="#fff"/>
+      <circle cx="-3" cy="27" r="2" fill="#fff"/>
+      <circle cx="7" cy="27" r="2" fill="#fff"/>
+    </g>
+
+    <g id="subscriberScreen">
+      <path d="M-39,-38 L39,-50 L39,29 L-39,20Z" fill="#2c93c5" stroke="#07315f" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M-29,-29 L27,-37 L27,15 L-29,11Z" fill="url(#screenFill)" stroke="#b9ced8" stroke-width="2"/>
+      <path d="M-24,-16 L-2,-21 L18,-10 M-14,7 L5,-7 L24,-4" fill="none" stroke="#c4c9cf" stroke-width="2"/>
+      <path d="M-17,-17 c0,-4 3,-7 7,-7s7,3 7,7c0,5 -7,14 -7,14s-7,-9 -7,-14Z" fill="#3e9ace" stroke="#07315f" stroke-width="2"/>
+      <circle cx="-10" cy="-17" r="2" fill="#fff"/>
+      <path d="M12,-3 c0,-4 3,-7 7,-7s7,3 7,7c0,5 -7,14 -7,14s-7,-9 -7,-14Z" fill="#3e9ace" stroke="#07315f" stroke-width="2"/>
+      <circle cx="19" cy="-3" r="2" fill="#fff"/>
+      <path d="M-10,23 h22 l4,18 h-30Z" fill="#1f6f9f" stroke="#07315f" stroke-width="3" stroke-linejoin="round"/>
+    </g>
+
+    <path id="fleet1Route" d="M915 404 C865 413 746 404 690 379 L666 255 L462 242 L462 153 M666 255 L803 146"/>
+    <path id="fleet2Route" d="M250 346 L368 360 L508 399 L572 494 M368 360 L462 242 L462 153 M368 360 L352 493"/>
+  </defs>
+
+  <style>
+    :root {
+      --blue: #0a6fb0;
+      --deep: #0a2d60;
+      --link: #c7c7c7;
+      --gold: #f5aa00;
+      --text: #85888f;
+    }
+
+    .bg { fill: #f7f7f7; }
+    .link { fill: none; stroke: var(--link); stroke-width: 2; stroke-linecap: round; }
+    .flow {
+      fill: none;
+      stroke: var(--gold);
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      marker-end: url(#arrow);
+      opacity: 0;
+    }
+    .flow.fleet1 { animation: fleet1Flow 22.6s linear infinite; }
+    .flow.fleet2 { animation: fleet2Flow 22.6s linear infinite; }
+    .packet {
+      fill: var(--gold);
+      stroke: #fff;
+      stroke-width: 3;
+      opacity: 0;
+      filter: url(#softShadow);
+    }
+    .packet.fleet1 { animation: fleet1Packet 22.6s linear infinite; }
+    .packet.fleet2 { animation: fleet2Packet 22.6s linear infinite; }
+    .endpoint { filter: url(#softShadow); }
+    .publisher, .subscriber, .storageLabel { fill: var(--gold); font: 700 16px Arial, sans-serif; }
+    .key { fill: var(--text); font: 16px Arial, sans-serif; }
+    .logoText { fill: #1d2430; font: 700 22px Arial, sans-serif; letter-spacing: -.7px; }
+    .logoSub { fill: #1d2430; font: 700 22px Arial, sans-serif; letter-spacing: -.7px; }
+    .sleep { fill: var(--deep); font: 700 19px Arial, sans-serif; }
+    .pulse {
+      opacity: 0;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+    .pulse.fleet1 { animation: fleet1Pulse 22.6s ease-in-out infinite; }
+    .pulse.fleet2 { animation: fleet2Pulse 22.6s ease-in-out infinite; }
+
+    @keyframes fleet1Flow {
+      0%, 7% { opacity: 0; stroke-dasharray: 1 820; stroke-dashoffset: 0; }
+      11% { opacity: 1; stroke-dasharray: 170 820; stroke-dashoffset: 0; }
+      18% { opacity: 1; stroke-dasharray: 520 820; stroke-dashoffset: 0; }
+      25% { opacity: 1; stroke-dasharray: 820 820; stroke-dashoffset: 0; }
+      29%, 100% { opacity: 0; stroke-dasharray: 820 820; stroke-dashoffset: 0; }
+    }
+    @keyframes fleet2Flow {
+      0%, 35% { opacity: 0; stroke-dasharray: 1 820; stroke-dashoffset: 0; }
+      43% { opacity: 1; stroke-dasharray: 260 820; stroke-dashoffset: 0; }
+      53% { opacity: 1; stroke-dasharray: 520 820; stroke-dashoffset: 0; }
+      69% { opacity: 1; stroke-dasharray: 820 820; stroke-dashoffset: 0; }
+      80%, 100% { opacity: 0; stroke-dasharray: 820 820; stroke-dashoffset: 0; }
+    }
+    @keyframes fleet1Packet {
+      0%, 7%, 29%, 100% { opacity: 0; }
+      10%, 26% { opacity: 1; }
+    }
+    @keyframes fleet2Packet {
+      0%, 35%, 80%, 100% { opacity: 0; }
+      40%, 72% { opacity: 1; }
+    }
+    @keyframes fleet1Pulse {
+      0%, 8%, 26%, 100% { opacity: 0; transform: scale(.85); }
+      17%, 22% { opacity: .28; transform: scale(1.25); }
+    }
+    @keyframes fleet2Pulse {
+      0%, 36%, 76%, 100% { opacity: 0; transform: scale(.85); }
+      50%, 69% { opacity: .28; transform: scale(1.25); }
+    }
+  </style>
+
+  <rect class="bg" width="1080" height="668"/>
+
+  <g id="base-links">
+    <path class="link" d="M138 166 L113 282 L250 346 L138 166 L295 169 L250 346 L368 360 L462 242 L295 169"/>
+    <path class="link" d="M368 360 L352 493 M368 360 L508 399 L690 379 L666 255 L803 146 M462 242 L666 255 M462 242 L462 153 M508 399 L666 255"/>
+    <path class="link" d="M690 379 L815 403 L851 532 L945 385 L815 403 M690 379 L851 532 M915 404 C865 413 746 404 690 379"/>
+  </g>
+
+  <g id="endpoint-pulses">
+    <circle class="pulse fleet1" cx="462" cy="153" r="32" fill="#f5aa00"/>
+    <circle class="pulse fleet1" cx="803" cy="146" r="32" fill="#f5aa00"/>
+    <circle class="pulse fleet2" cx="462" cy="153" r="32" fill="#f5aa00"/>
+    <circle class="pulse fleet2" cx="352" cy="493" r="32" fill="#f5aa00"/>
+    <circle class="pulse fleet2" cx="572" cy="494" r="32" fill="#f5aa00"/>
+  </g>
+
+  <g id="flows">
+    <use href="#fleet1Route" class="flow fleet1"/>
+    <use href="#fleet2Route" class="flow fleet2"/>
+    <circle r="9" class="packet fleet1">
+      <animateMotion dur="22.6s" repeatCount="indefinite" path="M915 404 C865 413 746 404 690 379 L666 255 L462 242 L462 153" keyTimes="0;0.07;0.26;1" keyPoints="0;0;1;1" calcMode="linear"/>
+    </circle>
+    <circle r="9" class="packet fleet1">
+      <animateMotion dur="22.6s" repeatCount="indefinite" path="M915 404 C865 413 746 404 690 379 L666 255 L803 146" keyTimes="0;0.07;0.26;1" keyPoints="0;0;1;1" calcMode="linear"/>
+    </circle>
+    <circle r="9" class="packet fleet2">
+      <animateMotion dur="22.6s" repeatCount="indefinite" path="M250 346 L368 360 L508 399 L572 494" keyTimes="0;0.35;0.72;1" keyPoints="0;0;1;1" calcMode="linear"/>
+    </circle>
+    <circle r="9" class="packet fleet2">
+      <animateMotion dur="22.6s" repeatCount="indefinite" path="M250 346 L368 360 L462 242 L462 153" keyTimes="0;0.35;0.72;1" keyPoints="0;0;1;1" calcMode="linear"/>
+    </circle>
+    <circle r="9" class="packet fleet2">
+      <animateMotion dur="22.6s" repeatCount="indefinite" path="M250 346 L368 360 L352 493" keyTimes="0;0.35;0.72;1" keyPoints="0;0;1;1" calcMode="linear"/>
+    </circle>
+  </g>
+
+  <g id="routers" class="endpoint">
+    <use href="#router" x="368" y="360"/>
+    <use href="#router" x="462" y="242"/>
+    <use href="#router" x="508" y="399"/>
+    <use href="#router" x="666" y="255"/>
+    <use href="#router" x="690" y="379"/>
+  </g>
+
+  <g id="fleet2-zone" class="endpoint">
+    <use href="#robot" x="138" y="166"/>
+    <use href="#robot" x="113" y="282"/>
+    <use href="#robot" x="295" y="169"/>
+    <use href="#robot" x="250" y="346"/>
+    <use href="#storage" x="352" y="493"/>
+  </g>
+
+  <g id="fleet1-zone" class="endpoint">
+    <use href="#robot" x="815" y="403"/>
+    <use href="#robot" x="945" y="385"/>
+    <use href="#robot" x="851" y="532"/>
+    <use href="#storage" x="803" y="146"/>
+  </g>
+
+  <g id="subscribers" class="endpoint">
+    <use href="#subscriberScreen" x="462" y="123"/>
+    <use href="#robot" x="572" y="494"/>
+    <text class="sleep" x="587" y="486">z<tspan dy="-12" font-size="13">Z</tspan></text>
+  </g>
+
+  <g id="labels">
+    <text class="subscriber" x="506" y="112">Subscriber</text>
+    <text class="key" x="506" y="132">fleet/*/robot/*/position</text>
+
+    <text class="storageLabel" x="839" y="142">Storage</text>
+    <text class="key" x="839" y="162">fleet/1/**</text>
+
+    <text class="publisher" x="912" y="336">Publisher</text>
+    <text class="key" x="826" y="356">fleet/1/robot/2/position</text>
+
+    <text class="publisher" x="100" y="373">Publisher</text>
+    <text class="key" x="100" y="393">fleet/2/robot/1/position</text>
+
+    <text class="storageLabel" x="251" y="491">Storage</text>
+    <text class="key" x="251" y="511">fleet/2/**</text>
+
+    <text class="subscriber" x="603" y="522">Subscriber</text>
+    <text class="key" x="603" y="542">fleet/2/robot/*/position</text>
+  </g>
+
+  <g id="zetta-scale-logo" transform="translate(920 48)">
+    <path d="M4 0 H27 C33 0 36 8 31 13 L24 20 H4 C-3 20 -3 9 4 9 H24 M31 21 H8 C2 21 -1 29 4 34 L11 41 H33 C40 41 40 30 33 30 H12" fill="none" stroke="#0b7cff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text class="logoText" x="35" y="17">zetta</text>
+    <text class="logoSub" x="35" y="39">scale</text>
+  </g>
+</svg>
