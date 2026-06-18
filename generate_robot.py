@@ -87,7 +87,7 @@ for f in body_faces:
 head_h = 30.0
 head_z_base = 20.0 + (body_h / 6.0)
 head_z_top = head_z_base + head_h
-head_profile = [(0, head_z_base), (40, head_z_base), (40, head_z_top), (0, head_z_top)]
+head_profile = [(-20, head_z_base), (40, head_z_base), (40, head_z_top), (-20, head_z_top)]
 head_r = [(25, y, z) for y, z in head_profile]
 head_l = [(-25, y, z) for y, z in head_profile]
 
