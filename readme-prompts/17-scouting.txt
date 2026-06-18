@@ -1,1 +1,1 @@
-Illustrate Zenoh scouting as nearby nodes discovering each other through multicast and gossip, with beacons spreading through a local network map, clean isometric style.
+Zenoh scouting as nearby nodes discovering each other through multicast and gossip, with beacons spreading through a local network map.

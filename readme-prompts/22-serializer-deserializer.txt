@@ -1,1 +1,1 @@
-Illustrate a serializer/deserializer converting primitive values into compact platform-independent binary form and back, with integers, floats, tuples, and arrays flowing through a codec pipeline.
+A serializer/deserializer converting primitive values into compact platform-independent binary form and back, with integers, floats, tuples, and arrays flowing through a codec pipeline.
