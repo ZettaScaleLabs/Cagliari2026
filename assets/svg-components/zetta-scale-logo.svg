@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 132 54" role="img" aria-labelledby="zetta-scale-logo-title zetta-scale-logo-desc">
+  <title id="zetta-scale-logo-title">Zetta Scale logo</title>
+  <desc id="zetta-scale-logo-desc">A reusable Zetta Scale logo mark and wordmark.</desc>
+  <style>
+    .wordmark { fill: #1d2430; font: 700 22px Arial, sans-serif; letter-spacing: -.7px; }
+  </style>
+  <g id="zetta-scale-logo">
+    <path d="M4 0 H27 C33 0 36 8 31 13 L24 20 H4 C-3 20 -3 9 4 9 H24 M31 21 H8 C2 21 -1 29 4 34 L11 41 H33 C40 41 40 30 33 30 H12" fill="none" stroke="#0b7cff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text class="wordmark" x="35" y="17">zetta</text>
+    <text class="wordmark" x="35" y="39">scale</text>
+  </g>
+</svg>

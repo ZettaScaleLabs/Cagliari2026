@@ -2,15 +2,19 @@
   <title id="title">Zenoh publish/subscribe data flow animation</title>
   <desc id="desc">Animated topology showing publishers, subscribers, storage nodes, routers, and yellow data paths moving through a Zenoh network.</desc>
   <defs>
-    <linearGradient id="routerFill" x1="0" x2="0" y1="0" y2="1">
+    <linearGradient id="node-fill" x1="0" x2="0" y1="0" y2="1">
       <stop offset="0" stop-color="#62bfff"/>
       <stop offset="1" stop-color="#247fbd"/>
     </linearGradient>
-    <linearGradient id="robotFill" x1="0" x2="0" y1="0" y2="1">
+    <linearGradient id="storage-fill" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#62bfff"/>
+      <stop offset="1" stop-color="#247fbd"/>
+    </linearGradient>
+    <linearGradient id="robot-fill" x1="0" x2="0" y1="0" y2="1">
       <stop offset="0" stop-color="#5bbcff"/>
       <stop offset="1" stop-color="#1f78c9"/>
     </linearGradient>
-    <linearGradient id="screenFill" x1="0" x2="1" y1="0" y2="1">
+    <linearGradient id="workstation-screen-fill" x1="0" x2="1" y1="0" y2="1">
       <stop offset="0" stop-color="#f7fdff"/>
       <stop offset="1" stop-color="#caeef9"/>
     </linearGradient>
@@ -21,9 +25,10 @@
       <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#0b2547" flood-opacity=".25"/>
     </filter>
 
-    <g id="router">
+    <!-- Kept inline for GitHub README rendering; reusable copies live in assets/svg-components/. -->
+    <g id="node">
       <ellipse cx="0" cy="-8" rx="24" ry="10" fill="#61bdf5" stroke="#072f61" stroke-width="3"/>
-      <path d="M-24,-8 v16 c0,6 11,11 24,11s24,-5 24,-11V-8" fill="url(#routerFill)" stroke="#072f61" stroke-width="3"/>
+      <path d="M-24,-8 v16 c0,6 11,11 24,11s24,-5 24,-11V-8" fill="url(#node-fill)" stroke="#072f61" stroke-width="3"/>
       <ellipse cx="0" cy="8" rx="24" ry="10" fill="#2e91cc" stroke="#072f61" stroke-width="3"/>
       <path d="M-9,-1 L-2,-5 M-2,-5 L-4,0 M-2,-5 L-7,-6" stroke="#07315f" stroke-width="3" stroke-linecap="round"/>
       <path d="M9,-2 L2,-6 M2,-6 L5,-1 M2,-6 L8,-7" stroke="#07315f" stroke-width="3" stroke-linecap="round"/>
@@ -33,7 +38,7 @@
     </g>
 
     <g id="robot">
-      <path d="M-22,1 h33 c8,0 15,7 15,15 v7 c0,5 -4,9 -9,9 h-39 c-6,0 -11,-5 -11,-11v-9c0,-6 5,-11 11,-11Z" fill="url(#robotFill)" stroke="#092b5c" stroke-width="3"/>
+      <path d="M-22,1 h33 c8,0 15,7 15,15 v7 c0,5 -4,9 -9,9 h-39 c-6,0 -11,-5 -11,-11v-9c0,-6 5,-11 11,-11Z" fill="url(#robot-fill)" stroke="#092b5c" stroke-width="3"/>
       <circle cx="-31" cy="18" r="10" fill="#58b8ff" stroke="#092b5c" stroke-width="3"/>
       <circle cx="1" cy="27" r="12" fill="#58b8ff" stroke="#092b5c" stroke-width="3"/>
       <circle cx="27" cy="23" r="10" fill="#58b8ff" stroke="#092b5c" stroke-width="3"/>
@@ -44,7 +49,7 @@
 
     <g id="storage">
       <ellipse cx="0" cy="-24" rx="26" ry="9" fill="#62bfff" stroke="#07315f" stroke-width="3"/>
-      <path d="M-26,-24 v48 c0,6 12,10 26,10s26,-4 26,-10v-48" fill="url(#routerFill)" stroke="#07315f" stroke-width="3"/>
+      <path d="M-26,-24 v48 c0,6 12,10 26,10s26,-4 26,-10v-48" fill="url(#storage-fill)" stroke="#07315f" stroke-width="3"/>
       <path d="M-26,-8 c0,6 12,10 26,10s26,-4 26,-10 M-26,9 c0,6 12,10 26,10s26,-4 26,-10" fill="none" stroke="#07315f" stroke-width="2"/>
       <circle cx="-12" cy="-7" r="2" fill="#fff"/>
       <circle cx="-3" cy="-7" r="2" fill="#fff"/>
@@ -57,15 +62,19 @@
       <circle cx="7" cy="27" r="2" fill="#fff"/>
     </g>
 
-    <g id="subscriberScreen">
+    <g id="workstation">
       <path d="M-39,-38 L39,-50 L39,29 L-39,20Z" fill="#2c93c5" stroke="#07315f" stroke-width="4" stroke-linejoin="round"/>
-      <path d="M-29,-29 L27,-37 L27,15 L-29,11Z" fill="url(#screenFill)" stroke="#b9ced8" stroke-width="2"/>
+      <path d="M-29,-29 L27,-37 L27,15 L-29,11Z" fill="url(#workstation-screen-fill)" stroke="#b9ced8" stroke-width="2"/>
       <path d="M-24,-16 L-2,-21 L18,-10 M-14,7 L5,-7 L24,-4" fill="none" stroke="#c4c9cf" stroke-width="2"/>
       <path d="M-17,-17 c0,-4 3,-7 7,-7s7,3 7,7c0,5 -7,14 -7,14s-7,-9 -7,-14Z" fill="#3e9ace" stroke="#07315f" stroke-width="2"/>
       <circle cx="-10" cy="-17" r="2" fill="#fff"/>
       <path d="M12,-3 c0,-4 3,-7 7,-7s7,3 7,7c0,5 -7,14 -7,14s-7,-9 -7,-14Z" fill="#3e9ace" stroke="#07315f" stroke-width="2"/>
       <circle cx="19" cy="-3" r="2" fill="#fff"/>
       <path d="M-10,23 h22 l4,18 h-30Z" fill="#1f6f9f" stroke="#07315f" stroke-width="3" stroke-linejoin="round"/>
+    </g>
+
+    <g id="data-packet">
+      <circle r="9"/>
     </g>
 
     <path id="fleet1Route" d="M915 404 C865 413 746 404 690 379 L666 255 L462 242 L462 153 M666 255 L803 146"/>
@@ -168,29 +177,29 @@
   <g id="flows">
     <use href="#fleet1Route" class="flow fleet1"/>
     <use href="#fleet2Route" class="flow fleet2"/>
-    <circle r="9" class="packet fleet1">
+    <use href="#data-packet" class="packet fleet1">
       <animateMotion dur="22.6s" repeatCount="indefinite" path="M915 404 C865 413 746 404 690 379 L666 255 L462 242 L462 153" keyTimes="0;0.07;0.26;1" keyPoints="0;0;1;1" calcMode="linear"/>
-    </circle>
-    <circle r="9" class="packet fleet1">
+    </use>
+    <use href="#data-packet" class="packet fleet1">
       <animateMotion dur="22.6s" repeatCount="indefinite" path="M915 404 C865 413 746 404 690 379 L666 255 L803 146" keyTimes="0;0.07;0.26;1" keyPoints="0;0;1;1" calcMode="linear"/>
-    </circle>
-    <circle r="9" class="packet fleet2">
+    </use>
+    <use href="#data-packet" class="packet fleet2">
       <animateMotion dur="22.6s" repeatCount="indefinite" path="M250 346 L368 360 L508 399 L572 494" keyTimes="0;0.35;0.72;1" keyPoints="0;0;1;1" calcMode="linear"/>
-    </circle>
-    <circle r="9" class="packet fleet2">
+    </use>
+    <use href="#data-packet" class="packet fleet2">
       <animateMotion dur="22.6s" repeatCount="indefinite" path="M250 346 L368 360 L462 242 L462 153" keyTimes="0;0.35;0.72;1" keyPoints="0;0;1;1" calcMode="linear"/>
-    </circle>
-    <circle r="9" class="packet fleet2">
+    </use>
+    <use href="#data-packet" class="packet fleet2">
       <animateMotion dur="22.6s" repeatCount="indefinite" path="M250 346 L368 360 L352 493" keyTimes="0;0.35;0.72;1" keyPoints="0;0;1;1" calcMode="linear"/>
-    </circle>
+    </use>
   </g>
 
   <g id="routers" class="endpoint">
-    <use href="#router" x="368" y="360"/>
-    <use href="#router" x="462" y="242"/>
-    <use href="#router" x="508" y="399"/>
-    <use href="#router" x="666" y="255"/>
-    <use href="#router" x="690" y="379"/>
+    <use href="#node" x="368" y="360"/>
+    <use href="#node" x="462" y="242"/>
+    <use href="#node" x="508" y="399"/>
+    <use href="#node" x="666" y="255"/>
+    <use href="#node" x="690" y="379"/>
   </g>
 
   <g id="fleet2-zone" class="endpoint">
@@ -209,7 +218,7 @@
   </g>
 
   <g id="subscribers" class="endpoint">
-    <use href="#subscriberScreen" x="462" y="123"/>
+    <use href="#workstation" x="462" y="123"/>
     <use href="#robot" x="572" y="494"/>
     <text class="sleep" x="587" y="486">z<tspan dy="-12" font-size="13">Z</tspan></text>
   </g>

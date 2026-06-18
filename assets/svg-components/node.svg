@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 -23 60 46" role="img" aria-labelledby="node-title node-desc">
+  <title id="node-title">Zenoh node icon</title>
+  <desc id="node-desc">A reusable blue Zenoh network node used to route data in topology animations.</desc>
+  <defs>
+    <linearGradient id="node-fill" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#62bfff"/>
+      <stop offset="1" stop-color="#247fbd"/>
+    </linearGradient>
+  </defs>
+  <g id="node">
+    <ellipse cx="0" cy="-8" rx="24" ry="10" fill="#61bdf5" stroke="#072f61" stroke-width="3"/>
+    <path d="M-24,-8 v16 c0,6 11,11 24,11s24,-5 24,-11V-8" fill="url(#node-fill)" stroke="#072f61" stroke-width="3"/>
+    <ellipse cx="0" cy="8" rx="24" ry="10" fill="#2e91cc" stroke="#072f61" stroke-width="3"/>
+    <path d="M-9,-1 L-2,-5 M-2,-5 L-4,0 M-2,-5 L-7,-6" stroke="#07315f" stroke-width="3" stroke-linecap="round"/>
+    <path d="M9,-2 L2,-6 M2,-6 L5,-1 M2,-6 L8,-7" stroke="#07315f" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="-12" cy="12" r="2.2" fill="#f7c400" stroke="#07315f" stroke-width="1"/>
+    <circle cx="-4" cy="15" r="2.2" fill="#49ca50" stroke="#07315f" stroke-width="1"/>
+    <circle cx="5" cy="13" r="2.2" fill="#49ca50" stroke="#07315f" stroke-width="1"/>
+  </g>
+</svg>

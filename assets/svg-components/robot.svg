@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-44 -26 88 68" role="img" aria-labelledby="robot-title robot-desc">
+  <title id="robot-title">Robot endpoint icon</title>
+  <desc id="robot-desc">A reusable blue robot endpoint used for publisher and subscriber participants.</desc>
+  <defs>
+    <linearGradient id="robot-fill" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#5bbcff"/>
+      <stop offset="1" stop-color="#1f78c9"/>
+    </linearGradient>
+  </defs>
+  <g id="robot">
+    <path d="M-22,1 h33 c8,0 15,7 15,15 v7 c0,5 -4,9 -9,9 h-39 c-6,0 -11,-5 -11,-11v-9c0,-6 5,-11 11,-11Z" fill="url(#robot-fill)" stroke="#092b5c" stroke-width="3"/>
+    <circle cx="-31" cy="18" r="10" fill="#58b8ff" stroke="#092b5c" stroke-width="3"/>
+    <circle cx="1" cy="27" r="12" fill="#58b8ff" stroke="#092b5c" stroke-width="3"/>
+    <circle cx="27" cy="23" r="10" fill="#58b8ff" stroke="#092b5c" stroke-width="3"/>
+    <path d="M-17,-21 h33 l8,8 v20 h-41Z" fill="#2f93d2" stroke="#092b5c" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="-4" cy="-7" r="3" fill="#d9f4ff" stroke="#092b5c" stroke-width="1.5"/>
+    <circle cx="12" cy="-7" r="3" fill="#d9f4ff" stroke="#092b5c" stroke-width="1.5"/>
+  </g>
+</svg>
