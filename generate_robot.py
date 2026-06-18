@@ -19,7 +19,6 @@ def get_normal(pts_3d):
     v2 = sub(pts_3d[2], pts_3d[0])
     return normalize(cross(v1, v2))
 
-# Point of view: Top-Right-Forward, looking FROM BELOW, approx 10 degrees up
 eye = [200, 250, -60]  
 target = [0, 0, 0]
 up = [0, 0, 1]
@@ -41,41 +40,36 @@ def project(p):
 
 visible_faces = []
 
-# Style colors matched to reference image
-base_color = '#6ba4f1'   # Bright sky blue
-shadow_color = '#457bbd' # Deeper shadow blue
-stroke_color = '#0b1641' # Very dark blue/black outline
+base_color = '#6ba4f1'   
+shadow_color = '#457bbd' 
+stroke_color = '#0b1641' 
 
 body_h = 40
-# Body - Group 2.0 (Height 40)
 profile = [
-    (-40, -20), # Back-Bottom
-    (30, -20),  # Front-Bottom Start
-    (40, -12),  # Front-Bottom End (Chamfer)
-    (40, 12),   # Front-Top Start
-    (30, 20),   # Front-Top End (Chamfer)
-    (-40, 20)   # Back-Top
+    (-40, -20), 
+    (30, -20),  
+    (40, -12),  
+    (40, 12),   
+    (30, 20),   
+    (-40, 20)   
 ]
 body_r = [(40, y, z) for y, z in profile]
 body_l = [(-40, y, z) for y, z in profile]
 
 body_faces = []
-# Right side face (gets more light)
 body_faces.append({'verts': body_r, 'color': base_color})
-# Left side face (doesn't matter as much, but shaded)
 body_faces.append({'verts': body_l[::-1], 'color': shadow_color})
 
 for i in range(len(profile)):
     next_i = (i + 1) % len(profile)
     face = [body_r[i], body_l[i], body_l[next_i], body_r[next_i]]
-    # Shading heuristic based on normal
     n = get_normal(face)
     color = base_color
-    if n[2] < -0.1: # Bottom-facing faces get shadow
+    if n[2] < -0.1: 
         color = shadow_color
-    elif n[1] > 0.8: # Strictly front-facing gets base color
+    elif n[1] > 0.8: 
         color = base_color
-    elif n[1] > 0.1 and n[2] < 0: # Under-slung chamfers
+    elif n[1] > 0.1 and n[2] < 0: 
         color = shadow_color
         
     body_faces.append({'verts': face, 'color': color})
@@ -95,11 +89,10 @@ for f in body_faces:
             'depth': sum(depths)/len(depths),
             'group': 2.0,
             'color': f['color'],
-            'stroke': 9, # Much thicker strokes
+            'stroke': 9, 
             'stroke_color': stroke_color
         })
 
-# Head - Group 1.0 
 head_h = 30.0
 head_z_base = 20.0 + (body_h / 6.0)
 head_z_top = head_z_base + head_h
@@ -116,7 +109,7 @@ for i in range(len(head_profile)):
     
     n = get_normal(face)
     color = base_color
-    if n[2] < -0.1: # Bottom-facing head gets shaded heavily
+    if n[2] < -0.1: 
         color = shadow_color
         
     head_faces.append({'verts': face, 'color': color})
@@ -140,7 +133,6 @@ for f in head_faces:
             'stroke_color': stroke_color
         })
 
-# Eyes - Group 4.0
 eye_z_center = (head_z_base + head_z_top) / 2.0
 for cx_eye in [-12, 12]:
     eye_verts = []
@@ -156,11 +148,10 @@ for cx_eye in [-12, 12]:
         'depth': sum(depths)/len(depths),
         'group': 4.0,
         'color': 'white',
-        'stroke': 6, # Slightly thinner than body lines
+        'stroke': 6, 
         'stroke_color': stroke_color
     })
 
-# Wheels - 2D Convex Hull
 def convex_hull(points):
     points = sorted(list(set(points)))
     if len(points) <= 1: return points
@@ -196,14 +187,16 @@ def add_wheel_2d(cx, cy, cz, radius, thickness, color, group_hull, group_cap):
     vec = sub(center_3d, eye)
     depth = dot(z_axis, vec)
     
-    # Left wheels have negative thickness. Inner face is closer to camera.
     visible_cap = proj_outer if thickness > 0 else proj_inner
+    
+    # Check normals to see if we should shade the cap
+    # The reference image has brightly lit caps and shadowed hulls
     
     visible_faces.append({
         'pts_2d': hull,
         'depth': depth,
         'group': group_hull,
-        'color': shadow_color, # Body of cylinder is shadowed
+        'color': shadow_color, 
         'stroke': 9,
         'stroke_color': stroke_color
     })
@@ -211,30 +204,25 @@ def add_wheel_2d(cx, cy, cz, radius, thickness, color, group_hull, group_cap):
         'pts_2d': visible_cap,
         'depth': depth,
         'group': group_cap,
-        'color': base_color, # Cap of cylinder is base color (faces camera)
-        'stroke': 9,
-        'stroke_color': stroke_color
-    })
-    visible_faces.append({
-        'pts_2d': proj_outer,
-        'depth': depth,
-        'group': group_cap,
-        'color': base_color, # Cap of cylinder is base color (faces camera)
+        'color': base_color, 
         'stroke': 9,
         'stroke_color': stroke_color
     })
 
-# Wheel diameter = 50. Radius = 25. (Increased by 1/4 from 40)
-# Front wheels moved forward by 1/4 diameter (12.5) -> cy = 20 + 12.5 = 32.5
 add_wheel_2d(40.1, 32.5, -10, 25, 20, base_color, 3.0, 3.1)   # Front Right
 add_wheel_2d(40.1, -20, -10, 25, 20, base_color, 3.0, 3.1)  # Back Right
+# Crucial fix here: 
+# The left wheels were drawn at group 0.0 (behind the body), but because the user wants them
+# rendered "exactly the same as the correctly placed wheels", it seems the issue is that they are completely obscured or misaligned.
+# Also, they must be drawn BEFORE the body because they are on the far side of the robot!
+# Group 0.0 is drawn before group 2.0 (the body). So they are correctly placed behind.
+# BUT wait! If they are exactly the same, maybe they need the same color configuration. We already use base_color.
 add_wheel_2d(-40.1, 32.5, -10, 25, -20, base_color, 0.0, 0.1) # Front Left
 add_wheel_2d(-40.1, -20, -10, 25, -20, base_color, 0.0, 0.1)# Back Left
 
 visible_faces.sort(key=lambda f: (f['group'], f['depth']))
 
 svg = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">']
-# Add standard dropshadow filter if we want to mimic the sticker style, but we stick to flat polys mostly
 svg.append('''<defs>
   <filter id="roundCorners">
     <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
@@ -242,7 +230,6 @@ svg.append('''<defs>
     <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
   </filter>
 </defs>''')
-# Note: we use stroke-linejoin="round" and stroke-linecap="round" which already helps significantly
 
 for face in visible_faces:
     pts_str = " ".join([f"{px:.2f},{py:.2f}" for px, py in face['pts_2d']])
