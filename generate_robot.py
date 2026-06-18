@@ -20,7 +20,6 @@ def get_normal(pts_3d):
     return normalize(cross(v1, v2))
 
 # Point of view: Top-Right-Forward, looking FROM BELOW, approx 10 degrees up
-# Z adjusted from -120 to -60 to flatten the angle
 eye = [200, 250, -60]  
 target = [0, 0, 0]
 up = [0, 0, 1]
@@ -42,6 +41,11 @@ def project(p):
 
 visible_faces = []
 
+# Style colors matched to reference image
+base_color = '#6ba4f1'   # Bright sky blue
+shadow_color = '#457bbd' # Deeper shadow blue
+stroke_color = '#0b1641' # Very dark blue/black outline
+
 body_h = 40
 # Body - Group 2.0 (Height 40)
 profile = [
@@ -56,12 +60,25 @@ body_r = [(40, y, z) for y, z in profile]
 body_l = [(-40, y, z) for y, z in profile]
 
 body_faces = []
-body_faces.append({'verts': body_r, 'color': '#add8e6'})
-body_faces.append({'verts': body_l[::-1], 'color': '#add8e6'})
+# Right side face (gets more light)
+body_faces.append({'verts': body_r, 'color': base_color})
+# Left side face (doesn't matter as much, but shaded)
+body_faces.append({'verts': body_l[::-1], 'color': shadow_color})
+
 for i in range(len(profile)):
     next_i = (i + 1) % len(profile)
     face = [body_r[i], body_l[i], body_l[next_i], body_r[next_i]]
-    body_faces.append({'verts': face, 'color': '#add8e6'})
+    # Shading heuristic based on normal
+    n = get_normal(face)
+    color = base_color
+    if n[2] < -0.1: # Bottom-facing faces get shadow
+        color = shadow_color
+    elif n[1] > 0.8: # Strictly front-facing gets base color
+        color = base_color
+    elif n[1] > 0.1 and n[2] < 0: # Under-slung chamfers
+        color = shadow_color
+        
+    body_faces.append({'verts': face, 'color': color})
 
 for f in body_faces:
     pts = f['verts']
@@ -78,12 +95,11 @@ for f in body_faces:
             'depth': sum(depths)/len(depths),
             'group': 2.0,
             'color': f['color'],
-            'stroke': 6
+            'stroke': 9, # Much thicker strokes
+            'stroke_color': stroke_color
         })
 
 # Head - Group 1.0 
-# Height is 3/4 of body height = 30
-# Raised by 1/6 of body height above body = 40/6 = 6.67
 head_h = 30.0
 head_z_base = 20.0 + (body_h / 6.0)
 head_z_top = head_z_base + head_h
@@ -92,12 +108,18 @@ head_r = [(25, y, z) for y, z in head_profile]
 head_l = [(-25, y, z) for y, z in head_profile]
 
 head_faces = []
-head_faces.append({'verts': head_r, 'color': '#add8e6'})
-head_faces.append({'verts': head_l[::-1], 'color': '#add8e6'})
+head_faces.append({'verts': head_r, 'color': base_color})
+head_faces.append({'verts': head_l[::-1], 'color': shadow_color})
 for i in range(len(head_profile)):
     next_i = (i + 1) % len(head_profile)
     face = [head_r[i], head_l[i], head_l[next_i], head_r[next_i]]
-    head_faces.append({'verts': face, 'color': '#add8e6'})
+    
+    n = get_normal(face)
+    color = base_color
+    if n[2] < -0.1: # Bottom-facing head gets shaded heavily
+        color = shadow_color
+        
+    head_faces.append({'verts': face, 'color': color})
 
 for f in head_faces:
     pts = f['verts']
@@ -114,7 +136,8 @@ for f in head_faces:
             'depth': sum(depths)/len(depths),
             'group': 1.0,
             'color': f['color'],
-            'stroke': 6
+            'stroke': 9,
+            'stroke_color': stroke_color
         })
 
 # Eyes - Group 4.0
@@ -133,7 +156,8 @@ for cx_eye in [-12, 12]:
         'depth': sum(depths)/len(depths),
         'group': 4.0,
         'color': 'white',
-        'stroke': 4
+        'stroke': 6, # Slightly thinner than body lines
+        'stroke_color': stroke_color
     })
 
 # Wheels - 2D Convex Hull
@@ -176,29 +200,41 @@ def add_wheel_2d(cx, cy, cz, radius, thickness, color, group_hull, group_cap):
         'pts_2d': hull,
         'depth': depth,
         'group': group_hull,
-        'color': color,
-        'stroke': 6
+        'color': shadow_color, # Body of cylinder is shadowed
+        'stroke': 9,
+        'stroke_color': stroke_color
     })
     visible_faces.append({
         'pts_2d': proj_outer,
         'depth': depth,
         'group': group_cap,
-        'color': color,
-        'stroke': 6
+        'color': base_color, # Cap of cylinder is base color (faces camera)
+        'stroke': 9,
+        'stroke_color': stroke_color
     })
 
 # Wheel diameter = 40. Radius = 20.
-add_wheel_2d(40.1, 20, -10, 20, 20, '#add8e6', 3.0, 3.1)   # Front Right
-add_wheel_2d(40.1, -20, -10, 20, 20, '#add8e6', 3.0, 3.1)  # Back Right
-add_wheel_2d(-40.1, 20, -10, 20, -20, '#add8e6', 0.0, 0.1) # Front Left
-add_wheel_2d(-40.1, -20, -10, 20, -20, '#add8e6', 0.0, 0.1)# Back Left
+add_wheel_2d(40.1, 20, -10, 20, 20, base_color, 3.0, 3.1)   # Front Right
+add_wheel_2d(40.1, -20, -10, 20, 20, base_color, 3.0, 3.1)  # Back Right
+add_wheel_2d(-40.1, 20, -10, 20, -20, base_color, 0.0, 0.1) # Front Left
+add_wheel_2d(-40.1, -20, -10, 20, -20, base_color, 0.0, 0.1)# Back Left
 
 visible_faces.sort(key=lambda f: (f['group'], f['depth']))
 
 svg = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">']
+# Add standard dropshadow filter if we want to mimic the sticker style, but we stick to flat polys mostly
+svg.append('''<defs>
+  <filter id="roundCorners">
+    <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+    <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+    <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+  </filter>
+</defs>''')
+# Note: we use stroke-linejoin="round" and stroke-linecap="round" which already helps significantly
+
 for face in visible_faces:
     pts_str = " ".join([f"{px:.2f},{py:.2f}" for px, py in face['pts_2d']])
-    svg.append(f'<polygon points="{pts_str}" fill="{face["color"]}" stroke="black" stroke-width="{face["stroke"]}" stroke-linejoin="round"/>')
+    svg.append(f'<polygon points="{pts_str}" fill="{face["color"]}" stroke="{face["stroke_color"]}" stroke-width="{face["stroke"]}" stroke-linejoin="round" stroke-linecap="round" />')
 svg.append('</svg>')
 
 with open("robot.svg", "w") as f:
