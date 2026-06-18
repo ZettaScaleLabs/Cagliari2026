@@ -40,8 +40,9 @@ def project(p):
 
 visible_faces = []
 
-base_color = '#6ba4f1'   
-shadow_color = '#457bbd' 
+dark_color = '#457bbd'
+mid_color = '#6ba4f1'
+light_color = '#90c2f9'
 stroke_color = '#0b1641' 
 
 body_h = 40
@@ -57,20 +58,19 @@ body_r = [(40, y, z) for y, z in profile]
 body_l = [(-40, y, z) for y, z in profile]
 
 body_faces = []
-body_faces.append({'verts': body_r, 'color': base_color})
-body_faces.append({'verts': body_l[::-1], 'color': shadow_color})
+body_faces.append({'verts': body_r, 'color': light_color})
+body_faces.append({'verts': body_l[::-1], 'color': dark_color})
 
 for i in range(len(profile)):
     next_i = (i + 1) % len(profile)
     face = [body_r[i], body_l[i], body_l[next_i], body_r[next_i]]
     n = get_normal(face)
-    color = base_color
     if n[2] < -0.1: 
-        color = shadow_color
-    elif n[1] > 0.8: 
-        color = base_color
-    elif n[1] > 0.1 and n[2] < 0: 
-        color = shadow_color
+        color = dark_color
+    elif n[2] > 0.8: 
+        color = light_color
+    else:
+        color = mid_color
         
     body_faces.append({'verts': face, 'color': color})
 
@@ -92,23 +92,26 @@ for f in body_faces:
         })
 
 head_h = 30.0
-head_z_base = 20.0 + (body_h / 6.0)
+head_z_base = 20.0 + (body_h / 3.0)
 head_z_top = head_z_base + head_h
 head_profile = [(-20, head_z_base), (40, head_z_base), (40, head_z_top), (-20, head_z_top)]
 head_r = [(25, y, z) for y, z in head_profile]
 head_l = [(-25, y, z) for y, z in head_profile]
 
 head_faces = []
-head_faces.append({'verts': head_r, 'color': base_color})
-head_faces.append({'verts': head_l[::-1], 'color': shadow_color})
+head_faces.append({'verts': head_r, 'color': light_color})
+head_faces.append({'verts': head_l[::-1], 'color': dark_color})
 for i in range(len(head_profile)):
     next_i = (i + 1) % len(head_profile)
     face = [head_r[i], head_l[i], head_l[next_i], head_r[next_i]]
     
     n = get_normal(face)
-    color = base_color
     if n[2] < -0.1: 
-        color = shadow_color
+        color = dark_color
+    elif n[2] > 0.8:
+        color = light_color
+    else:
+        color = mid_color
         
     head_faces.append({'verts': face, 'color': color})
 
@@ -134,8 +137,8 @@ for cx_eye in [-12, 12]:
     eye_verts = []
     for i in range(20):
         theta = 2 * math.pi * i / 20
-        vx = cx_eye + 6 * math.cos(theta)
-        vz = eye_z_center + 6 * math.sin(theta)
+        vx = cx_eye + 4.2 * math.cos(theta)
+        vz = eye_z_center + 4.2 * math.sin(theta)
         eye_verts.append((vx, 40.5, vz))
     proj_pts = [project(p)[:2] for p in eye_verts]
     depths = [project(p)[2] for p in eye_verts]
@@ -161,7 +164,7 @@ def convex_hull(points):
         upper.append(p)
     return lower[:-1] + upper[:-1]
 
-def add_wheel_2d(cx, cy, cz, radius, thickness, color, part_name):
+def add_wheel_2d(cx, cy, cz, radius, thickness, part_name):
     N = 40
     pts_inner = []
     pts_outer = []
@@ -187,22 +190,20 @@ def add_wheel_2d(cx, cy, cz, radius, thickness, color, part_name):
         'pts_2d': hull,
         'depth': depth,
         'part': part_name,
-        'color': shadow_color
+        'color': mid_color
     })
-    # ensure cap renders over hull by slightly tweaking depth
     visible_faces.append({
         'pts_2d': visible_cap,
         'depth': depth + 0.1, 
         'part': part_name,
-        'color': base_color
+        'color': light_color
     })
 
-add_wheel_2d(40.1, 32.5, -10, 25, 20, base_color, 'wheel_fr')   
-add_wheel_2d(40.1, -20, -10, 25, 20, base_color, 'wheel_br')  
-add_wheel_2d(-40.1, 32.5, -10, 25, -20, base_color, 'wheel_fl') 
-add_wheel_2d(-40.1, -20, -10, 25, -20, base_color, 'wheel_bl')
+add_wheel_2d(40.1, 32.5, -10, 25, 20, 'wheel_fr')   
+add_wheel_2d(40.1, -32.5, -10, 25, 20, 'wheel_br')  
+add_wheel_2d(-40.1, 32.5, -10, 25, -20, 'wheel_fl') 
+add_wheel_2d(-40.1, -32.5, -10, 25, -20, 'wheel_bl')
 
-# Parts rendering order
 render_order = ['wheel_bl', 'wheel_fl', 'head', 'eyes', 'body', 'wheel_br', 'wheel_fr']
 
 svg = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">']
@@ -216,19 +217,16 @@ svg.append('''<defs>
 
 for part_name in render_order:
     part_faces = [f for f in visible_faces if f['part'] == part_name]
-    # Sort faces within the part by depth
     part_faces.sort(key=lambda f: f['depth'])
     
     svg.append(f'  <g id="{part_name}">')
     
-    # 1. Silhouette strokes
     svg.append(f'    <g stroke="{stroke_color}" stroke-width="16" stroke-linejoin="round" fill="none">')
     for face in part_faces:
         pts_str = " ".join([f"{px:.2f},{py:.2f}" for px, py in face['pts_2d']])
         svg.append(f'      <polygon points="{pts_str}" />')
     svg.append('    </g>')
     
-    # 2. Fills with 1px stroke to hide anti-aliasing seams
     svg.append('    <g stroke-linejoin="round">')
     for face in part_faces:
         pts_str = " ".join([f"{px:.2f},{py:.2f}" for px, py in face['pts_2d']])
