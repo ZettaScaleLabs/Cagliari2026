@@ -6,6 +6,8 @@
 
 Zenoh was developed to provide a universal communication protocol that can work at all infrastructure levels, from microcontrollers to the cloud.
 
+A good introduction to Zenoh is the [Zenoh book](https://corsaro.me/fr/zenoh/book/). The [Zenoh Rust documentation](https://docs.rs/zenoh/latest/zenoh/index.html) is also a useful source of information.
+
 The primary characteristics of Zenoh are:
 
 - **Location transparency:** Data is addressed by keys, not by node addresses.
