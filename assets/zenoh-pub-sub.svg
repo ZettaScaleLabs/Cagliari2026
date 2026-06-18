@@ -149,7 +149,7 @@
       <circle r="9"/>
     </g>
 
-    <path id="fleet1Route" d="M915 404 C865 413 746 404 690 379 L666 255 L462 242 L462 153 M666 255 L803 146"/>
+    <path id="fleet1Route" d="M945 385 L815 403 L690 379 L666 255 L462 242 L462 153 M666 255 L803 146"/>
     <path id="fleet2Route" d="M250 346 L368 360 L508 399 M368 360 L462 242 L462 153 M368 360 L352 493"/>
     <path id="deliverRoute" d="M508 399 L572 494"/>
   </defs>
@@ -219,11 +219,11 @@
     .pulse.robot { animation: robotPulse 22.6s ease-in-out infinite; }
 
     @keyframes fleet1Flow {
-      0%, 7% { opacity: 0; stroke-dasharray: 1 820; stroke-dashoffset: 0; }
-      11% { opacity: 1; stroke-dasharray: 170 820; stroke-dashoffset: 0; }
-      18% { opacity: 1; stroke-dasharray: 520 820; stroke-dashoffset: 0; }
-      25% { opacity: 1; stroke-dasharray: 820 820; stroke-dashoffset: 0; }
-      29%, 100% { opacity: 0; stroke-dasharray: 820 820; stroke-dashoffset: 0; }
+      0%, 7% { opacity: 0; stroke-dasharray: 1 860; stroke-dashoffset: 0; }
+      11% { opacity: 1; stroke-dasharray: 170 860; stroke-dashoffset: 0; }
+      18% { opacity: 1; stroke-dasharray: 520 860; stroke-dashoffset: 0; }
+      25% { opacity: 1; stroke-dasharray: 860 860; stroke-dashoffset: 0; }
+      29%, 100% { opacity: 0; stroke-dasharray: 860 860; stroke-dashoffset: 0; }
     }
     @keyframes fleet2Flow {
       0%, 33% { opacity: 0; stroke-dasharray: 1 700; }
@@ -280,7 +280,7 @@
   <g id="base-links">
     <path class="link" d="M138 166 L113 282 L250 346 L138 166 L295 169 L250 346 L368 360 L462 242 L295 169"/>
     <path class="link" d="M368 360 L352 493 M368 360 L508 399 L690 379 L666 255 L803 146 M462 242 L666 255 M462 242 L462 153 M508 399 L666 255"/>
-    <path class="link" d="M690 379 L815 403 L851 532 L945 385 L815 403 M690 379 L851 532 M915 404 C865 413 746 404 690 379"/>
+    <path class="link" d="M690 379 L815 403 L851 532 L945 385 L815 403 M690 379 L851 532"/>
   </g>
 
   <g id="endpoint-pulses">
@@ -297,10 +297,10 @@
     <use href="#deliverRoute" class="connect"/>
     <use href="#deliverRoute" class="deliver"/>
     <use href="#data-packet" class="packet fleet1">
-      <animateMotion dur="22.6s" repeatCount="indefinite" path="M915 404 C865 413 746 404 690 379 L666 255 L462 242 L462 153" keyTimes="0;0.07;0.26;1" keyPoints="0;0;1;1" calcMode="linear"/>
+      <animateMotion dur="22.6s" repeatCount="indefinite" path="M945 385 L815 403 L690 379 L666 255 L462 242 L462 153" keyTimes="0;0.07;0.26;1" keyPoints="0;0;1;1" calcMode="linear"/>
     </use>
     <use href="#data-packet" class="packet fleet1">
-      <animateMotion dur="22.6s" repeatCount="indefinite" path="M915 404 C865 413 746 404 690 379 L666 255 L803 146" keyTimes="0;0.07;0.26;1" keyPoints="0;0;1;1" calcMode="linear"/>
+      <animateMotion dur="22.6s" repeatCount="indefinite" path="M945 385 L815 403 L690 379 L666 255 L803 146" keyTimes="0;0.07;0.26;1" keyPoints="0;0;1;1" calcMode="linear"/>
     </use>
     <use href="#data-packet" class="packet fleet2">
       <animateMotion dur="22.6s" repeatCount="indefinite" path="M250 346 L368 360 L462 242 L462 153" keyTimes="0;0.33;0.52;1" keyPoints="0;0;1;1" calcMode="linear"/>
