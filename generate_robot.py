@@ -19,8 +19,9 @@ def get_normal(pts_3d):
     v2 = sub(pts_3d[2], pts_3d[0])
     return normalize(cross(v1, v2))
 
-# Point of view: Top-Right-Forward, looking FROM BELOW, 20 degrees up
-eye = [200, 250, -120]  
+# Point of view: Top-Right-Forward, looking FROM BELOW, approx 10 degrees up
+# Z adjusted from -120 to -60 to flatten the angle
+eye = [200, 250, -60]  
 target = [0, 0, 0]
 up = [0, 0, 1]
 
@@ -41,8 +42,8 @@ def project(p):
 
 visible_faces = []
 
-# Heights constraint: Head height = Body height = 40.
-# Body length constraint: 2 * wheel diameter (40) = 80.
+body_h = 40
+# Body - Group 2.0 (Height 40)
 profile = [
     (-40, -20), # Back-Bottom
     (30, -20),  # Front-Bottom Start
@@ -80,10 +81,13 @@ for f in body_faces:
             'stroke': 6
         })
 
-# Head - Group 1.0 (Height 40, length 40 half of body 80)
-# Base of head starts at Z = 20 (top of body)
-# Top of head is Z = 60
-head_profile = [(0, 20), (40, 20), (40, 60), (0, 60)]
+# Head - Group 1.0 
+# Height is 3/4 of body height = 30
+# Raised by 1/6 of body height above body = 40/6 = 6.67
+head_h = 30.0
+head_z_base = 20.0 + (body_h / 6.0)
+head_z_top = head_z_base + head_h
+head_profile = [(0, head_z_base), (40, head_z_base), (40, head_z_top), (0, head_z_top)]
 head_r = [(25, y, z) for y, z in head_profile]
 head_l = [(-25, y, z) for y, z in head_profile]
 
@@ -114,12 +118,13 @@ for f in head_faces:
         })
 
 # Eyes - Group 4.0
+eye_z_center = (head_z_base + head_z_top) / 2.0
 for cx_eye in [-12, 12]:
     eye_verts = []
     for i in range(20):
         theta = 2 * math.pi * i / 20
         vx = cx_eye + 6 * math.cos(theta)
-        vz = 40 + 6 * math.sin(theta)
+        vz = eye_z_center + 6 * math.sin(theta)
         eye_verts.append((vx, 40.5, vz))
     proj_pts = [project(p)[:2] for p in eye_verts]
     depths = [project(p)[2] for p in eye_verts]
@@ -183,9 +188,6 @@ def add_wheel_2d(cx, cy, cz, radius, thickness, color, group_hull, group_cap):
     })
 
 # Wheel diameter = 40. Radius = 20.
-# Body length = 80.
-# Two wheels of diameter 40 takes up exactly 80.
-# Place them perfectly centered on their respective halves of the chassis.
 add_wheel_2d(40.1, 20, -10, 20, 20, '#add8e6', 3.0, 3.1)   # Front Right
 add_wheel_2d(40.1, -20, -10, 20, 20, '#add8e6', 3.0, 3.1)  # Back Right
 add_wheel_2d(-40.1, 20, -10, 20, -20, '#add8e6', 0.0, 0.1) # Front Left
