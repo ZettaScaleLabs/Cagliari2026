@@ -17,12 +17,17 @@ The primary characteristics of Zenoh are:
 
 Zenoh supports two mechanisms of data exchange:
 
-- **Publish/Subscribe:** Data is broadcast on a key, and instances subscribed to this key receive it.
+### Publish/Subscribe
+
+Data is broadcast on a key, and instances subscribed to this key receive it. Subscription declarations are distributed throughout the network, so routers know who is interested in the data.
 
 <p align="center">
   <img src="assets/zenoh-pub-sub.svg" alt="Animated Zenoh publish/subscribe data flow" width="860">
 </p>
-- **Query/Reply:** Data is requested by key, and instances that serve this key send replies.
+
+### Query/Reply
+
+Data is requested by key, and instances that serve this key send replies. As with publish/subscribe, key availability declarations are distributed so routers know where to request the data.
 
 <p align="center">
   <img src="assets/zenoh-query.svg" alt="Animated Zenoh query/reply data flow" width="860">

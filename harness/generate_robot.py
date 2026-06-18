@@ -237,6 +237,6 @@ for part_name in render_order:
 
 svg.append('</svg>')
 
-with open("robot.svg", "w") as f:
+with open("assets/svg-components/robot.svg", "w") as f:
     f.write("\n".join(svg))
-print("Created robot.svg successfully!")
+print("Created assets/svg-components/robot.svg successfully!")
