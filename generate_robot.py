@@ -203,7 +203,7 @@ add_wheel_2d(-40.1, 32.5, -10, 25, -20, base_color, 'wheel_fl')
 add_wheel_2d(-40.1, -20, -10, 25, -20, base_color, 'wheel_bl')
 
 # Parts rendering order
-render_order = ['wheel_bl', 'wheel_fl', 'body', 'wheel_br', 'wheel_fr', 'head', 'eyes']
+render_order = ['wheel_bl', 'wheel_fl', 'head', 'eyes', 'body', 'wheel_br', 'wheel_fr']
 
 svg = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">']
 svg.append('''<defs>
