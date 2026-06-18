@@ -19,7 +19,7 @@ Zenoh supports two mechanisms of data exchange: publish/subscribe and query/repl
 
 ### Publish / Subscribe
 
-Data is broadcast on a key, and instances subscribed to this key receive it. Subscription declarations are distributed throughout the network, so routers know who is interested in the data.
+Data is published under a key, and instances subscribed to that key receive it. Subscription declarations are distributed throughout the network, so routers know which subscribers are interested in the data.
 
 <p align="center">
   <img src="assets/zenoh-pub-sub.svg" alt="Animated Zenoh publish/subscribe data flow" width="860">
@@ -27,15 +27,17 @@ Data is broadcast on a key, and instances subscribed to this key receive it. Sub
 
 ### Query / Reply
 
-Data is requested by key, and instances that serve this key send replies. As with publish/subscribe, key availability declarations are distributed so routers know where to request the data.
+Data is requested by key, and instances that can serve that key send replies. As with publish/subscribe, key-availability declarations are distributed so routers know where to forward requests.
 
 <p align="center">
   <img src="assets/zenoh-query.svg" alt="Animated Zenoh query/reply data flow" width="860">
 </p>
 
+### Zenoh functionality
+
 Zenoh provides multiple convenient features:
 
-- **Wildcard support:** Data can be requested using wildcards, e.g. `*/sensor/temp` for all temperature sensors or `room/**` for all data available for `room`.
+- **Wildcard support:** Data can be requested using wildcard key expressions, e.g. `*/sensor/temp` for all temperature sensors or `room/**` for all data available for `room`.
 - **Rich sample metadata:** Despite its maximal wire efficiency, the Zenoh protocol provides multiple optional metadata fields in packets. This includes timestamps, encoding, priority settings, and an area for custom metadata (attachments).
 - **Scouting:** A Zenoh node can discover other nodes around it using features of the underlying network protocol (e.g. UDP multicast). It can also discover other nodes in the local network using a gossip mechanism. This allows it to establish a connection to the network without manual configuration.
 - **Liveliness:** A node can declare a named token, and other nodes can follow the connection and disconnection of this token from the network.
@@ -44,7 +46,7 @@ Zenoh provides multiple convenient features:
 There are also extended features built above the base Zenoh library:
 
 - **Advanced publisher/subscriber:** A configurable component for guaranteed packet delivery.
-- **Serializer/deserializer:** A component for storing primitive types (integers, floats, tuples, arrays) in a compact and platform-independent format.
+- **Serializer/deserializer:** A component for buffering/extracting primitive types (integers, floats, tuples, arrays) in a compact and platform-independent format to send them in the unified way.
 
 ## Zenoh language bindings
 
