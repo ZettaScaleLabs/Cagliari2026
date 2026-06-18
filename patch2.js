@@ -1,13 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-46 -30 92 76" role="img" aria-labelledby="robot-title robot-desc">
-  <title id="robot-title">Robot endpoint icon</title>
-  <desc id="robot-desc">A reusable blue robot endpoint used for publisher and subscriber participants.</desc>
-  <defs>
-    <linearGradient id="robot-fill" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0" stop-color="#5bbcff"/>
-      <stop offset="1" stop-color="#1f78c9"/>
-    </linearGradient>
-  </defs>
-      <g id="robot" stroke="#092b5c" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round">
+const fs = require('fs');
+const replacement = `  <g id="robot" stroke="#092b5c" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round">
     <!-- Right Wheels (back layer) -->
     <ellipse cx="6" cy="18" rx="8" ry="11" fill="#59baff" />
     <ellipse cx="22" cy="12" rx="8" ry="11" fill="#59baff" />
@@ -25,7 +17,7 @@
     <polygon points="-16,-20 -7,-18 -7,-9 -16,-11" fill="#4ab2f7" />
     <!-- Head Front (vertical parallelogram) -->
     <polygon points="-7,-18 7,-23 7,-14 -7,-9" fill="#75c5ff" />
-
+    
     <!-- Eyes -->
     <circle cx="-1" cy="-14.5" r="2" fill="#eefaff" stroke-width="2" />
     <circle cx="4" cy="-16" r="2" fill="#eefaff" stroke-width="2" />
@@ -33,5 +25,10 @@
     <!-- Left Wheels (front layer) -->
     <ellipse cx="-20" cy="14" rx="8" ry="11" fill="#59baff" />
     <ellipse cx="-4" cy="22" rx="8" ry="11" fill="#59baff" />
-  </g>
-</svg>
+  </g>`;
+
+['assets/svg-components/robot.svg', 'assets/zenoh-pub-sub.svg', 'assets/zenoh-query.svg'].forEach(file => {
+  let content = fs.readFileSync(file, 'utf8');
+  content = content.replace(/<g id="robot"[\s\S]*?<\/g>/, replacement);
+  fs.writeFileSync(file, content);
+});

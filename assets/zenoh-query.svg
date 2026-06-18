@@ -38,34 +38,32 @@
       <circle cx="5" cy="13" r="2.2" fill="#49ca50" stroke="#07315f" stroke-width="1"/>
     </g>
 
-      <g id="robot" stroke="#092b5c" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round">
-    <!-- Right Wheels -->
-    <ellipse cx="7" cy="11" rx="8" ry="11" fill="#59baff" />
-    <ellipse cx="23" cy="19" rx="8" ry="11" fill="#59baff" />
+        <g id="robot" stroke="#092b5c" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Right Wheels (back layer) -->
+    <ellipse cx="6" cy="18" rx="8" ry="11" fill="#59baff" />
+    <ellipse cx="22" cy="12" rx="8" ry="11" fill="#59baff" />
 
-    <!-- Body Top -->
-    <polygon points="-9,-5 21,-1 5,-7 -25,-11" fill="#2d8fcf" />
-    <!-- Body Left -->
-    <polygon points="-25,-11 -9,-5 -5,5 -5,15 -25,3" fill="#4ab2f7" />
-    <!-- Body Front Slanted -->
-    <polygon points="-9,-5 21,-1 25,9 -5,5" fill="#59baff" />
-    <!-- Body Front Vertical -->
-    <polygon points="-5,5 25,9 25,19 -5,15" fill="url(#robot-fill)" />
+    <!-- Body Top (parallelogram) -->
+    <polygon points="-24,-5 5,-14 20,-11 -9,-2" fill="#2d8fcf" />
+    <!-- Body Front (vertical parallelogram) -->
+    <polygon points="-9,-2 20,-11 20,4 -9,13" fill="url(#robot-fill)" />
+    <!-- Body Left (side parallelogram) -->
+    <polygon points="-24,-5 -9,-2 -9,13 -24,4" fill="#4ab2f7" />
 
-    <!-- Head Top -->
-    <polygon points="-11,-18 5,-16 -5,-20 -21,-22" fill="#2d8fcf" />
-    <!-- Head Left -->
-    <polygon points="-21,-22 -11,-18 -11,-6 -21,-10" fill="#4ab2f7" />
-    <!-- Head Front -->
-    <polygon points="-11,-18 5,-16 5,-4 -11,-6" fill="#75c5ff" />
+    <!-- Head Top (parallelogram) -->
+    <polygon points="-16,-20 -2,-25 7,-23 -7,-18" fill="#2d8fcf" />
+    <!-- Head Left (side parallelogram) -->
+    <polygon points="-16,-20 -7,-18 -7,-9 -16,-11" fill="#4ab2f7" />
+    <!-- Head Front (vertical parallelogram) -->
+    <polygon points="-7,-18 7,-23 7,-14 -7,-9" fill="#75c5ff" />
 
     <!-- Eyes -->
-    <circle cx="-5" cy="-12" r="2.5" fill="#eefaff" stroke-width="2.5" />
-    <circle cx="1" cy="-11" r="2.5" fill="#eefaff" stroke-width="2.5" />
+    <circle cx="-1" cy="-14.5" r="2" fill="#eefaff" stroke-width="2" />
+    <circle cx="4" cy="-16" r="2" fill="#eefaff" stroke-width="2" />
 
-    <!-- Left Wheels -->
-    <ellipse cx="-21" cy="7" rx="8" ry="11" fill="#59baff" />
-    <ellipse cx="-7" cy="17" rx="8" ry="11" fill="#59baff" />
+    <!-- Left Wheels (front layer) -->
+    <ellipse cx="-20" cy="14" rx="8" ry="11" fill="#59baff" />
+    <ellipse cx="-4" cy="22" rx="8" ry="11" fill="#59baff" />
   </g>
 
     <g id="storage">
