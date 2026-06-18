@@ -1,0 +1,284 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 668" role="img" aria-labelledby="title desc">
+  <title id="title">Zenoh query/reply data flow animation</title>
+  <desc id="desc">Animated topology showing a Zenoh get query fanning out to storages and a queryable service, then replies returning to the requester.</desc>
+  <defs>
+    <linearGradient id="node-fill" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#62bfff"/>
+      <stop offset="1" stop-color="#247fbd"/>
+    </linearGradient>
+    <linearGradient id="storage-fill" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#62bfff"/>
+      <stop offset="1" stop-color="#247fbd"/>
+    </linearGradient>
+    <linearGradient id="robot-fill" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#5bbcff"/>
+      <stop offset="1" stop-color="#1f78c9"/>
+    </linearGradient>
+    <linearGradient id="workstation-screen-fill" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f7fdff"/>
+      <stop offset="1" stop-color="#caeef9"/>
+    </linearGradient>
+    <linearGradient id="queryable-fill" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#30a9dc"/>
+      <stop offset="1" stop-color="#0b5685"/>
+    </linearGradient>
+    <filter id="softShadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#0b2547" flood-opacity=".25"/>
+    </filter>
+
+    <!-- Kept inline for portable rendering; reusable copies live in assets/svg-components/. -->
+    <g id="node">
+      <ellipse cx="0" cy="-8" rx="24" ry="10" fill="#61bdf5" stroke="#072f61" stroke-width="3"/>
+      <path d="M-24,-8 v16 c0,6 11,11 24,11s24,-5 24,-11V-8" fill="url(#node-fill)" stroke="#072f61" stroke-width="3"/>
+      <ellipse cx="0" cy="8" rx="24" ry="10" fill="#2e91cc" stroke="#072f61" stroke-width="3"/>
+      <path d="M-9,-1 L-2,-5 M-2,-5 L-4,0 M-2,-5 L-7,-6" stroke="#07315f" stroke-width="3" stroke-linecap="round"/>
+      <path d="M9,-2 L2,-6 M2,-6 L5,-1 M2,-6 L8,-7" stroke="#07315f" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="-12" cy="12" r="2.2" fill="#f7c400" stroke="#07315f" stroke-width="1"/>
+      <circle cx="-4" cy="15" r="2.2" fill="#49ca50" stroke="#07315f" stroke-width="1"/>
+      <circle cx="5" cy="13" r="2.2" fill="#49ca50" stroke="#07315f" stroke-width="1"/>
+    </g>
+
+        <g id="robot" stroke="#092b5c" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Right Wheels (back layer) -->
+    <ellipse cx="6" cy="18" rx="8" ry="11" fill="#59baff" />
+    <ellipse cx="22" cy="12" rx="8" ry="11" fill="#59baff" />
+
+    <!-- Body Top (parallelogram) -->
+    <polygon points="-24,-5 5,-14 20,-11 -9,-2" fill="#2d8fcf" />
+    <!-- Body Front (vertical parallelogram) -->
+    <polygon points="-9,-2 20,-11 20,4 -9,13" fill="url(#robot-fill)" />
+    <!-- Body Left (side parallelogram) -->
+    <polygon points="-24,-5 -9,-2 -9,13 -24,4" fill="#4ab2f7" />
+
+    <!-- Head Top (parallelogram) -->
+    <polygon points="-16,-20 -2,-25 7,-23 -7,-18" fill="#2d8fcf" />
+    <!-- Head Left (side parallelogram) -->
+    <polygon points="-16,-20 -7,-18 -7,-9 -16,-11" fill="#4ab2f7" />
+    <!-- Head Front (vertical parallelogram) -->
+    <polygon points="-7,-18 7,-23 7,-14 -7,-9" fill="#75c5ff" />
+
+    <!-- Eyes -->
+    <circle cx="-1" cy="-14.5" r="2" fill="#eefaff" stroke-width="2" />
+    <circle cx="4" cy="-16" r="2" fill="#eefaff" stroke-width="2" />
+
+    <!-- Left Wheels (front layer) -->
+    <ellipse cx="-20" cy="14" rx="8" ry="11" fill="#59baff" />
+    <ellipse cx="-4" cy="22" rx="8" ry="11" fill="#59baff" />
+  </g>
+
+    <g id="storage">
+      <ellipse cx="0" cy="-24" rx="26" ry="9" fill="#62bfff" stroke="#07315f" stroke-width="3"/>
+      <path d="M-26,-24 v48 c0,6 12,10 26,10s26,-4 26,-10v-48" fill="url(#storage-fill)" stroke="#07315f" stroke-width="3"/>
+      <path d="M-26,-8 c0,6 12,10 26,10s26,-4 26,-10 M-26,9 c0,6 12,10 26,10s26,-4 26,-10" fill="none" stroke="#07315f" stroke-width="2"/>
+      <circle cx="-12" cy="-7" r="2" fill="#fff"/>
+      <circle cx="-3" cy="-7" r="2" fill="#fff"/>
+      <circle cx="7" cy="-7" r="2" fill="#fff"/>
+      <circle cx="-12" cy="10" r="2" fill="#fff"/>
+      <circle cx="-3" cy="10" r="2" fill="#fff"/>
+      <circle cx="7" cy="10" r="2" fill="#fff"/>
+      <circle cx="-12" cy="27" r="2" fill="#fff"/>
+      <circle cx="-3" cy="27" r="2" fill="#fff"/>
+      <circle cx="7" cy="27" r="2" fill="#fff"/>
+    </g>
+
+    <g id="workstation">
+      <path d="M-39,-38 L39,-50 L39,29 L-39,20Z" fill="#2c93c5" stroke="#07315f" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M-29,-29 L27,-37 L27,15 L-29,11Z" fill="url(#workstation-screen-fill)" stroke="#b9ced8" stroke-width="2"/>
+      <path d="M-24,-16 L-2,-21 L18,-10 M-14,7 L5,-7 L24,-4" fill="none" stroke="#c4c9cf" stroke-width="2"/>
+      <path d="M-10,23 h22 l4,18 h-30Z" fill="#1f6f9f" stroke="#07315f" stroke-width="3" stroke-linejoin="round"/>
+    </g>
+
+    <g id="map-pin">
+      <path d="M0,-8 c0,-4 3,-7 7,-7s7,3 7,7c0,5 -7,14 -7,14s-7,-9 -7,-14Z" fill="#3e9ace" stroke="#07315f" stroke-width="2"/>
+      <circle cx="7" cy="-8" r="2" fill="#fff"/>
+    </g>
+
+    <g id="queryable">
+      <path d="M-17,-38 L12,-46 L24,39 L-24,39Z" fill="url(#queryable-fill)" stroke="#07315f" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M-10,-31 L9,-35 L16,31 L-14,31Z" fill="#07315f" opacity=".9"/>
+      <path d="M-5,-25 L8,-27 M-6,-17 L9,-19 M-8,-9 L10,-11 M-9,-1 L11,-3 M-10,7 L12,5 M-12,15 L13,13" stroke="#49ca50" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="-10" cy="-24" r="1.5" fill="#f7c400"/>
+      <circle cx="-11" cy="-16" r="1.5" fill="#f7c400"/>
+      <circle cx="-13" cy="-8" r="1.5" fill="#f7c400"/>
+      <circle cx="-14" cy="0" r="1.5" fill="#f7c400"/>
+      <circle cx="-15" cy="8" r="1.5" fill="#f7c400"/>
+      <circle cx="-16" cy="16" r="1.5" fill="#f7c400"/>
+    </g>
+
+    <g id="data-packet">
+      <circle r="9"/>
+    </g>
+
+    <path id="queryStorage1" d="M530 502 L514 399 L665 255 L803 146"/>
+    <path id="queryStorage2" d="M530 502 L514 399 L368 361 L352 493"/>
+    <path id="queryQueryable" d="M530 502 L514 399 L368 361 L463 245 L454 123"/>
+    <path id="replyStorage1" pathLength="1" d="M803 146 L665 255 L514 399 L530 502"/>
+    <path id="replyStorage2" pathLength="1" d="M352 493 L368 361 L514 399 L530 502"/>
+    <path id="replyQueryable" pathLength="1" d="M454 123 L463 245 L368 361 L514 399 L530 502"/>
+  </defs>
+
+  <style>
+    .bg { fill: #f7f7f7; }
+    .link { fill: none; stroke: #c7c7c7; stroke-width: 2; stroke-linecap: round; }
+    .dotted-link { stroke-dasharray: 2 4; }
+    .endpoint { filter: url(#softShadow); }
+    .queryableLabel, .storageLabel, .getLabel { fill: #f5aa00; font: 700 16px Arial, sans-serif; }
+    .key { fill: #85888f; font: 16px Arial, sans-serif; }
+    .query-flow {
+      fill: none;
+      stroke: #f5aa00;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 1 9;
+      opacity: 0;
+      animation: queryFlow 14.9s linear infinite;
+    }
+    .reply-flow {
+      fill: none;
+      stroke: #f5aa00;
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      opacity: 0;
+      animation: replyFlow 14.9s ease-in-out infinite;
+    }
+    .packet {
+      fill: #f5aa00;
+      stroke: #fff;
+      stroke-width: 3;
+      filter: url(#softShadow);
+      opacity: 0;
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: packetPulse 14.9s linear infinite;
+    }
+    .provider-pulse {
+      fill: #f5aa00;
+      opacity: 0;
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: providerPulse 14.9s ease-in-out infinite;
+    }
+    .get-labels { opacity: 0; animation: getLabels 14.9s ease-in-out infinite; }
+    .result-pin { opacity: 0; animation: resultPins 14.9s ease-in-out infinite; }
+
+    @keyframes queryFlow {
+      0%, 18%, 68%, 100% { opacity: 0; stroke-dashoffset: 70; }
+      25%, 58% { opacity: 1; }
+      66% { opacity: .25; stroke-dashoffset: 0; }
+    }
+    @keyframes replyFlow {
+      0%, 52%, 100% { opacity: 0; stroke-dashoffset: 1; }
+      62% { opacity: 1; stroke-dashoffset: .58; }
+      82%, 89% { opacity: 1; stroke-dashoffset: 0; }
+      95% { opacity: 0; stroke-dashoffset: 0; }
+    }
+    @keyframes packetPulse {
+      0%, 20%, 64%, 100% { opacity: 0; transform: scale(.55); }
+      28%, 57% { opacity: 1; transform: scale(.55); }
+    }
+    @keyframes providerPulse {
+      0%, 28%, 72%, 100% { opacity: 0; transform: scale(.8); }
+      46%, 63% { opacity: .28; transform: scale(1.25); }
+    }
+    @keyframes getLabels {
+      0%, 18%, 94%, 100% { opacity: 0; }
+      24%, 86% { opacity: 1; }
+    }
+    @keyframes resultPins {
+      0%, 58%, 100% { opacity: 0; }
+      72%, 90% { opacity: 1; }
+    }
+  </style>
+
+  <rect class="bg" width="1080" height="668"/>
+
+  <g id="base-links">
+    <path class="link" d="M156 172 L289 180 L463 245 M156 172 L112 287 L246 326 L289 180 M156 172 L246 326 M112 287 L246 326 M246 326 L368 361"/>
+    <path class="link" d="M368 361 L463 245 L454 123 M463 245 L665 255 L803 146 M368 361 L352 493 M368 361 L514 399 L690 379 L665 255 M690 379 L818 410 L943 390 L864 546 L818 410 M690 379 L864 546"/>
+    <path class="link dotted-link" d="M514 399 L665 255 M514 399 L530 502"/>
+  </g>
+
+  <g id="query-and-reply">
+    <use href="#queryStorage1" class="query-flow"/>
+    <use href="#queryStorage2" class="query-flow"/>
+    <use href="#queryQueryable" class="query-flow"/>
+    <use href="#replyStorage1" class="reply-flow"/>
+    <use href="#replyStorage2" class="reply-flow"/>
+    <use href="#replyQueryable" class="reply-flow"/>
+
+    <use href="#data-packet" class="packet">
+      <animateMotion dur="14.9s" repeatCount="indefinite" path="M530 502 L514 399 L665 255 L803 146" keyTimes="0;0.2;0.6;1" keyPoints="0;0;1;1" calcMode="linear"/>
+    </use>
+    <use href="#data-packet" class="packet">
+      <animateMotion dur="14.9s" repeatCount="indefinite" path="M530 502 L514 399 L368 361 L352 493" keyTimes="0;0.2;0.6;1" keyPoints="0;0;1;1" calcMode="linear"/>
+    </use>
+    <use href="#data-packet" class="packet">
+      <animateMotion dur="14.9s" repeatCount="indefinite" path="M530 502 L514 399 L368 361 L463 245 L454 123" keyTimes="0;0.2;0.6;1" keyPoints="0;0;1;1" calcMode="linear"/>
+    </use>
+  </g>
+
+  <g id="provider-pulses">
+    <circle class="provider-pulse" cx="803" cy="146" r="34"/>
+    <circle class="provider-pulse" cx="352" cy="493" r="34"/>
+    <circle class="provider-pulse" cx="454" cy="123" r="36"/>
+  </g>
+
+  <g id="routers" class="endpoint">
+    <use href="#node" x="368" y="361"/>
+    <use href="#node" x="463" y="245"/>
+    <use href="#node" x="514" y="399"/>
+    <use href="#node" x="665" y="255"/>
+    <use href="#node" x="690" y="379"/>
+  </g>
+
+  <g id="left-fleet" class="endpoint">
+    <use href="#robot" x="156" y="172"/>
+    <use href="#robot" x="289" y="180"/>
+    <use href="#robot" x="112" y="287"/>
+    <use href="#robot" x="246" y="326"/>
+    <use href="#storage" x="352" y="493"/>
+  </g>
+
+  <g id="right-fleet" class="endpoint">
+    <use href="#robot" x="818" y="410"/>
+    <use href="#robot" x="943" y="390"/>
+    <use href="#robot" x="864" y="546"/>
+    <use href="#storage" x="803" y="146"/>
+  </g>
+
+  <g id="query-endpoints" class="endpoint">
+    <use href="#queryable" x="454" y="123"/>
+    <use href="#workstation" x="530" y="502"/>
+    <g class="result-pin" transform="translate(498 498) scale(.8)">
+      <use href="#map-pin" x="0" y="0"/>
+      <use href="#map-pin" x="22" y="24"/>
+      <use href="#map-pin" x="43" y="-6"/>
+    </g>
+  </g>
+
+  <g id="labels">
+    <text class="queryableLabel" x="488" y="111">Queryable</text>
+    <text class="key" x="488" y="131">fleet/*/camera/position</text>
+
+    <text class="storageLabel" x="839" y="142">Storage</text>
+    <text class="key" x="839" y="162">fleet/1/robot/**</text>
+
+    <text class="storageLabel" x="252" y="491">Storage</text>
+    <text class="key" x="210" y="511">fleet/2/robot/**</text>
+
+    <g class="get-labels">
+      <text class="getLabel" x="595" y="501">Get</text>
+      <text class="key" x="595" y="521">fleet/**/position</text>
+    </g>
+  </g>
+
+  <g id="zetta-scale-logo" transform="translate(920 48)">
+    <path fill="#147dff" fill-rule="evenodd" d="M9.28 0 H36.93 A38 38 0 0 1 36.78 5.42 A30 30 0 0 1 35.65 10.28 A22 22 0 0 1 33.56 14.7 A18 18 0 0 1 29.93 18.96 L32.62 20.61 A12 12 0 0 1 34.38 22.44 A11.5 11.5 0 0 1 36.45 28.16 A11.8 11.8 0 0 1 35.95 34.45 A12.8 12.8 0 0 1 32.47 39.83 A14 14 0 0 1 27.42 41.96 H0 A38 38 0 0 1 .07 36.73 A25 25 0 0 1 1.31 31.42 A21 21 0 0 1 3.82 26.52 L6.92 23 L4.12 21.24 A16 16 0 0 1 2.32 19.3 A15.5 15.5 0 0 1 .04 10.06 A11.4 11.4 0 0 1 5.99 1.08 A18 18 0 0 1 9.28 0 Z M32.29 5.16 A18 18 0 0 1 28.96 13.05 A16 10.8 0 0 1 21.66 18.25 H8.72 A6.55 6.55 0 0 1 4.56 13.35 A7.05 7.05 0 0 1 5.13 8.53 A8 8 0 0 1 8.23 5.35 H32.29 Z M32.29 28.42 A6.95 6.95 0 0 1 28.73 36.58 H4.64 A21.3 21.3 0 0 1 8.04 28.72 A19.4 9.2 0 0 1 15.04 23.65 A50 8 0 0 1 28.06 23.67 A6.9 6.9 0 0 1 32.29 28.42 Z"/>
+    <path fill="#0b1641" d="M45 15.3 52.74 7.14V7.08H45.36V4.19H57.1V7.47L49.28 15.75H57.47V18.64H45ZM62.83 12.68Q63.01 14.3 64.09 15.21Q65.17 16.11 66.71 16.11Q68.06 16.11 68.98 15.55Q69.9 15 70.59 14.15L73.18 16.11Q71.92 17.68 70.35 18.34Q68.79 19 67.07 19Q65.45 19 64 18.46Q62.55 17.92 61.5 16.92Q60.45 15.93 59.83 14.53Q59.21 13.13 59.21 11.41Q59.21 9.7 59.83 8.3Q60.45 6.9 61.5 5.9Q62.55 4.91 64 4.37Q65.45 3.82 67.07 3.82Q68.58 3.82 69.83 4.35Q71.08 4.88 71.96 5.87Q72.85 6.87 73.35 8.33Q73.85 9.79 73.85 11.68V12.68ZM70.23 9.97Q70.2 8.37 69.24 7.45Q68.28 6.53 66.56 6.53Q64.93 6.53 63.98 7.47Q63.04 8.4 62.83 9.97ZM74.93 7.26V4.19H77.91V0H81.52V4.19H85.5V7.26H81.52V13.58Q81.52 14.66 81.93 15.3Q82.34 15.93 83.54 15.93Q84.02 15.93 84.6 15.82Q85.17 15.72 85.5 15.48V18.52Q84.93 18.79 84.1 18.89Q83.27 19 82.64 19Q81.19 19 80.27 18.68Q79.36 18.37 78.83 17.72Q78.3 17.07 78.11 16.11Q77.91 15.15 77.91 13.88V7.26ZM86.04 7.26V4.19H89.02V0H92.64V4.19H96.61V7.26H92.64V13.58Q92.64 14.66 93.04 15.3Q93.45 15.93 94.65 15.93Q95.13 15.93 95.71 15.82Q96.28 15.72 96.61 15.48V18.52Q96.04 18.79 95.21 18.89Q94.38 19 93.75 19Q92.3 19 91.39 18.68Q90.47 18.37 89.94 17.72Q89.41 17.07 89.22 16.11Q89.02 15.15 89.02 13.88V7.26ZM107.87 16.65H107.78Q107 17.89 105.79 18.44Q104.59 19 103.14 19Q102.15 19 101.2 18.73Q100.25 18.46 99.52 17.92Q98.78 17.37 98.33 16.56Q97.87 15.75 97.87 14.66Q97.87 13.49 98.3 12.66Q98.72 11.83 99.43 11.28Q100.13 10.72 101.07 10.39Q102 10.06 103.01 9.89Q104.02 9.73 105.04 9.68Q106.06 9.64 106.97 9.64H107.87V9.24Q107.87 7.89 106.94 7.21Q106 6.53 104.56 6.53Q103.42 6.53 102.42 6.94Q101.43 7.35 100.71 8.04L98.81 6.14Q100.01 4.91 101.62 4.37Q103.23 3.82 104.95 3.82Q106.49 3.82 107.54 4.17Q108.59 4.52 109.29 5.06Q109.98 5.6 110.36 6.31Q110.73 7.02 110.9 7.74Q111.06 8.46 111.09 9.14Q111.12 9.82 111.12 10.33V18.64H107.87ZM107.66 12.16H106.91Q106.16 12.16 105.22 12.23Q104.29 12.29 103.46 12.51Q102.63 12.74 102.06 13.17Q101.49 13.61 101.49 14.39Q101.49 14.9 101.71 15.25Q101.94 15.6 102.3 15.84Q102.66 16.08 103.11 16.18Q103.57 16.29 104.02 16.29Q105.88 16.29 106.77 15.4Q107.66 14.51 107.66 12.98Z"/>
+    <path fill="#0b1641" d="M48.05 37.68Q48.19 39.02 49.07 39.55Q49.96 40.09 51.19 40.09Q51.62 40.09 52.17 40.02Q52.71 39.96 53.2 39.77Q53.68 39.58 53.99 39.22Q54.29 38.86 54.27 38.27Q54.24 37.68 53.84 37.3Q53.44 36.93 52.81 36.7Q52.18 36.47 51.38 36.31Q50.57 36.15 49.74 35.96Q48.88 35.78 48.09 35.51Q47.3 35.24 46.67 34.79Q46.04 34.33 45.67 33.62Q45.29 32.91 45.29 31.87Q45.29 30.74 45.84 29.98Q46.39 29.21 47.24 28.75Q48.08 28.28 49.11 28.09Q50.14 27.9 51.08 27.9Q52.15 27.9 53.13 28.13Q54.11 28.36 54.9 28.87Q55.69 29.38 56.21 30.19Q56.73 31.01 56.87 32.16H53.68Q53.46 31.06 52.67 30.69Q51.88 30.31 50.87 30.31Q50.54 30.31 50.1 30.37Q49.66 30.42 49.27 30.57Q48.88 30.71 48.62 31Q48.35 31.28 48.35 31.73Q48.35 32.29 48.74 32.64Q49.12 32.99 49.75 33.22Q50.38 33.45 51.19 33.61Q51.99 33.77 52.85 33.96Q53.68 34.14 54.48 34.41Q55.29 34.68 55.92 35.13Q56.54 35.59 56.93 36.29Q57.32 36.98 57.32 38Q57.32 39.23 56.76 40.09Q56.2 40.95 55.3 41.48Q54.4 42.02 53.3 42.26Q52.21 42.5 51.13 42.5Q49.82 42.5 48.71 42.21Q47.6 41.91 46.78 41.31Q45.96 40.71 45.5 39.81Q45.03 38.91 45 37.68ZM69 32.91Q68.81 31.62 67.97 30.97Q67.12 30.31 65.84 30.31Q65.25 30.31 64.58 30.51Q63.91 30.71 63.35 31.26Q62.79 31.81 62.41 32.79Q62.04 33.77 62.04 35.35Q62.04 36.21 62.24 37.06Q62.44 37.92 62.88 38.59Q63.32 39.26 64.02 39.67Q64.71 40.09 65.71 40.09Q67.04 40.09 67.92 39.26Q68.79 38.43 69 36.93H72.05Q71.62 39.63 70 41.07Q68.38 42.5 65.71 42.5Q64.07 42.5 62.83 41.95Q61.58 41.4 60.72 40.45Q59.87 39.5 59.42 38.19Q58.98 36.88 58.98 35.35Q58.98 33.79 59.41 32.43Q59.84 31.06 60.7 30.06Q61.55 29.05 62.83 28.48Q64.1 27.9 65.81 27.9Q67.02 27.9 68.1 28.21Q69.19 28.52 70.03 29.13Q70.88 29.75 71.41 30.69Q71.95 31.62 72.05 32.91ZM86.14 39.04Q86.14 39.61 86.29 39.85Q86.44 40.09 86.87 40.09Q87 40.09 87.19 40.09Q87.38 40.09 87.62 40.04V42.15Q87.46 42.21 87.2 42.27Q86.95 42.34 86.68 42.39Q86.41 42.45 86.14 42.47Q85.88 42.5 85.69 42.5Q84.75 42.5 84.13 42.12Q83.52 41.75 83.33 40.81Q82.42 41.7 81.09 42.1Q79.77 42.5 78.54 42.5Q77.6 42.5 76.74 42.25Q75.88 41.99 75.23 41.5Q74.57 41 74.18 40.24Q73.79 39.47 73.79 38.46Q73.79 37.17 74.26 36.37Q74.73 35.56 75.5 35.11Q76.26 34.65 77.21 34.45Q78.16 34.25 79.12 34.14Q79.96 33.98 80.71 33.92Q81.46 33.85 82.03 33.69Q82.61 33.53 82.94 33.19Q83.28 32.86 83.28 32.19Q83.28 31.6 83 31.22Q82.71 30.85 82.3 30.65Q81.88 30.45 81.38 30.38Q80.87 30.31 80.41 30.31Q79.12 30.31 78.29 30.85Q77.46 31.38 77.36 32.51H74.3Q74.38 31.17 74.95 30.29Q75.51 29.4 76.38 28.87Q77.25 28.33 78.35 28.12Q79.45 27.9 80.6 27.9Q81.62 27.9 82.61 28.12Q83.6 28.33 84.39 28.81Q85.18 29.29 85.66 30.06Q86.14 30.82 86.14 31.92ZM83.09 35.19Q82.39 35.64 81.38 35.74Q80.36 35.83 79.34 36.02Q78.86 36.1 78.4 36.25Q77.95 36.39 77.6 36.65Q77.25 36.9 77.05 37.32Q76.85 37.73 76.85 38.32Q76.85 38.83 77.14 39.18Q77.44 39.53 77.85 39.73Q78.27 39.93 78.76 40.01Q79.26 40.09 79.66 40.09Q80.17 40.09 80.76 39.96Q81.35 39.82 81.87 39.5Q82.39 39.18 82.74 38.68Q83.09 38.19 83.09 37.46ZM89.52 23H92.57V42.12H89.52ZM105.4 33.98Q105.35 33.26 105.09 32.59Q104.84 31.92 104.4 31.42Q103.96 30.93 103.33 30.62Q102.7 30.31 101.92 30.31Q101.12 30.31 100.46 30.59Q99.8 30.88 99.33 31.37Q98.87 31.87 98.58 32.54Q98.3 33.21 98.28 33.98ZM98.28 35.99Q98.28 36.79 98.5 37.54Q98.73 38.29 99.19 38.86Q99.64 39.42 100.34 39.75Q101.04 40.09 102 40.09Q103.34 40.09 104.16 39.51Q104.97 38.94 105.37 37.79H108.27Q108.03 38.91 107.44 39.79Q106.85 40.68 106.02 41.28Q105.19 41.88 104.16 42.19Q103.12 42.5 102 42.5Q100.37 42.5 99.11 41.96Q97.85 41.43 96.98 40.46Q96.11 39.5 95.67 38.16Q95.22 36.82 95.22 35.21Q95.22 33.74 95.69 32.42Q96.16 31.09 97.03 30.08Q97.9 29.08 99.13 28.49Q100.37 27.9 101.92 27.9Q103.55 27.9 104.85 28.58Q106.15 29.27 107.01 30.39Q107.87 31.52 108.25 32.98Q108.64 34.44 108.46 35.99Z"/>
+  </g>
+</svg>

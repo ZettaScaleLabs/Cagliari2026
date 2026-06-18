@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-31 -36 62 74" role="img" aria-labelledby="storage-title storage-desc">
+  <title id="storage-title">Storage icon</title>
+  <desc id="storage-desc">A reusable blue storage cylinder used for Zenoh storage nodes.</desc>
+  <defs>
+    <linearGradient id="storage-fill" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#62bfff"/>
+      <stop offset="1" stop-color="#247fbd"/>
+    </linearGradient>
+  </defs>
+  <g id="storage">
+    <ellipse cx="0" cy="-24" rx="26" ry="9" fill="#62bfff" stroke="#07315f" stroke-width="3"/>
+    <path d="M-26,-24 v48 c0,6 12,10 26,10s26,-4 26,-10v-48" fill="url(#storage-fill)" stroke="#07315f" stroke-width="3"/>
+    <path d="M-26,-8 c0,6 12,10 26,10s26,-4 26,-10 M-26,9 c0,6 12,10 26,10s26,-4 26,-10" fill="none" stroke="#07315f" stroke-width="2"/>
+    <circle cx="-12" cy="-7" r="2" fill="#fff"/>
+    <circle cx="-3" cy="-7" r="2" fill="#fff"/>
+    <circle cx="7" cy="-7" r="2" fill="#fff"/>
+    <circle cx="-12" cy="10" r="2" fill="#fff"/>
+    <circle cx="-3" cy="10" r="2" fill="#fff"/>
+    <circle cx="7" cy="10" r="2" fill="#fff"/>
+    <circle cx="-12" cy="27" r="2" fill="#fff"/>
+    <circle cx="-3" cy="27" r="2" fill="#fff"/>
+    <circle cx="7" cy="27" r="2" fill="#fff"/>
+  </g>
+</svg>
