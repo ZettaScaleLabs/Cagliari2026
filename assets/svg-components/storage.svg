@@ -17,7 +17,7 @@
   </g>
   <g id="storage">
     <use href="#computer" y="0"/>
-    <use href="#computer" y="-40"/>
-    <use href="#computer" y="-80"/>
+    <use href="#computer" y="-15"/>
+    <use href="#computer" y="-30"/>
   </g>
 </svg>
