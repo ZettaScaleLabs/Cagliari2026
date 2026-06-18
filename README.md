@@ -15,9 +15,9 @@ The primary characteristics of Zenoh are:
 - **Arbitrary topologies:** Zenoh nodes can establish direct connections or route data. This can be preconfigured or decided at runtime.
 - **Wire efficiency:** Protocol overhead is minimal, so users do not pay for features they do not use.
 
-Zenoh supports two mechanisms of data exchange:
+Zenoh supports two mechanisms of data exchange: publish/subscribe and query/reply.
 
-### Publish/Subscribe
+### Publish / Subscribe
 
 Data is broadcast on a key, and instances subscribed to this key receive it. Subscription declarations are distributed throughout the network, so routers know who is interested in the data.
 
@@ -25,7 +25,7 @@ Data is broadcast on a key, and instances subscribed to this key receive it. Sub
   <img src="assets/zenoh-pub-sub.svg" alt="Animated Zenoh publish/subscribe data flow" width="860">
 </p>
 
-### Query/Reply
+### Query / Reply
 
 Data is requested by key, and instances that serve this key send replies. As with publish/subscribe, key availability declarations are distributed so routers know where to request the data.
 
