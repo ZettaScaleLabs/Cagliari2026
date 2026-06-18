@@ -1,4 +1,8 @@
-# Eclipse Zenoh [illustration prompt](readme-prompts/01-eclipse-zenoh.txt)
+# Eclipse Zenoh
+
+![Zenoh Mesh Network](01-eclipse-zenoh.svg)
+
+[illustration prompt](readme-prompts/01-eclipse-zenoh.txt)
 
 The primary characteristics of Zenoh are: [illustration prompt](readme-prompts/06-primary-characteristics-intro.txt)
 
