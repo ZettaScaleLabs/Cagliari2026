@@ -22,6 +22,8 @@ Zenoh supports two mechanisms of data exchange:
 
 <p align="center">
   <img src="assets/zenoh-pub-sub.svg" alt="Animated Zenoh publish/subscribe data flow" width="860">
+  <br>
+  <img src="assets/zenoh-query.svg" alt="Animated Zenoh query/reply data flow" width="860">
 </p>
 
 Zenoh provides multiple convenient features:

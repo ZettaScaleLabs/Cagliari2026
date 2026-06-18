@@ -1,0 +1,266 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 668" role="img" aria-labelledby="title desc">
+  <title id="title">Zenoh query/reply data flow animation</title>
+  <desc id="desc">Animated topology showing a Zenoh get query fanning out to storages and a queryable service, then replies returning to the requester.</desc>
+  <defs>
+    <linearGradient id="node-fill" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#62bfff"/>
+      <stop offset="1" stop-color="#247fbd"/>
+    </linearGradient>
+    <linearGradient id="storage-fill" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#62bfff"/>
+      <stop offset="1" stop-color="#247fbd"/>
+    </linearGradient>
+    <linearGradient id="robot-fill" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#5bbcff"/>
+      <stop offset="1" stop-color="#1f78c9"/>
+    </linearGradient>
+    <linearGradient id="workstation-screen-fill" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f7fdff"/>
+      <stop offset="1" stop-color="#caeef9"/>
+    </linearGradient>
+    <linearGradient id="queryable-fill" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#30a9dc"/>
+      <stop offset="1" stop-color="#0b5685"/>
+    </linearGradient>
+    <filter id="softShadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#0b2547" flood-opacity=".25"/>
+    </filter>
+
+    <!-- Kept inline for portable rendering; reusable copies live in assets/svg-components/. -->
+    <g id="node">
+      <ellipse cx="0" cy="-8" rx="24" ry="10" fill="#61bdf5" stroke="#072f61" stroke-width="3"/>
+      <path d="M-24,-8 v16 c0,6 11,11 24,11s24,-5 24,-11V-8" fill="url(#node-fill)" stroke="#072f61" stroke-width="3"/>
+      <ellipse cx="0" cy="8" rx="24" ry="10" fill="#2e91cc" stroke="#072f61" stroke-width="3"/>
+      <path d="M-9,-1 L-2,-5 M-2,-5 L-4,0 M-2,-5 L-7,-6" stroke="#07315f" stroke-width="3" stroke-linecap="round"/>
+      <path d="M9,-2 L2,-6 M2,-6 L5,-1 M2,-6 L8,-7" stroke="#07315f" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="-12" cy="12" r="2.2" fill="#f7c400" stroke="#07315f" stroke-width="1"/>
+      <circle cx="-4" cy="15" r="2.2" fill="#49ca50" stroke="#07315f" stroke-width="1"/>
+      <circle cx="5" cy="13" r="2.2" fill="#49ca50" stroke="#07315f" stroke-width="1"/>
+    </g>
+
+    <g id="robot">
+      <path d="M-22,1 h33 c8,0 15,7 15,15 v7 c0,5 -4,9 -9,9 h-39 c-6,0 -11,-5 -11,-11v-9c0,-6 5,-11 11,-11Z" fill="url(#robot-fill)" stroke="#092b5c" stroke-width="3"/>
+      <circle cx="-31" cy="18" r="10" fill="#58b8ff" stroke="#092b5c" stroke-width="3"/>
+      <circle cx="1" cy="27" r="12" fill="#58b8ff" stroke="#092b5c" stroke-width="3"/>
+      <circle cx="27" cy="23" r="10" fill="#58b8ff" stroke="#092b5c" stroke-width="3"/>
+      <path d="M-17,-21 h33 l8,8 v20 h-41Z" fill="#2f93d2" stroke="#092b5c" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="-4" cy="-7" r="3" fill="#d9f4ff" stroke="#092b5c" stroke-width="1.5"/>
+      <circle cx="12" cy="-7" r="3" fill="#d9f4ff" stroke="#092b5c" stroke-width="1.5"/>
+    </g>
+
+    <g id="storage">
+      <ellipse cx="0" cy="-24" rx="26" ry="9" fill="#62bfff" stroke="#07315f" stroke-width="3"/>
+      <path d="M-26,-24 v48 c0,6 12,10 26,10s26,-4 26,-10v-48" fill="url(#storage-fill)" stroke="#07315f" stroke-width="3"/>
+      <path d="M-26,-8 c0,6 12,10 26,10s26,-4 26,-10 M-26,9 c0,6 12,10 26,10s26,-4 26,-10" fill="none" stroke="#07315f" stroke-width="2"/>
+      <circle cx="-12" cy="-7" r="2" fill="#fff"/>
+      <circle cx="-3" cy="-7" r="2" fill="#fff"/>
+      <circle cx="7" cy="-7" r="2" fill="#fff"/>
+      <circle cx="-12" cy="10" r="2" fill="#fff"/>
+      <circle cx="-3" cy="10" r="2" fill="#fff"/>
+      <circle cx="7" cy="10" r="2" fill="#fff"/>
+      <circle cx="-12" cy="27" r="2" fill="#fff"/>
+      <circle cx="-3" cy="27" r="2" fill="#fff"/>
+      <circle cx="7" cy="27" r="2" fill="#fff"/>
+    </g>
+
+    <g id="workstation">
+      <path d="M-39,-38 L39,-50 L39,29 L-39,20Z" fill="#2c93c5" stroke="#07315f" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M-29,-29 L27,-37 L27,15 L-29,11Z" fill="url(#workstation-screen-fill)" stroke="#b9ced8" stroke-width="2"/>
+      <path d="M-24,-16 L-2,-21 L18,-10 M-14,7 L5,-7 L24,-4" fill="none" stroke="#c4c9cf" stroke-width="2"/>
+      <path d="M-10,23 h22 l4,18 h-30Z" fill="#1f6f9f" stroke="#07315f" stroke-width="3" stroke-linejoin="round"/>
+    </g>
+
+    <g id="map-pin">
+      <path d="M0,-8 c0,-4 3,-7 7,-7s7,3 7,7c0,5 -7,14 -7,14s-7,-9 -7,-14Z" fill="#3e9ace" stroke="#07315f" stroke-width="2"/>
+      <circle cx="7" cy="-8" r="2" fill="#fff"/>
+    </g>
+
+    <g id="queryable">
+      <path d="M-17,-38 L12,-46 L24,39 L-24,39Z" fill="url(#queryable-fill)" stroke="#07315f" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M-10,-31 L9,-35 L16,31 L-14,31Z" fill="#07315f" opacity=".9"/>
+      <path d="M-5,-25 L8,-27 M-6,-17 L9,-19 M-8,-9 L10,-11 M-9,-1 L11,-3 M-10,7 L12,5 M-12,15 L13,13" stroke="#49ca50" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="-10" cy="-24" r="1.5" fill="#f7c400"/>
+      <circle cx="-11" cy="-16" r="1.5" fill="#f7c400"/>
+      <circle cx="-13" cy="-8" r="1.5" fill="#f7c400"/>
+      <circle cx="-14" cy="0" r="1.5" fill="#f7c400"/>
+      <circle cx="-15" cy="8" r="1.5" fill="#f7c400"/>
+      <circle cx="-16" cy="16" r="1.5" fill="#f7c400"/>
+    </g>
+
+    <g id="data-packet">
+      <circle r="9"/>
+    </g>
+
+    <path id="queryStorage1" d="M530 502 L514 399 L665 255 L803 146"/>
+    <path id="queryStorage2" d="M530 502 L514 399 L368 361 L352 493"/>
+    <path id="queryQueryable" d="M530 502 L514 399 L368 361 L463 245 L454 123"/>
+    <path id="replyStorage1" pathLength="1" d="M803 146 L665 255 L514 399 L530 502"/>
+    <path id="replyStorage2" pathLength="1" d="M352 493 L368 361 L514 399 L530 502"/>
+    <path id="replyQueryable" pathLength="1" d="M454 123 L463 245 L368 361 L514 399 L530 502"/>
+  </defs>
+
+  <style>
+    .bg { fill: #f7f7f7; }
+    .link { fill: none; stroke: #c7c7c7; stroke-width: 2; stroke-linecap: round; }
+    .dotted-link { stroke-dasharray: 2 4; }
+    .endpoint { filter: url(#softShadow); }
+    .queryableLabel, .storageLabel, .getLabel { fill: #f5aa00; font: 700 16px Arial, sans-serif; }
+    .key { fill: #85888f; font: 16px Arial, sans-serif; }
+    .query-flow {
+      fill: none;
+      stroke: #f5aa00;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 1 9;
+      opacity: 0;
+      animation: queryFlow 14.9s linear infinite;
+    }
+    .reply-flow {
+      fill: none;
+      stroke: #f5aa00;
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      opacity: 0;
+      animation: replyFlow 14.9s ease-in-out infinite;
+    }
+    .packet {
+      fill: #f5aa00;
+      stroke: #fff;
+      stroke-width: 3;
+      filter: url(#softShadow);
+      opacity: 0;
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: packetPulse 14.9s linear infinite;
+    }
+    .provider-pulse {
+      fill: #f5aa00;
+      opacity: 0;
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: providerPulse 14.9s ease-in-out infinite;
+    }
+    .get-labels { opacity: 0; animation: getLabels 14.9s ease-in-out infinite; }
+    .result-pin { opacity: 0; animation: resultPins 14.9s ease-in-out infinite; }
+
+    @keyframes queryFlow {
+      0%, 18%, 68%, 100% { opacity: 0; stroke-dashoffset: 70; }
+      25%, 58% { opacity: 1; }
+      66% { opacity: .25; stroke-dashoffset: 0; }
+    }
+    @keyframes replyFlow {
+      0%, 52%, 100% { opacity: 0; stroke-dashoffset: 1; }
+      62% { opacity: 1; stroke-dashoffset: .58; }
+      82%, 89% { opacity: 1; stroke-dashoffset: 0; }
+      95% { opacity: 0; stroke-dashoffset: 0; }
+    }
+    @keyframes packetPulse {
+      0%, 20%, 64%, 100% { opacity: 0; transform: scale(.55); }
+      28%, 57% { opacity: 1; transform: scale(.55); }
+    }
+    @keyframes providerPulse {
+      0%, 28%, 72%, 100% { opacity: 0; transform: scale(.8); }
+      46%, 63% { opacity: .28; transform: scale(1.25); }
+    }
+    @keyframes getLabels {
+      0%, 18%, 94%, 100% { opacity: 0; }
+      24%, 86% { opacity: 1; }
+    }
+    @keyframes resultPins {
+      0%, 58%, 100% { opacity: 0; }
+      72%, 90% { opacity: 1; }
+    }
+  </style>
+
+  <rect class="bg" width="1080" height="668"/>
+
+  <g id="base-links">
+    <path class="link" d="M156 172 L289 180 L463 245 M156 172 L112 287 L246 326 L289 180 M156 172 L246 326 M112 287 L246 326 M246 326 L368 361"/>
+    <path class="link" d="M368 361 L463 245 L454 123 M463 245 L665 255 L803 146 M368 361 L352 493 M368 361 L514 399 L690 379 L665 255 M690 379 L818 410 L943 390 L864 546 L818 410 M690 379 L864 546"/>
+    <path class="link dotted-link" d="M514 399 L665 255 M514 399 L530 502"/>
+  </g>
+
+  <g id="query-and-reply">
+    <use href="#queryStorage1" class="query-flow"/>
+    <use href="#queryStorage2" class="query-flow"/>
+    <use href="#queryQueryable" class="query-flow"/>
+    <use href="#replyStorage1" class="reply-flow"/>
+    <use href="#replyStorage2" class="reply-flow"/>
+    <use href="#replyQueryable" class="reply-flow"/>
+
+    <use href="#data-packet" class="packet">
+      <animateMotion dur="14.9s" repeatCount="indefinite" path="M530 502 L514 399 L665 255 L803 146" keyTimes="0;0.2;0.6;1" keyPoints="0;0;1;1" calcMode="linear"/>
+    </use>
+    <use href="#data-packet" class="packet">
+      <animateMotion dur="14.9s" repeatCount="indefinite" path="M530 502 L514 399 L368 361 L352 493" keyTimes="0;0.2;0.6;1" keyPoints="0;0;1;1" calcMode="linear"/>
+    </use>
+    <use href="#data-packet" class="packet">
+      <animateMotion dur="14.9s" repeatCount="indefinite" path="M530 502 L514 399 L368 361 L463 245 L454 123" keyTimes="0;0.2;0.6;1" keyPoints="0;0;1;1" calcMode="linear"/>
+    </use>
+  </g>
+
+  <g id="provider-pulses">
+    <circle class="provider-pulse" cx="803" cy="146" r="34"/>
+    <circle class="provider-pulse" cx="352" cy="493" r="34"/>
+    <circle class="provider-pulse" cx="454" cy="123" r="36"/>
+  </g>
+
+  <g id="routers" class="endpoint">
+    <use href="#node" x="368" y="361"/>
+    <use href="#node" x="463" y="245"/>
+    <use href="#node" x="514" y="399"/>
+    <use href="#node" x="665" y="255"/>
+    <use href="#node" x="690" y="379"/>
+  </g>
+
+  <g id="left-fleet" class="endpoint">
+    <use href="#robot" x="156" y="172"/>
+    <use href="#robot" x="289" y="180"/>
+    <use href="#robot" x="112" y="287"/>
+    <use href="#robot" x="246" y="326"/>
+    <use href="#storage" x="352" y="493"/>
+  </g>
+
+  <g id="right-fleet" class="endpoint">
+    <use href="#robot" x="818" y="410"/>
+    <use href="#robot" x="943" y="390"/>
+    <use href="#robot" x="864" y="546"/>
+    <use href="#storage" x="803" y="146"/>
+  </g>
+
+  <g id="query-endpoints" class="endpoint">
+    <use href="#queryable" x="454" y="123"/>
+    <use href="#workstation" x="530" y="502"/>
+    <g class="result-pin" transform="translate(498 498) scale(.8)">
+      <use href="#map-pin" x="0" y="0"/>
+      <use href="#map-pin" x="22" y="24"/>
+      <use href="#map-pin" x="43" y="-6"/>
+    </g>
+  </g>
+
+  <g id="labels">
+    <text class="queryableLabel" x="488" y="111">Queryable</text>
+    <text class="key" x="488" y="131">fleet/*/camera/position</text>
+
+    <text class="storageLabel" x="839" y="142">Storage</text>
+    <text class="key" x="839" y="162">fleet/1/robot/**</text>
+
+    <text class="storageLabel" x="252" y="491">Storage</text>
+    <text class="key" x="210" y="511">fleet/2/robot/**</text>
+
+    <g class="get-labels">
+      <text class="getLabel" x="595" y="501">Get</text>
+      <text class="key" x="595" y="521">fleet/**/position</text>
+    </g>
+  </g>
+
+  <g id="zetta-scale-logo" transform="translate(920 48)">
+    <path fill="#147dff" fill-rule="evenodd" d="M9.28 0 H36.93 A38 38 0 0 1 36.78 5.42 A30 30 0 0 1 35.65 10.28 A22 22 0 0 1 33.56 14.7 A18 18 0 0 1 29.93 18.96 L32.62 20.61 A12 12 0 0 1 34.38 22.44 A11.5 11.5 0 0 1 36.45 28.16 A11.8 11.8 0 0 1 35.95 34.45 A12.8 12.8 0 0 1 32.47 39.83 A14 14 0 0 1 27.42 41.96 H0 A38 38 0 0 1 .07 36.73 A25 25 0 0 1 1.31 31.42 A21 21 0 0 1 3.82 26.52 L6.92 23 L4.12 21.24 A16 16 0 0 1 2.32 19.3 A15.5 15.5 0 0 1 .04 10.06 A11.4 11.4 0 0 1 5.99 1.08 A18 18 0 0 1 9.28 0 Z M32.29 5.16 A18 18 0 0 1 28.96 13.05 A16 10.8 0 0 1 21.66 18.25 H8.72 A6.55 6.55 0 0 1 4.56 13.35 A7.05 7.05 0 0 1 5.13 8.53 A8 8 0 0 1 8.23 5.35 H32.29 Z M32.29 28.42 A6.95 6.95 0 0 1 28.73 36.58 H4.64 A21.3 21.3 0 0 1 8.04 28.72 A19.4 9.2 0 0 1 15.04 23.65 A50 8 0 0 1 28.06 23.67 A6.9 6.9 0 0 1 32.29 28.42 Z"/>
+    <text x="45" y="19" fill="#0b1641" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700">zetta</text>
+    <text x="45" y="42" fill="#0b1641" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700">scale</text>
+  </g>
+</svg>
