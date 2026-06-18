@@ -196,11 +196,22 @@ def add_wheel_2d(cx, cy, cz, radius, thickness, color, group_hull, group_cap):
     vec = sub(center_3d, eye)
     depth = dot(z_axis, vec)
     
+    # Left wheels have negative thickness. Inner face is closer to camera.
+    visible_cap = proj_outer if thickness > 0 else proj_inner
+    
     visible_faces.append({
         'pts_2d': hull,
         'depth': depth,
         'group': group_hull,
         'color': shadow_color, # Body of cylinder is shadowed
+        'stroke': 9,
+        'stroke_color': stroke_color
+    })
+    visible_faces.append({
+        'pts_2d': visible_cap,
+        'depth': depth,
+        'group': group_cap,
+        'color': base_color, # Cap of cylinder is base color (faces camera)
         'stroke': 9,
         'stroke_color': stroke_color
     })
