@@ -40,10 +40,10 @@ def project(p):
 
 visible_faces = []
 
-dark_color = '#457bbd'
-mid_color = '#6ba4f1'
-light_color = '#90c2f9'
-stroke_color = '#0b1641' 
+dark_color = '#247fbd'
+mid_color = '#2e91cc'
+light_color = '#61bdf5'
+stroke_color = '#072f61' 
 
 body_h = 40
 profile = [
