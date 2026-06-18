@@ -1,1 +1,0 @@
-Illustrate a universal communication protocol spanning microcontrollers, embedded devices, gateways, and cloud servers, all connected through a shared protocol fabric, isometric technical illustration, clean and futuristic, no text.

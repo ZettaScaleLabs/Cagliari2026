@@ -1,1 +1,0 @@
-Illustrate advanced library features built on top of Zenoh as layered services above the base protocol, with a sturdy platform layer and reusable components stacked above it.

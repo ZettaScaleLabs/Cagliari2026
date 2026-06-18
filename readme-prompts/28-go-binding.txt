@@ -1,1 +1,0 @@
-Illustrate zenoh-go as a Go wrapper over zenoh-c, showing Go services connected through a thin C interoperability layer, clean software architecture illustration.

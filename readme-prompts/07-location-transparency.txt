@@ -1,1 +1,0 @@
-Illustrate location transparency with data addressed by keys instead of node addresses: tagged data packets flowing to keys like folders, not to physical machines, minimalist vector infographic, no text.

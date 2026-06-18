@@ -1,1 +1,0 @@
-Illustrate arbitrary topologies where nodes can connect directly or through routers, with configurable and runtime-selected paths across a mesh, isometric network diagram, clean and futuristic.

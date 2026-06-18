@@ -1,1 +1,0 @@
-Illustrate Python, Kotlin, and Java bindings wrapping the Rust core directly, shown as three language clients connected to the central protocol engine, neat ecosystem diagram.

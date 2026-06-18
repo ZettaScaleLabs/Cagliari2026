@@ -1,1 +1,0 @@
-Illustrate a lightweight pure-C implementation for embedded systems, shown running on microcontrollers and small devices, compact and efficient vector style.

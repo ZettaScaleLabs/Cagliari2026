@@ -1,1 +1,0 @@
-Illustrate zenoh-c as a bridge for more powerful platforms, wrapping the Rust core with a C API layer that serves desktop and server applications, clean layered diagram.

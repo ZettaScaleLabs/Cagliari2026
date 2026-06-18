@@ -1,1 +1,0 @@
-Illustrate wire efficiency with compact packets and minimal protocol overhead, showing a slim data frame moving quickly through the network with a small footprint, modern infographic, no text.
