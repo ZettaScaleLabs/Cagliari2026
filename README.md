@@ -1,4 +1,4 @@
-# Eclipse Zenoh
+# <img src="assets/zenoh-dragon.png" alt="Eclipse Zenoh logo" height="40" align="middle">&nbsp; Eclipse Zenoh
 
 [Zenoh](https://zenoh.io/) is a data-oriented publish / subscribe and query / reply network protocol. Data is addressed by slash-separated keys, e.g. `room/sensor/temp`.
 
