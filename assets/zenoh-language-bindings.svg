@@ -55,7 +55,7 @@
   <svg x="388.0" y="125.5" width="54" height="54" viewBox="0 0 512 192" preserveAspectRatio="xMidYMid meet"><use href="#go-logo"/></svg>
   <text x="415.0" y="206.0" font-size="21" font-weight="700" text-anchor="middle" fill="#0A4A5A" dominant-baseline="middle">zenoh-go</text>
   <svg x="87.0" y="275" width="56" height="56" viewBox="0 0 256 288" preserveAspectRatio="xMidYMid meet"><use href="#c-logo"/></svg>
-  <text x="115.0" y="435.0" font-size="21" font-weight="700" text-anchor="middle" fill="#1F3A5F" dominant-baseline="middle" transform="rotate(90 115.0 435.0)">zenoh-pico</text>
+  <text x="115.0" y="435.0" font-size="27" font-weight="700" text-anchor="middle" fill="#1F3A5F" dominant-baseline="middle" transform="rotate(-90 115.0 435.0)">zenoh-pico</text>
   <svg x="223" y="290.0" width="62" height="62" viewBox="0 0 256 288" preserveAspectRatio="xMidYMid meet"><use href="#c-logo"/></svg>
   <text x="303" y="321.0" font-size="27" font-weight="700" fill="#1F3A5F" dominant-baseline="middle">zenoh-c</text>
   <svg x="223" y="440.0" width="62" height="62" viewBox="0 0 256 256" preserveAspectRatio="xMidYMid meet"><use href="#rust-logo"/></svg>

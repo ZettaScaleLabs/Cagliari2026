@@ -106,8 +106,8 @@ def content(bx, by, bw, bh, key, name):
         return (
             f'  <svg x="{lx}" y="{ly}" width="{logo_sz}" height="{logo_sz}" '
             f'viewBox="{LOGO_VB[key]}" preserveAspectRatio="xMidYMid meet"><use href="#{key}-logo"/></svg>\n'
-            f'  <text x="{cx}" y="{tcy}" font-size="21" font-weight="700" text-anchor="middle" '
-            f'fill="{st["label"]}" dominant-baseline="middle" transform="rotate(90 {cx} {tcy})">{name}</text>\n'
+            f'  <text x="{cx}" y="{tcy}" font-size="27" font-weight="700" text-anchor="middle" '
+            f'fill="{st["label"]}" dominant-baseline="middle" transform="rotate(-90 {cx} {tcy})">{name}</text>\n'
         )
     # square block: logo on top, label centered below
     logo_sz = 54
