@@ -15,6 +15,12 @@ The primary characteristics of Zenoh are:
 - **Arbitrary topologies:** Zenoh nodes can establish direct connections or route data. This can be preconfigured or decided at runtime.
 - **Wire efficiency:** Protocol overhead is minimal, so users do not pay for features they do not use.
 
+Location transparency means an application asks for data by key and lets Zenoh find a provider. In the diagram below a robot issues a `Get` for `warehouse/robot1/order` with `target = BestMatching`. Three storages serve `warehouse/**`, but only two are complete. Zenoh routes the request to the nearest complete storage. The gray lines are the network links; the yellow line is the path the data actually travels.
+
+<p align="center">
+  <img src="assets/zenoh-location-transparency.svg" alt="Diagram of Zenoh location transparency: a robot issues a Get for warehouse/robot1/order with target BestMatching; three storages serve warehouse/** (two with complete = true, one with complete = false), and Zenoh routes the request along the yellow path through the nearest router up to the nearest complete storage" width="560">
+</p>
+
 Zenoh supports two mechanisms of data exchange: publish/subscribe and query/reply.
 
 ### Publish / Subscribe
