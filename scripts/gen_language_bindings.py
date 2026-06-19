@@ -51,7 +51,9 @@ y_bot = y_mid + H            # zenoh row
 VB_W = x0 + W_zenoh + PAD
 VB_H = y_bot + H + PAD
 
-RX = 0  # blocks tile exactly; sharp corners keep the size ratios crisp
+RX = 16    # rounded corners on each block
+GAP = 7    # inset per side; adjacent blocks end up 2*GAP apart while the
+           # P-based grid (and therefore the size ratios) stays exact
 
 STYLE = {
     "rust": dict(grad="grad-rust", stroke="#C44B22", label="#5A2A14", sub="#9C5C3D"),
@@ -70,12 +72,15 @@ BLOCKS = [
 
 def tile(bx, by, bw, bh, key, *_):
     st = STYLE[key]
-    return (f'    <rect x="{bx}" y="{by}" width="{bw}" height="{bh}" rx="{RX}" '
-            f'fill="url(#{st["grad"]})" stroke="{st["stroke"]}" stroke-width="2"/>\n')
+    ix, iy, iw, ih = bx + GAP, by + GAP, bw - 2 * GAP, bh - 2 * GAP
+    return (f'    <rect x="{ix}" y="{iy}" width="{iw}" height="{ih}" rx="{RX}" '
+            f'fill="url(#{st["grad"]})" stroke="{st["stroke"]}" stroke-width="2" '
+            f'filter="url(#softShadow)"/>\n')
 
 
 def content(bx, by, bw, bh, key, name, sublabel):
     st = STYLE[key]
+    bx, by, bw, bh = bx + GAP, by + GAP, bw - 2 * GAP, bh - 2 * GAP
     if bw >= 1.6 * bh:  # wide block: logo left, label to the right
         logo_sz = 62
         lx = bx + 26
@@ -136,9 +141,7 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {VB_W} {VB_H}"
 
   <text x="{VB_W / 2}" y="58" text-anchor="middle" font-size="30" font-weight="800" fill="#0B2547">Zenoh language bindings</text>
 
-  <g filter="url(#softShadow)">
-{tiles_svg}  </g>
-{content_svg}</svg>
+{tiles_svg}{content_svg}</svg>
 '''
 
 OUT.write_text(svg)
