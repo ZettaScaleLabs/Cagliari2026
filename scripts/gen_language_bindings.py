@@ -23,7 +23,10 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 COMP = ROOT / "assets" / "svg-components"
 OUT = ROOT / "assets" / "zenoh-language-bindings.svg"
 
-LOGO_VB = {"rust": "0 0 256 256", "c": "0 0 256 288", "cpp": "0 0 256 288", "go": "0 0 512 192"}
+LOGO_VB = {
+    "rust": "0 0 256 256", "c": "0 0 256 288", "cpp": "0 0 256 288", "go": "0 0 512 192",
+    "python": "0 0 256 255", "java": "0 0 256 346", "kotlin": "0 0 106 113",
+}
 
 
 def load_logo(key):
@@ -32,7 +35,7 @@ def load_logo(key):
     return "      " + g.strip()
 
 
-logo_defs = "\n".join(load_logo(k) for k in ("rust", "c", "cpp", "go"))
+logo_defs = "\n".join(load_logo(k) for k in ("rust", "c", "cpp", "go", "python", "java", "kotlin"))
 
 # ---- geometry: everything is derived from the pico square side P ----
 P = 150                      # zenoh-pico is square with side P
@@ -50,7 +53,15 @@ y_top = 96                   # zenoh-cpp row
 y_mid = y_top + H            # zenoh-pico + zenoh-c row
 y_bot = y_mid + H            # zenoh row
 
-VB_W = x0 + W_zenoh + PAD
+# Right-side bindings (python, java, kotlin) are tall pillars that stand ON the
+# Rust core: each is W_pico wide and H_pico tall, resting on top of the zenoh
+# block to the right of zenoh-c.
+right_x0 = x0 + W_pico + W_c          # first right pillar starts after zenoh-c
+RIGHT = ["python", "java", "kotlin"]
+right_end = right_x0 + len(RIGHT) * W_pico
+W_rust = right_end - (x0 + W_pico)    # rust spans from zenoh-pico to the last pillar
+
+VB_W = right_end + PAD
 VB_H = y_bot + H + PAD
 
 RX = 16    # rounded corners on each block
@@ -58,20 +69,26 @@ GAP = 7    # inset per side; adjacent blocks end up 2*GAP apart while the
            # P-based grid (and therefore the size ratios) stays exact
 
 STYLE = {
-    "rust": dict(grad="grad-rust", stroke="#C44B22", label="#5A2A14", sub="#9C5C3D"),
-    "c":    dict(grad="grad-c",    stroke="#5B7CA6", label="#1F3A5F", sub="#5E7CA3"),
-    "cpp":  dict(grad="grad-cpp",  stroke="#00599C", label="#013E70", sub="#3C6FA6"),
-    "go":   dict(grad="grad-go",   stroke="#0095BD", label="#0A4A5A", sub="#2E8AA8"),
+    "rust":   dict(grad="grad-rust",   stroke="#C44B22", label="#5A2A14", sub="#9C5C3D"),
+    "c":      dict(grad="grad-c",      stroke="#5B7CA6", label="#1F3A5F", sub="#5E7CA3"),
+    "cpp":    dict(grad="grad-cpp",    stroke="#00599C", label="#013E70", sub="#3C6FA6"),
+    "go":     dict(grad="grad-go",     stroke="#0095BD", label="#0A4A5A", sub="#2E8AA8"),
+    "python": dict(grad="grad-python", stroke="#3776AB", label="#244E7A", sub="#4B79A8"),
+    "java":   dict(grad="grad-java",   stroke="#E76F00", label="#9C4E00", sub="#C06A1E"),
+    "kotlin": dict(grad="grad-kotlin", stroke="#7F52FF", label="#5B2ECC", sub="#7E5AD6"),
 }
 
 # (x, y, w, h, logo_key, name)
 BLOCKS = [
-    (x0,            y_top, W_cpp,            H,      "cpp",  "zenoh-cpp"),
-    (x0 + W_cpp,    y_top, W_pico,           H,      "go",   "zenoh-go"),
-    (x0,            y_mid, W_pico,           H_pico, "c",    "zenoh-pico"),
-    (x0 + W_pico,   y_mid, W_c,              H,      "c",    "zenoh-c"),
-    (x0 + W_pico,   y_bot, W_zenoh - W_pico, H,      "rust", "zenoh"),
+    (x0,            y_top, W_cpp,   H,      "cpp",  "zenoh-cpp"),
+    (x0 + W_cpp,    y_top, W_pico,  H,      "go",   "zenoh-go"),
+    (x0,            y_mid, W_pico,  H_pico, "c",    "zenoh-pico"),
+    (x0 + W_pico,   y_mid, W_c,     H,      "c",    "zenoh-c"),
+    (x0 + W_pico,   y_bot, W_rust,  H,      "rust", "zenoh"),
 ]
+# python / java / kotlin: tall pillars standing on the Rust core, to the right.
+for i, key in enumerate(RIGHT):
+    BLOCKS.append((right_x0 + i * W_pico, y_top, W_pico, H_pico, key, f"zenoh-{key}"))
 
 
 def tile(bx, by, bw, bh, key, *_):
@@ -145,6 +162,15 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {VB_W} {VB_H}"
     </linearGradient>
     <linearGradient id="grad-go" x1="0" x2="0" y1="0" y2="1">
       <stop offset="0" stop-color="#E6F7FB"/><stop offset="1" stop-color="#ABE4F1"/>
+    </linearGradient>
+    <linearGradient id="grad-python" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#EAF2FB"/><stop offset="1" stop-color="#CADEF2"/>
+    </linearGradient>
+    <linearGradient id="grad-java" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#FBF0E6"/><stop offset="1" stop-color="#F3D9BE"/>
+    </linearGradient>
+    <linearGradient id="grad-kotlin" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#F3ECFC"/><stop offset="1" stop-color="#DBC9F5"/>
     </linearGradient>
     <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
       <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#0b2547" flood-opacity=".22"/>
