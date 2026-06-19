@@ -1,7 +1,5 @@
 # Eclipse Zenoh
 
-## Overview
-
 [Zenoh](https://zenoh.io/) is a data-oriented publish/subscribe and query/reply network protocol. Data is addressed by slash-separated keys, e.g. `room/sensor/temp`.
 
 Zenoh was developed to provide a universal communication protocol that works at every infrastructure level, from microcontrollers to the cloud.
