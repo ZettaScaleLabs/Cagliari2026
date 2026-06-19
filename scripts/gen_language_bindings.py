@@ -62,13 +62,13 @@ STYLE = {
     "go":   dict(grad="grad-go",   stroke="#0095BD", label="#0A4A5A", sub="#2E8AA8"),
 }
 
-# (x, y, w, h, logo_key, name, sublabel)
+# (x, y, w, h, logo_key, name)
 BLOCKS = [
-    (x0,            y_top, W_cpp,   H, "cpp",  "zenoh-cpp",  "C++ WRAPPER"),
-    (x0 + W_cpp,    y_top, W_pico,  H, "go",   "zenoh-go",   "GO BINDING"),
-    (x0,            y_mid, W_pico,  H, "c",    "zenoh-pico", "C · EMBEDDED"),
-    (x0 + W_pico,   y_mid, W_c,     H, "c",    "zenoh-c",    "C BINDING"),
-    (x0,            y_bot, W_zenoh, H, "rust", "zenoh",      "RUST · CORE"),
+    (x0,            y_top, W_cpp,   H, "cpp",  "zenoh-cpp"),
+    (x0 + W_cpp,    y_top, W_pico,  H, "go",   "zenoh-go"),
+    (x0,            y_mid, W_pico,  H, "c",    "zenoh-pico"),
+    (x0 + W_pico,   y_mid, W_c,     H, "c",    "zenoh-c"),
+    (x0,            y_bot, W_zenoh, H, "rust", "zenoh"),
 ]
 
 
@@ -80,7 +80,7 @@ def tile(bx, by, bw, bh, key, *_):
             f'filter="url(#softShadow)"/>\n')
 
 
-def content(bx, by, bw, bh, key, name, sublabel):
+def content(bx, by, bw, bh, key, name):
     st = STYLE[key]
     bx, by, bw, bh = bx + GAP, by + GAP, bw - 2 * GAP, bh - 2 * GAP
     if bw >= 1.6 * bh:  # wide block: logo left, label to the right
@@ -92,24 +92,23 @@ def content(bx, by, bw, bh, key, name, sublabel):
         return (
             f'  <svg x="{lx}" y="{ly}" width="{logo_sz}" height="{logo_sz}" '
             f'viewBox="{LOGO_VB[key]}" preserveAspectRatio="xMidYMid meet"><use href="#{key}-logo"/></svg>\n'
-            f'  <text x="{tx}" y="{cy - 7}" font-size="27" font-weight="700" '
+            f'  <text x="{tx}" y="{cy}" font-size="27" font-weight="700" '
             f'fill="{st["label"]}" dominant-baseline="middle">{name}</text>\n'
-            f'  <text x="{tx}" y="{cy + 18}" font-size="14" font-weight="600" letter-spacing="1.5" '
-            f'fill="{st["sub"]}" dominant-baseline="middle">{sublabel}</text>\n'
         )
     # square block: logo on top, label centered below
     logo_sz = 54
+    text_h = 21
+    gap_between = 16
+    group_h = logo_sz + gap_between + text_h
     cx = bx + bw / 2
     lx = cx - logo_sz / 2
-    ly = by + 26
-    ty = ly + logo_sz + 26
+    ly = by + (bh - group_h) / 2
+    ty = ly + logo_sz + gap_between + text_h / 2
     return (
         f'  <svg x="{lx}" y="{ly}" width="{logo_sz}" height="{logo_sz}" '
         f'viewBox="{LOGO_VB[key]}" preserveAspectRatio="xMidYMid meet"><use href="#{key}-logo"/></svg>\n'
         f'  <text x="{cx}" y="{ty}" font-size="21" font-weight="700" text-anchor="middle" '
         f'fill="{st["label"]}" dominant-baseline="middle">{name}</text>\n'
-        f'  <text x="{cx}" y="{ty + 20}" font-size="12" font-weight="600" letter-spacing="1.2" '
-        f'text-anchor="middle" fill="{st["sub"]}" dominant-baseline="middle">{sublabel}</text>\n'
     )
 
 
