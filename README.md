@@ -4,7 +4,7 @@
 
 Zenoh was developed to provide a universal communication protocol that works at every infrastructure level, from microcontrollers to the cloud.
 
-A good introduction to Zenoh is the [Zenoh book](https://corsaro.me/fr/zenoh/book/). The [Zenoh Rust documentation](https://docs.rs/zenoh/latest/zenoh/index.html) is also a useful source of information.
+The best startinh porints to read about Zenoh are the project site [zenoh.io](https://zenoh.io/) and the [Zenoh book](https://corsaro.me/fr/zenoh/book/). The most thorough documentation of Zenoh's concepts and API is [Zenoh Rust](https://docs.rs/zenoh/latest/zenoh/index.html) and [Zenoh-Python](https://zenoh-python.readthedocs.io/en/latest/), but the documentation for other languages is also fine. See the list of supported languages in the `Programming language support` section.
 
 The primary advantages of Zenoh are:
 
