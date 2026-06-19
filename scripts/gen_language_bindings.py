@@ -22,7 +22,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 COMP = ROOT / "assets" / "svg-components"
 OUT = ROOT / "assets" / "zenoh-language-bindings.svg"
 
-LOGO_VB = {"rust": "0 0 256 256", "c": "0 0 256 288", "cpp": "0 0 256 288"}
+LOGO_VB = {"rust": "0 0 256 256", "c": "0 0 256 288", "cpp": "0 0 256 288", "go": "0 0 512 192"}
 
 
 def load_logo(key):
@@ -31,7 +31,7 @@ def load_logo(key):
     return "      " + g.strip()
 
 
-logo_defs = "\n".join(load_logo(k) for k in ("rust", "c", "cpp"))
+logo_defs = "\n".join(load_logo(k) for k in ("rust", "c", "cpp", "go"))
 
 # ---- geometry: everything is derived from the pico square side P ----
 P = 150                      # zenoh-pico is square with side P
@@ -59,14 +59,16 @@ STYLE = {
     "rust": dict(grad="grad-rust", stroke="#C44B22", label="#5A2A14", sub="#9C5C3D"),
     "c":    dict(grad="grad-c",    stroke="#5B7CA6", label="#1F3A5F", sub="#5E7CA3"),
     "cpp":  dict(grad="grad-cpp",  stroke="#00599C", label="#013E70", sub="#3C6FA6"),
+    "go":   dict(grad="grad-go",   stroke="#0095BD", label="#0A4A5A", sub="#2E8AA8"),
 }
 
 # (x, y, w, h, logo_key, name, sublabel)
 BLOCKS = [
-    (x0,          y_top, W_cpp,   H, "cpp",  "zenoh-cpp",  "C++ WRAPPER"),
-    (x0,          y_mid, W_pico,  H, "c",    "zenoh-pico", "C · EMBEDDED"),
-    (x0 + W_pico, y_mid, W_c,     H, "c",    "zenoh-c",    "C BINDING"),
-    (x0,          y_bot, W_zenoh, H, "rust", "zenoh",      "RUST · CORE"),
+    (x0,            y_top, W_cpp,   H, "cpp",  "zenoh-cpp",  "C++ WRAPPER"),
+    (x0 + W_cpp,    y_top, W_pico,  H, "go",   "zenoh-go",   "GO BINDING"),
+    (x0,            y_mid, W_pico,  H, "c",    "zenoh-pico", "C · EMBEDDED"),
+    (x0 + W_pico,   y_mid, W_c,     H, "c",    "zenoh-c",    "C BINDING"),
+    (x0,            y_bot, W_zenoh, H, "rust", "zenoh",      "RUST · CORE"),
 ]
 
 
@@ -127,6 +129,9 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {VB_W} {VB_H}"
     </linearGradient>
     <linearGradient id="grad-cpp" x1="0" x2="0" y1="0" y2="1">
       <stop offset="0" stop-color="#E9F2FC"/><stop offset="1" stop-color="#B8D4EF"/>
+    </linearGradient>
+    <linearGradient id="grad-go" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#E6F7FB"/><stop offset="1" stop-color="#ABE4F1"/>
     </linearGradient>
     <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
       <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#0b2547" flood-opacity=".22"/>
