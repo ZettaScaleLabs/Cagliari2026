@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1130 586"
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1130 530"
      role="img" aria-labelledby="title desc" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
   <title id="title">Zenoh language bindings</title>
   <desc id="desc">Size-scaled diagram of Zenoh language bindings: the wide Rust core (zenoh), the zenoh-c C binding (twice the width of the square zenoh-pico), the standalone pure-C zenoh-pico, and the zenoh-cpp C++ wrapper covering zenoh-pico and half of zenoh-c.</desc>
@@ -103,40 +103,38 @@
   </g>
   </defs>
 
-  <rect x="14" y="14" width="1102" height="558" rx="22"
+  <rect x="14" y="14" width="1102" height="502" rx="22"
         fill="#FBFCFE" stroke="#E7ECF3" stroke-width="1.5"/>
 
-  <text x="565.0" y="58" text-anchor="middle" font-size="30" font-weight="800" fill="#0B2547">Zenoh language bindings</text>
-
-    <rect x="47" y="103" width="286" height="136" rx="16" fill="url(#grad-cpp)" stroke="#00599C" stroke-width="2" filter="url(#softShadow)"/>
-    <rect x="347" y="103" width="136" height="136" rx="16" fill="url(#grad-go)" stroke="#0095BD" stroke-width="2" filter="url(#softShadow)"/>
-    <rect x="47" y="253" width="136" height="286" rx="16" fill="url(#grad-c)" stroke="#5B7CA6" stroke-width="2" filter="url(#softShadow)"/>
-    <rect x="197" y="253" width="286" height="136" rx="16" fill="url(#grad-c)" stroke="#5B7CA6" stroke-width="2" filter="url(#softShadow)"/>
-    <rect x="197" y="403" width="886" height="136" rx="16" fill="url(#grad-rust)" stroke="#C44B22" stroke-width="2" filter="url(#softShadow)"/>
-    <rect x="947" y="103" width="136" height="136" rx="16" fill="url(#grad-ts)" stroke="#2D6CB5" stroke-width="2" filter="url(#softShadow)"/>
-    <rect x="947" y="253" width="136" height="136" rx="16" fill="url(#grad-server)" stroke="#7287A0" stroke-width="2" filter="url(#softShadow)"/>
-    <rect x="497" y="103" width="136" height="286" rx="16" fill="url(#grad-python)" stroke="#3776AB" stroke-width="2" filter="url(#softShadow)"/>
-    <rect x="647" y="103" width="136" height="286" rx="16" fill="url(#grad-java)" stroke="#E76F00" stroke-width="2" filter="url(#softShadow)"/>
-    <rect x="797" y="103" width="136" height="286" rx="16" fill="url(#grad-kotlin)" stroke="#7F52FF" stroke-width="2" filter="url(#softShadow)"/>
-  <svg x="73" y="140.0" width="62" height="62" viewBox="0 0 256 288" preserveAspectRatio="xMidYMid meet"><use href="#cpp-logo"/></svg>
-  <text x="153" y="171.0" font-size="27" font-weight="700" fill="#013E70" dominant-baseline="middle">zenoh-cpp</text>
-  <svg x="388.0" y="125.5" width="54" height="54" viewBox="0 0 512 192" preserveAspectRatio="xMidYMid meet"><use href="#go-logo"/></svg>
-  <text x="415.0" y="206.0" font-size="21" font-weight="700" text-anchor="middle" fill="#0A4A5A" dominant-baseline="middle">zenoh-go</text>
-  <svg x="87.0" y="275" width="56" height="56" viewBox="0 0 256 288" preserveAspectRatio="xMidYMid meet"><use href="#c-logo"/></svg>
-  <text x="115.0" y="435.0" font-size="27" font-weight="700" text-anchor="middle" fill="#1F3A5F" dominant-baseline="middle" transform="rotate(-90 115.0 435.0)">zenoh-pico</text>
-  <svg x="223" y="290.0" width="62" height="62" viewBox="0 0 256 288" preserveAspectRatio="xMidYMid meet"><use href="#c-logo"/></svg>
-  <text x="303" y="321.0" font-size="27" font-weight="700" fill="#1F3A5F" dominant-baseline="middle">zenoh-c</text>
-  <svg x="223" y="440.0" width="62" height="62" viewBox="0 0 256 256" preserveAspectRatio="xMidYMid meet"><use href="#rust-logo"/></svg>
-  <text x="303" y="471.0" font-size="27" font-weight="700" fill="#5A2A14" dominant-baseline="middle">zenoh</text>
-  <svg x="988.0" y="125.5" width="54" height="54" viewBox="0 0 256 256" preserveAspectRatio="xMidYMid meet"><use href="#ts-logo"/></svg>
-  <text x="1015.0" y="206.0" font-size="21" font-weight="700" text-anchor="middle" fill="#1C4477" dominant-baseline="middle">zenoh-ts</text>
-  <svg x="988.0" y="264.5" width="54" height="54" viewBox="-31 -20 62 44" preserveAspectRatio="xMidYMid meet"><use href="#server-logo"/></svg>
-  <text x="1015.0" y="345.0" font-size="21" font-weight="700" text-anchor="middle" fill="#33414F" dominant-baseline="middle">websocket</text>
-  <text x="1015.0" y="367.0" font-size="21" font-weight="700" text-anchor="middle" fill="#33414F" dominant-baseline="middle">bridge</text>
-  <svg x="537.0" y="125" width="56" height="56" viewBox="0 0 256 255" preserveAspectRatio="xMidYMid meet"><use href="#python-logo"/></svg>
-  <text x="565.0" y="285.0" font-size="27" font-weight="700" text-anchor="middle" fill="#244E7A" dominant-baseline="middle" transform="rotate(-90 565.0 285.0)">zenoh-python</text>
-  <svg x="687.0" y="125" width="56" height="56" viewBox="0 0 256 346" preserveAspectRatio="xMidYMid meet"><use href="#java-logo"/></svg>
-  <text x="715.0" y="285.0" font-size="27" font-weight="700" text-anchor="middle" fill="#9C4E00" dominant-baseline="middle" transform="rotate(-90 715.0 285.0)">zenoh-java</text>
-  <svg x="837.0" y="125" width="56" height="56" viewBox="0 0 106 113" preserveAspectRatio="xMidYMid meet"><use href="#kotlin-logo"/></svg>
-  <text x="865.0" y="285.0" font-size="27" font-weight="700" text-anchor="middle" fill="#5B2ECC" dominant-baseline="middle" transform="rotate(-90 865.0 285.0)">zenoh-kotlin</text>
+    <rect x="47" y="47" width="286" height="136" rx="16" fill="url(#grad-cpp)" stroke="#00599C" stroke-width="2" filter="url(#softShadow)"/>
+    <rect x="347" y="47" width="136" height="136" rx="16" fill="url(#grad-go)" stroke="#0095BD" stroke-width="2" filter="url(#softShadow)"/>
+    <rect x="47" y="197" width="136" height="286" rx="16" fill="url(#grad-c)" stroke="#5B7CA6" stroke-width="2" filter="url(#softShadow)"/>
+    <rect x="197" y="197" width="286" height="136" rx="16" fill="url(#grad-c)" stroke="#5B7CA6" stroke-width="2" filter="url(#softShadow)"/>
+    <rect x="197" y="347" width="886" height="136" rx="16" fill="url(#grad-rust)" stroke="#C44B22" stroke-width="2" filter="url(#softShadow)"/>
+    <rect x="947" y="47" width="136" height="136" rx="16" fill="url(#grad-ts)" stroke="#2D6CB5" stroke-width="2" filter="url(#softShadow)"/>
+    <rect x="947" y="197" width="136" height="136" rx="16" fill="url(#grad-server)" stroke="#7287A0" stroke-width="2" filter="url(#softShadow)"/>
+    <rect x="497" y="47" width="136" height="286" rx="16" fill="url(#grad-python)" stroke="#3776AB" stroke-width="2" filter="url(#softShadow)"/>
+    <rect x="647" y="47" width="136" height="286" rx="16" fill="url(#grad-java)" stroke="#E76F00" stroke-width="2" filter="url(#softShadow)"/>
+    <rect x="797" y="47" width="136" height="286" rx="16" fill="url(#grad-kotlin)" stroke="#7F52FF" stroke-width="2" filter="url(#softShadow)"/>
+  <svg x="73" y="84.0" width="62" height="62" viewBox="0 0 256 288" preserveAspectRatio="xMidYMid meet"><use href="#cpp-logo"/></svg>
+  <text x="153" y="115.0" font-size="27" font-weight="700" fill="#013E70" dominant-baseline="middle">zenoh-cpp</text>
+  <svg x="388.0" y="69.5" width="54" height="54" viewBox="0 0 512 192" preserveAspectRatio="xMidYMid meet"><use href="#go-logo"/></svg>
+  <text x="415.0" y="150.0" font-size="21" font-weight="700" text-anchor="middle" fill="#0A4A5A" dominant-baseline="middle">zenoh-go</text>
+  <svg x="87.0" y="219" width="56" height="56" viewBox="0 0 256 288" preserveAspectRatio="xMidYMid meet"><use href="#c-logo"/></svg>
+  <text x="115.0" y="379.0" font-size="27" font-weight="700" text-anchor="middle" fill="#1F3A5F" dominant-baseline="middle" transform="rotate(-90 115.0 379.0)">zenoh-pico</text>
+  <svg x="223" y="234.0" width="62" height="62" viewBox="0 0 256 288" preserveAspectRatio="xMidYMid meet"><use href="#c-logo"/></svg>
+  <text x="303" y="265.0" font-size="27" font-weight="700" fill="#1F3A5F" dominant-baseline="middle">zenoh-c</text>
+  <svg x="223" y="384.0" width="62" height="62" viewBox="0 0 256 256" preserveAspectRatio="xMidYMid meet"><use href="#rust-logo"/></svg>
+  <text x="303" y="415.0" font-size="27" font-weight="700" fill="#5A2A14" dominant-baseline="middle">zenoh</text>
+  <svg x="988.0" y="69.5" width="54" height="54" viewBox="0 0 256 256" preserveAspectRatio="xMidYMid meet"><use href="#ts-logo"/></svg>
+  <text x="1015.0" y="150.0" font-size="21" font-weight="700" text-anchor="middle" fill="#1C4477" dominant-baseline="middle">zenoh-ts</text>
+  <svg x="988.0" y="208.5" width="54" height="54" viewBox="-31 -20 62 44" preserveAspectRatio="xMidYMid meet"><use href="#server-logo"/></svg>
+  <text x="1015.0" y="289.0" font-size="21" font-weight="700" text-anchor="middle" fill="#33414F" dominant-baseline="middle">websocket</text>
+  <text x="1015.0" y="311.0" font-size="21" font-weight="700" text-anchor="middle" fill="#33414F" dominant-baseline="middle">bridge</text>
+  <svg x="537.0" y="69" width="56" height="56" viewBox="0 0 256 255" preserveAspectRatio="xMidYMid meet"><use href="#python-logo"/></svg>
+  <text x="565.0" y="229.0" font-size="27" font-weight="700" text-anchor="middle" fill="#244E7A" dominant-baseline="middle" transform="rotate(-90 565.0 229.0)">zenoh-python</text>
+  <svg x="687.0" y="69" width="56" height="56" viewBox="0 0 256 346" preserveAspectRatio="xMidYMid meet"><use href="#java-logo"/></svg>
+  <text x="715.0" y="229.0" font-size="27" font-weight="700" text-anchor="middle" fill="#9C4E00" dominant-baseline="middle" transform="rotate(-90 715.0 229.0)">zenoh-java</text>
+  <svg x="837.0" y="69" width="56" height="56" viewBox="0 0 106 113" preserveAspectRatio="xMidYMid meet"><use href="#kotlin-logo"/></svg>
+  <text x="865.0" y="229.0" font-size="27" font-weight="700" text-anchor="middle" fill="#5B2ECC" dominant-baseline="middle" transform="rotate(-90 865.0 229.0)">zenoh-kotlin</text>
 </svg>

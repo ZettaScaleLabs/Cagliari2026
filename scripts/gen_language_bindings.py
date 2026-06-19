@@ -50,7 +50,7 @@ W_zenoh = 2 * W_c            # zenoh twice wider than zenoh-c  (= 4P)
 W_cpp = W_pico + W_c // 2    # covers zenoh-pico + half of zenoh-c (= 2P)
 
 x0 = PAD
-y_top = 96                   # zenoh-cpp row
+y_top = PAD                  # zenoh-cpp row (top of the diagram; no title above)
 y_mid = y_top + H            # zenoh-pico + zenoh-c row
 y_bot = y_mid + H            # zenoh row
 
@@ -207,8 +207,6 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {VB_W} {VB_H}"
 
   <rect x="14" y="14" width="{VB_W - 28}" height="{VB_H - 28}" rx="22"
         fill="#FBFCFE" stroke="#E7ECF3" stroke-width="1.5"/>
-
-  <text x="{VB_W / 2}" y="58" text-anchor="middle" font-size="30" font-weight="800" fill="#0B2547">Zenoh language bindings</text>
 
 {tiles_svg}{content_svg}</svg>
 '''
