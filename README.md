@@ -50,6 +50,10 @@ There are also extended features built above the base Zenoh library:
 
 ## Zenoh language bindings
 
+<p align="center">
+  <img src="assets/zenoh-language-bindings.svg" alt="Diagram of Zenoh language bindings: the Rust core (zenoh) with zenoh-pico, zenoh-c, zenoh-cpp, zenoh-go, zenoh-python, zenoh-java, zenoh-kotlin, and zenoh-ts connected through a WebSocket bridge" width="860">
+</p>
+
 The primary implementation and source of truth is the Rust implementation of [Zenoh](https://github.com/eclipse-zenoh/zenoh).
 
 There is also a pure-C implementation, [zenoh-pico](https://github.com/eclipse-zenoh/zenoh-pico), dedicated primarily to embedded applications.
