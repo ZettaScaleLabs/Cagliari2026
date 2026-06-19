@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 456"
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 586"
      role="img" aria-labelledby="title desc" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
   <title id="title">Zenoh language bindings</title>
-  <desc id="desc">Stacked diagram of Zenoh language bindings: the Rust core (zenoh) with the C binding (zenoh-c) on top, the standalone pure-C implementation (zenoh-pico), and the C++ wrapper (zenoh-cpp) spanning both.</desc>
+  <desc id="desc">Size-scaled diagram of Zenoh language bindings: the wide Rust core (zenoh), the zenoh-c C binding (twice the width of the square zenoh-pico), the standalone pure-C zenoh-pico, and the zenoh-cpp C++ wrapper covering zenoh-pico and half of zenoh-c.</desc>
   <defs>
     <linearGradient id="grad-rust" x1="0" x2="0" y1="0" y2="1">
       <stop offset="0" stop-color="#FCEFE7"/><stop offset="1" stop-color="#F4CBB3"/>
@@ -34,53 +34,27 @@
     </g>
   </defs>
 
-  <rect x="14" y="14" width="692" height="428" rx="22"
+  <rect x="14" y="14" width="652" height="558" rx="22"
         fill="#FBFCFE" stroke="#E7ECF3" stroke-width="1.5"/>
 
-  <text x="360.0" y="58" text-anchor="middle" font-size="30" font-weight="800" fill="#0B2547">Zenoh language bindings</text>
+  <text x="340.0" y="58" text-anchor="middle" font-size="30" font-weight="800" fill="#0B2547">Zenoh language bindings</text>
 
-  <!-- zenoh-cpp -->
   <g filter="url(#softShadow)">
-    <rect x="53" y="104" width="614" height="96" rx="18"
-          fill="url(#grad-cpp)" stroke="#00599C" stroke-width="2"/>
+    <rect x="40" y="96" width="300" height="150" rx="0" fill="url(#grad-cpp)" stroke="#00599C" stroke-width="2"/>
+    <rect x="40" y="246" width="150" height="150" rx="0" fill="url(#grad-c)" stroke="#5B7CA6" stroke-width="2"/>
+    <rect x="190" y="246" width="300" height="150" rx="0" fill="url(#grad-c)" stroke="#5B7CA6" stroke-width="2"/>
+    <rect x="40" y="396" width="600" height="150" rx="0" fill="url(#grad-rust)" stroke="#C44B22" stroke-width="2"/>
   </g>
-  <svg x="77" y="125.0" width="54" height="54" viewBox="0 0 256 288"
-       preserveAspectRatio="xMidYMid meet"><use href="#cpp-logo"/></svg>
-  <text x="151" y="145.0" font-size="29" font-weight="700"
-        fill="#013E70" dominant-baseline="middle">zenoh-cpp</text>
-  <text x="151" y="171.0" font-size="14" font-weight="600" letter-spacing="1.5"
-        fill="#3C6FA6" dominant-baseline="middle">C++  WRAPPER</text>
-  <!-- zenoh-pico -->
-  <g filter="url(#softShadow)">
-    <rect x="53" y="212" width="300" height="204" rx="18"
-          fill="url(#grad-c)" stroke="#5B7CA6" stroke-width="2"/>
-  </g>
-  <svg x="77" y="287.0" width="54" height="54" viewBox="0 0 256 288"
-       preserveAspectRatio="xMidYMid meet"><use href="#c-logo"/></svg>
-  <text x="151" y="307.0" font-size="29" font-weight="700"
-        fill="#1F3A5F" dominant-baseline="middle">zenoh-pico</text>
-  <text x="151" y="333.0" font-size="14" font-weight="600" letter-spacing="1.5"
-        fill="#5E7CA3" dominant-baseline="middle">C  ·  EMBEDDED</text>
-  <!-- zenoh-c -->
-  <g filter="url(#softShadow)">
-    <rect x="367" y="212" width="300" height="96" rx="18"
-          fill="url(#grad-c)" stroke="#5B7CA6" stroke-width="2"/>
-  </g>
-  <svg x="391" y="233.0" width="54" height="54" viewBox="0 0 256 288"
-       preserveAspectRatio="xMidYMid meet"><use href="#c-logo"/></svg>
-  <text x="465" y="253.0" font-size="29" font-weight="700"
-        fill="#1F3A5F" dominant-baseline="middle">zenoh-c</text>
-  <text x="465" y="279.0" font-size="14" font-weight="600" letter-spacing="1.5"
-        fill="#5E7CA3" dominant-baseline="middle">C  BINDING</text>
-  <!-- zenoh -->
-  <g filter="url(#softShadow)">
-    <rect x="367" y="320" width="300" height="96" rx="18"
-          fill="url(#grad-rust)" stroke="#C44B22" stroke-width="2"/>
-  </g>
-  <svg x="391" y="341.0" width="54" height="54" viewBox="0 0 256 256"
-       preserveAspectRatio="xMidYMid meet"><use href="#rust-logo"/></svg>
-  <text x="465" y="361.0" font-size="29" font-weight="700"
-        fill="#5A2A14" dominant-baseline="middle">zenoh</text>
-  <text x="465" y="387.0" font-size="14" font-weight="600" letter-spacing="1.5"
-        fill="#9C5C3D" dominant-baseline="middle">RUST  ·  CORE</text>
+  <svg x="66" y="140.0" width="62" height="62" viewBox="0 0 256 288" preserveAspectRatio="xMidYMid meet"><use href="#cpp-logo"/></svg>
+  <text x="146" y="164.0" font-size="27" font-weight="700" fill="#013E70" dominant-baseline="middle">zenoh-cpp</text>
+  <text x="146" y="189.0" font-size="14" font-weight="600" letter-spacing="1.5" fill="#3C6FA6" dominant-baseline="middle">C++ WRAPPER</text>
+  <svg x="88.0" y="272" width="54" height="54" viewBox="0 0 256 288" preserveAspectRatio="xMidYMid meet"><use href="#c-logo"/></svg>
+  <text x="115.0" y="352" font-size="21" font-weight="700" text-anchor="middle" fill="#1F3A5F" dominant-baseline="middle">zenoh-pico</text>
+  <text x="115.0" y="372" font-size="12" font-weight="600" letter-spacing="1.2" text-anchor="middle" fill="#5E7CA3" dominant-baseline="middle">C · EMBEDDED</text>
+  <svg x="216" y="290.0" width="62" height="62" viewBox="0 0 256 288" preserveAspectRatio="xMidYMid meet"><use href="#c-logo"/></svg>
+  <text x="296" y="314.0" font-size="27" font-weight="700" fill="#1F3A5F" dominant-baseline="middle">zenoh-c</text>
+  <text x="296" y="339.0" font-size="14" font-weight="600" letter-spacing="1.5" fill="#5E7CA3" dominant-baseline="middle">C BINDING</text>
+  <svg x="66" y="440.0" width="62" height="62" viewBox="0 0 256 256" preserveAspectRatio="xMidYMid meet"><use href="#rust-logo"/></svg>
+  <text x="146" y="464.0" font-size="27" font-weight="700" fill="#5A2A14" dominant-baseline="middle">zenoh</text>
+  <text x="146" y="489.0" font-size="14" font-weight="600" letter-spacing="1.5" fill="#9C5C3D" dominant-baseline="middle">RUST · CORE</text>
 </svg>
