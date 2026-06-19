@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 """Generate assets/zenoh-language-bindings.svg.
 
-The diagram geometry is derived from a single unit ``P`` (the side of the
-square zenoh-pico block) so the size relationships are exact:
+The diagram geometry is derived from a single unit ``P`` (the width of the
+zenoh-pico pillar) so the size relationships are exact:
 
-    zenoh-pico : square, side P
-    zenoh-c    : 2 * P wide   (twice wider than zenoh-pico)
-    zenoh      : 4 * P wide   (twice wider than zenoh-c)
+    zenoh-pico : P wide, 2 * P tall  (a standalone pillar that stands on the
+                 ground, independent of the Rust core)
+    zenoh-c    : 2 * P wide
+    zenoh      : the Rust core, fills the rest of the bottom row (3 * P wide)
     zenoh-cpp  : 2 * P wide   (covers zenoh-pico + half of zenoh-c)
 
 The language logos are sourced from the reusable components in
-assets/svg-components/ (rust.svg, c.svg, cpp.svg) and inlined here so the
-composite renders standalone in the GitHub README.
+assets/svg-components/ (rust.svg, c.svg, cpp.svg, go.svg) and inlined here so
+the composite renders standalone in the GitHub README.
 
 Run: python3 scripts/gen_language_bindings.py
 """
@@ -36,6 +37,7 @@ logo_defs = "\n".join(load_logo(k) for k in ("rust", "c", "cpp", "go"))
 # ---- geometry: everything is derived from the pico square side P ----
 P = 150                      # zenoh-pico is square with side P
 H = P                        # each block is one P-high row
+H_pico = 2 * H               # zenoh-pico pillar spans the mid row to the ground
 PAD = 40
 
 W_pico = P
@@ -64,11 +66,11 @@ STYLE = {
 
 # (x, y, w, h, logo_key, name)
 BLOCKS = [
-    (x0,            y_top, W_cpp,   H, "cpp",  "zenoh-cpp"),
-    (x0 + W_cpp,    y_top, W_pico,  H, "go",   "zenoh-go"),
-    (x0,            y_mid, W_pico,  H, "c",    "zenoh-pico"),
-    (x0 + W_pico,   y_mid, W_c,     H, "c",    "zenoh-c"),
-    (x0,            y_bot, W_zenoh, H, "rust", "zenoh"),
+    (x0,            y_top, W_cpp,            H,      "cpp",  "zenoh-cpp"),
+    (x0 + W_cpp,    y_top, W_pico,           H,      "go",   "zenoh-go"),
+    (x0,            y_mid, W_pico,           H_pico, "c",    "zenoh-pico"),
+    (x0 + W_pico,   y_mid, W_c,              H,      "c",    "zenoh-c"),
+    (x0 + W_pico,   y_bot, W_zenoh - W_pico, H,      "rust", "zenoh"),
 ]
 
 
@@ -94,6 +96,18 @@ def content(bx, by, bw, bh, key, name):
             f'viewBox="{LOGO_VB[key]}" preserveAspectRatio="xMidYMid meet"><use href="#{key}-logo"/></svg>\n'
             f'  <text x="{tx}" y="{cy}" font-size="27" font-weight="700" '
             f'fill="{st["label"]}" dominant-baseline="middle">{name}</text>\n'
+        )
+    if bh >= 1.6 * bw:  # tall block: logo on top, label rotated vertically
+        logo_sz = 56
+        cx = bx + bw / 2
+        lx = cx - logo_sz / 2
+        ly = by + 22
+        tcy = (ly + logo_sz + by + bh) / 2
+        return (
+            f'  <svg x="{lx}" y="{ly}" width="{logo_sz}" height="{logo_sz}" '
+            f'viewBox="{LOGO_VB[key]}" preserveAspectRatio="xMidYMid meet"><use href="#{key}-logo"/></svg>\n'
+            f'  <text x="{cx}" y="{tcy}" font-size="21" font-weight="700" text-anchor="middle" '
+            f'fill="{st["label"]}" dominant-baseline="middle" transform="rotate(90 {cx} {tcy})">{name}</text>\n'
         )
     # square block: logo on top, label centered below
     logo_sz = 54
