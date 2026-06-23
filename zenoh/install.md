@@ -4,20 +4,23 @@ Zenoh is a Rust core ([zenoh](https://github.com/eclipse-zenoh/zenoh)) plus a
 family of bindings for other languages. For each language this guide shows two
 ways to get it running:
 
-- **From the official distribution** — the package registries and prebuilt
-  binaries. These steps were verified in a clean environment by running `z_pub`.
-- **From latest source** — building the binding from its GitHub repository.
-  These steps follow each project's README (they track the tip of `main`, so
-  the exact version may be ahead of the distribution).
+- **From the official distribution** — install the prebuilt binding from its
+  package registry (or a prebuilt archive), then write a tiny **publisher** and
+  **subscriber** and run them together to watch data flow. These steps were
+  verified in a clean environment.
+- **From latest source** — clone the binding's GitHub repository, build it and
+  run the **bundled `z_pub` / `z_sub` examples** (no code to write). These steps
+  follow each project's README and track the tip of `main`, so the exact version
+  may be ahead of the distribution.
 
-`z_pub` is the canonical "hello world" publisher: it opens a session and writes
-to the key `demo/example/zenoh-<language>-pub`.
+Every example below publishes to and subscribes on the same key,
+`demo/example/hello`.
 
 ## Versions
 
 - Language bindings published on package registries — **Rust** (crates.io),
-  **Python** (PyPI), **Java** / **Kotlin** (Maven Central) and
-  **TypeScript** (npm) — are at version **1.9.0**.
+  **Python** (PyPI), **Go** (Go modules), **Java** / **Kotlin** (Maven Central)
+  and **TypeScript** (npm) — are at version **1.9.0**.
 - The native libraries (**zenoh-c**, **zenoh-cpp**, **zenoh-pico**), the
   **router** (`zenohd`) and the **remote-api bridge** are distributed as
   prebuilt binaries on the [Eclipse download server](https://download.eclipse.org/zenoh/)
@@ -26,12 +29,15 @@ to the key `demo/example/zenoh-<language>-pub`.
 
 ## Before you start
 
-- **`z_pub` and the router.** A Zenoh session runs in *peer* mode by default,
-  so `z_pub` opens a session and publishes **without** needing a router. Two
-  bindings are exceptions and need a running router/bridge first:
-  **zenoh-pico** (runs in *client* mode) and **zenoh-ts** (talks to a WebSocket
-  bridge). Those sections start the daemon before publishing. See
-  [Running a Zenoh router](#running-a-zenoh-router).
+- **Running a demo.** Each "official distribution" example is a pair of tiny
+  programs. Start the **subscriber** in one terminal and the **publisher** in
+  another: the publisher sends `Hello #0` .. `Hello #9` (one per second) and the
+  subscriber prints each message as it arrives.
+- **Peer mode vs. a router.** A Zenoh session runs in *peer* mode by default, so
+  the publisher and subscriber discover each other directly (over UDP multicast)
+  with **no** router. Two bindings are exceptions and need a daemon running
+  first: **zenoh-pico** (runs in *client* mode) and **zenoh-ts** (talks to a
+  WebSocket bridge). See [Running a Zenoh router](#running-a-zenoh-router).
 - **Platform.** The distribution commands below were verified on Linux and
   download the **x86_64** archives. For other targets pick the matching archive
   on the release page — e.g. `aarch64-unknown-linux-gnu` (or `linux-arm64` for
@@ -61,45 +67,66 @@ Repository: <https://github.com/eclipse-zenoh/zenoh>
 The Rust library is the reference implementation, published on
 [crates.io](https://crates.io/crates/zenoh).
 
-Create the project and put the publisher in `src/main.rs`:
+### From the official distribution
+
+Create a project and add the dependencies:
 
 ```sh
-cargo new zenoh-pub
-cd zenoh-pub
+cargo new zenoh-demo
+cd zenoh-demo
+rm src/main.rs
+cargo add zenoh
+cargo add tokio --features rt-multi-thread,time,macros
 ```
+
+Put the publisher in `src/bin/pub.rs`:
+
+```rust
+use std::time::Duration;
+
+#[tokio::main]
+async fn main() {
+    let session = zenoh::open(zenoh::Config::default()).await.unwrap();
+    let publisher = session.declare_publisher("demo/example/hello").await.unwrap();
+    for i in 0..10 {
+        println!("Sent Hello #{i}");
+        publisher.put(format!("Hello #{i}")).await.unwrap();
+        tokio::time::sleep(Duration::from_secs(1)).await;
+    }
+}
+```
+
+and the subscriber in `src/bin/sub.rs`:
 
 ```rust
 #[tokio::main]
 async fn main() {
     let session = zenoh::open(zenoh::Config::default()).await.unwrap();
-    let publisher = session.declare_publisher("demo/example/zenoh-rust-pub").await.unwrap();
-    publisher.put("Pub from Rust!").await.unwrap();
+    let subscriber = session.declare_subscriber("demo/example/hello").await.unwrap();
+    println!("Listening on 'demo/example/hello'...");
+    while let Ok(sample) = subscriber.recv_async().await {
+        println!("{}: {}", sample.key_expr().as_str(), sample.payload().try_to_string().unwrap());
+    }
 }
 ```
 
-### From the official distribution
-
-Add the crates.io dependencies and run:
+Run them together (the first build compiles Zenoh):
 
 ```sh
-cargo add zenoh
-cargo add tokio --features rt-multi-thread,macros
-cargo run
+cargo run --bin sub   # terminal 1
+cargo run --bin pub   # terminal 2
 ```
 
 ### From latest source
 
-Replace the `zenoh` dependency in `Cargo.toml` with a git dependency on `main`
-(the first build compiles Zenoh from source):
-
-```toml
-[dependencies]
-zenoh = { git = "https://github.com/eclipse-zenoh/zenoh.git", branch = "main" }
-tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
-```
+Clone the repository and run the bundled examples (the first build compiles
+Zenoh from source):
 
 ```sh
-cargo run
+git clone https://github.com/eclipse-zenoh/zenoh.git
+cd zenoh/examples
+cargo run --example z_sub   # terminal 1
+cargo run --example z_pub   # terminal 2
 ```
 
 ---
@@ -109,15 +136,7 @@ cargo run
 Repository: <https://github.com/eclipse-zenoh/zenoh-python>
 
 The Python package is published on [PyPI](https://pypi.org/project/eclipse-zenoh/)
-as `eclipse-zenoh`. Save the publisher as `z_pub.py`:
-
-```python
-import zenoh
-
-with zenoh.open(zenoh.Config()) as session:
-    pub = session.declare_publisher("demo/example/zenoh-python-pub")
-    pub.put("Pub from Python!")
-```
+as `eclipse-zenoh`.
 
 ### From the official distribution
 
@@ -125,13 +144,50 @@ with zenoh.open(zenoh.Config()) as session:
 python3 -m venv .venv
 source .venv/bin/activate
 pip install eclipse-zenoh
-python z_pub.py
+```
+
+Save the publisher as `pub.py`:
+
+```python
+import time
+import zenoh
+
+with zenoh.open(zenoh.Config()) as session:
+    pub = session.declare_publisher("demo/example/hello")
+    for i in range(10):
+        print(f"Sent Hello #{i}")
+        pub.put(f"Hello #{i}")
+        time.sleep(1)
+```
+
+and the subscriber as `sub.py`:
+
+```python
+import time
+import zenoh
+
+def listener(sample):
+    print(f"{sample.key_expr}: {sample.payload.to_string()}")
+
+with zenoh.open(zenoh.Config()) as session:
+    session.declare_subscriber("demo/example/hello", listener)
+    print("Listening on 'demo/example/hello'...")
+    while True:
+        time.sleep(1)
+```
+
+Run them together:
+
+```sh
+python sub.py   # terminal 1
+python pub.py   # terminal 2
 ```
 
 ### From latest source
 
 Building from source compiles the Rust core, so a [Rust toolchain](https://rustup.rs/)
-is required. zenoh-python builds with [maturin](https://www.maturin.rs/):
+is required. zenoh-python builds with [maturin](https://www.maturin.rs/); then run
+the bundled examples:
 
 ```sh
 git clone https://github.com/eclipse-zenoh/zenoh-python.git
@@ -140,10 +196,9 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements-dev.txt
 maturin develop --release
+python examples/z_sub.py   # terminal 1
+python examples/z_pub.py   # terminal 2
 ```
-
-`maturin develop` installs the freshly built module into the active virtual
-environment; run `python z_pub.py` from there.
 
 ---
 
@@ -151,43 +206,94 @@ environment; run `python z_pub.py` from there.
 
 Repository: <https://github.com/eclipse-zenoh/zenoh-c>
 
-Save the publisher as `z_pub.c`:
+### From the official distribution
+
+Download the prebuilt `standalone` archive (headers + library):
+
+```sh
+curl -LO https://download.eclipse.org/zenoh/zenoh-c/1.9.0/zenoh-c-1.9.0-x86_64-unknown-linux-gnu-standalone.zip
+unzip zenoh-c-1.9.0-x86_64-unknown-linux-gnu-standalone.zip -d zenoh-c
+```
+
+Save the publisher as `pub.c`:
 
 ```c
+#include <stdio.h>
 #include "zenoh.h"
 
 int main(void) {
     z_owned_config_t config;
     z_config_default(&config);
-
     z_owned_session_t s;
     z_open(&s, z_move(config), NULL);
 
     z_view_keyexpr_t ke;
-    z_view_keyexpr_from_str(&ke, "demo/example/zenoh-c-pub");
+    z_view_keyexpr_from_str(&ke, "demo/example/hello");
     z_owned_publisher_t pub;
     z_declare_publisher(z_loan(s), &pub, z_loan(ke), NULL);
 
-    z_owned_bytes_t payload;
-    z_bytes_copy_from_str(&payload, "Pub from C!");
-    z_publisher_put(z_loan(pub), z_move(payload), NULL);
-
+    char buf[64];
+    for (int i = 0; i < 10; i++) {
+        snprintf(buf, sizeof(buf), "Hello #%d", i);
+        printf("Sent %s\n", buf);
+        z_owned_bytes_t payload;
+        z_bytes_copy_from_str(&payload, buf);
+        z_publisher_put(z_loan(pub), z_move(payload), NULL);
+        z_sleep_s(1);
+    }
     z_drop(z_move(pub));
     z_drop(z_move(s));
     return 0;
 }
 ```
 
-### From the official distribution
+and the subscriber as `sub.c`:
 
-Download the prebuilt `standalone` archive (headers + library) and build
-against it:
+```c
+#include <stdio.h>
+#include "zenoh.h"
+
+void data_handler(z_loaned_sample_t *sample, void *arg) {
+    z_view_string_t key;
+    z_keyexpr_as_view_string(z_sample_keyexpr(sample), &key);
+    z_owned_string_t payload;
+    z_bytes_to_string(z_sample_payload(sample), &payload);
+    printf("%.*s: %.*s\n",
+           (int)z_string_len(z_loan(key)), z_string_data(z_loan(key)),
+           (int)z_string_len(z_loan(payload)), z_string_data(z_loan(payload)));
+    z_drop(z_move(payload));
+}
+
+int main(void) {
+    z_owned_config_t config;
+    z_config_default(&config);
+    z_owned_session_t s;
+    z_open(&s, z_move(config), NULL);
+
+    z_view_keyexpr_t ke;
+    z_view_keyexpr_from_str(&ke, "demo/example/hello");
+    z_owned_closure_sample_t callback;
+    z_closure(&callback, data_handler, NULL, NULL);
+    z_owned_subscriber_t sub;
+    z_declare_subscriber(z_loan(s), &sub, z_loan(ke), z_move(callback), NULL);
+
+    printf("Listening on 'demo/example/hello'...\n");
+    while (1) {
+        z_sleep_s(1);
+    }
+    z_drop(z_move(sub));
+    z_drop(z_move(s));
+    return 0;
+}
+```
+
+Build and run them together:
 
 ```sh
-curl -LO https://download.eclipse.org/zenoh/zenoh-c/1.9.0/zenoh-c-1.9.0-x86_64-unknown-linux-gnu-standalone.zip
-unzip zenoh-c-1.9.0-x86_64-unknown-linux-gnu-standalone.zip -d zenoh-c
-cc z_pub.c -Izenoh-c/include -Lzenoh-c/lib -lzenohc -o z_pub
-LD_LIBRARY_PATH=zenoh-c/lib ./z_pub
+cc pub.c -Izenoh-c/include -Lzenoh-c/lib -lzenohc -o pub
+cc sub.c -Izenoh-c/include -Lzenoh-c/lib -lzenohc -o sub
+LD_LIBRARY_PATH=zenoh-c/lib ./sub   # terminal 1
+LD_LIBRARY_PATH=zenoh-c/lib ./pub   # terminal 2
 ```
 
 > The release page also offers Debian packages (`libzenohc-*-debian.zip`) if you
@@ -196,14 +302,14 @@ LD_LIBRARY_PATH=zenoh-c/lib ./z_pub
 ### From latest source
 
 Build the library from `main` with CMake (needs [Rust](https://rustup.rs/),
-`git`, `cmake` and a C compiler), then compile against the install tree:
+`git`, `cmake` and a C compiler) and run the bundled examples:
 
 ```sh
 git clone https://github.com/eclipse-zenoh/zenoh-c.git
-cmake -S zenoh-c -B zenoh-c/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$PWD/zenoh-c/install"
-cmake --build zenoh-c/build --target install --config Release
-cc z_pub.c -Izenoh-c/install/include -Lzenoh-c/install/lib -lzenohc -o z_pub
-LD_LIBRARY_PATH=zenoh-c/install/lib ./z_pub
+cmake -S zenoh-c -B zenoh-c/build -DCMAKE_BUILD_TYPE=Release
+cmake --build zenoh-c/build --target examples
+./zenoh-c/build/target/release/examples/z_sub   # terminal 1
+./zenoh-c/build/target/release/examples/z_pub   # terminal 2
 ```
 
 ---
@@ -212,48 +318,91 @@ LD_LIBRARY_PATH=zenoh-c/install/lib ./z_pub
 
 Repository: <https://github.com/eclipse-zenoh/zenoh-cpp>
 
-zenoh-cpp is a header-only wrapper built on top of **zenoh-c**, so set up
-zenoh-c first (the [C section](#c--zenoh-c)) using the matching method below.
-Save the publisher as `z_pub.cpp`:
-
-```cpp
-#include "zenoh.hxx"
-using namespace zenoh;
-
-int main() {
-    auto session = Session::open(Config::create_default());
-    auto pub = session.declare_publisher(KeyExpr("demo/example/zenoh-cpp-pub"));
-    pub.put("Pub from C++!");
-}
-```
-
-`-DZENOHCXX_ZENOHC=1` selects the zenoh-c backend in both methods below.
+zenoh-cpp is a header-only wrapper built on top of **zenoh-c**, so it needs the
+zenoh-c library underneath. `-DZENOHCXX_ZENOHC=1` selects that backend.
 
 ### From the official distribution
 
-Download the zenoh-cpp headers and build against the zenoh-c distribution from
-the [C section](#c--zenoh-c):
+Download the zenoh-cpp headers and the zenoh-c distribution from the
+[C section](#c--zenoh-c):
 
 ```sh
+curl -LO https://download.eclipse.org/zenoh/zenoh-c/1.9.0/zenoh-c-1.9.0-x86_64-unknown-linux-gnu-standalone.zip
+unzip zenoh-c-1.9.0-x86_64-unknown-linux-gnu-standalone.zip -d zenoh-c
 curl -LO https://download.eclipse.org/zenoh/zenoh-cpp/1.9.0/zenohcpp-1.9.0-standalone.zip
 unzip zenohcpp-1.9.0-standalone.zip -d zenoh-cpp
-c++ -std=c++17 -DZENOHCXX_ZENOHC=1 z_pub.cpp \
-    -Izenoh-cpp/include -Izenoh-c/include \
-    -Lzenoh-c/lib -lzenohc -o z_pub
-LD_LIBRARY_PATH=zenoh-c/lib ./z_pub
+```
+
+Save the publisher as `pub.cpp`:
+
+```cpp
+#include <iostream>
+#include <thread>
+#include "zenoh.hxx"
+using namespace zenoh;
+using namespace std::chrono_literals;
+
+int main() {
+    auto session = Session::open(Config::create_default());
+    auto pub = session.declare_publisher(KeyExpr("demo/example/hello"));
+    for (int i = 0; i < 10; i++) {
+        std::string msg = "Hello #" + std::to_string(i);
+        std::cout << "Sent " << msg << "\n";
+        pub.put(msg);
+        std::this_thread::sleep_for(1s);
+    }
+}
+```
+
+and the subscriber as `sub.cpp`:
+
+```cpp
+#include <iostream>
+#include <thread>
+#include "zenoh.hxx"
+using namespace zenoh;
+using namespace std::chrono_literals;
+
+int main() {
+    auto session = Session::open(Config::create_default());
+    auto sub = session.declare_subscriber(
+        KeyExpr("demo/example/hello"),
+        [](const Sample &sample) {
+            std::cout << sample.get_keyexpr().as_string_view() << ": "
+                      << sample.get_payload().as_string() << "\n";
+        },
+        closures::none);
+    std::cout << "Listening on 'demo/example/hello'...\n";
+    while (true) {
+        std::this_thread::sleep_for(1s);
+    }
+}
+```
+
+Build and run them together:
+
+```sh
+c++ -std=c++17 -DZENOHCXX_ZENOHC=1 pub.cpp -Izenoh-cpp/include -Izenoh-c/include -Lzenoh-c/lib -lzenohc -o pub
+c++ -std=c++17 -DZENOHCXX_ZENOHC=1 sub.cpp -Izenoh-cpp/include -Izenoh-c/include -Lzenoh-c/lib -lzenohc -o sub
+LD_LIBRARY_PATH=zenoh-c/lib ./sub   # terminal 1
+LD_LIBRARY_PATH=zenoh-c/lib ./pub   # terminal 2
 ```
 
 ### From latest source
 
-Clone the headers from `main` and build against the zenoh-c you built from
-source in the [C section](#c--zenoh-c):
+Build and install zenoh-c first (needs [Rust](https://rustup.rs/), `git`,
+`cmake` and a C++ compiler), then build the zenoh-cpp examples against it:
 
 ```sh
+git clone https://github.com/eclipse-zenoh/zenoh-c.git
+cmake -S zenoh-c -B zenoh-c/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$PWD/zenoh-c/install"
+cmake --build zenoh-c/build --target install --config Release
+
 git clone https://github.com/eclipse-zenoh/zenoh-cpp.git
-c++ -std=c++17 -DZENOHCXX_ZENOHC=1 z_pub.cpp \
-    -Izenoh-cpp/include -Izenoh-c/install/include \
-    -Lzenoh-c/install/lib -lzenohc -o z_pub
-LD_LIBRARY_PATH=zenoh-c/install/lib ./z_pub
+cmake -S zenoh-cpp -B zenoh-cpp/build -DZENOHCXX_ZENOHC=ON -DCMAKE_PREFIX_PATH="$PWD/zenoh-c/install"
+cmake --build zenoh-cpp/build --target examples
+LD_LIBRARY_PATH="$PWD/zenoh-c/install/lib" ./zenoh-cpp/build/examples/zenohc/z_sub   # terminal 1
+LD_LIBRARY_PATH="$PWD/zenoh-c/install/lib" ./zenoh-cpp/build/examples/zenohc/z_pub   # terminal 2
 ```
 
 ---
@@ -266,60 +415,116 @@ zenoh-pico is the lightweight implementation for constrained/embedded targets.
 Unlike the other bindings it runs in **client** mode, so it needs a running
 router. Start one as described in
 [Running a Zenoh router](#running-a-zenoh-router) (or, quickly,
-`docker run --init -p 7447:7447 eclipse/zenoh`) before publishing.
-
-Save the publisher as `z_pub.c`. It connects to the local router on
-`tcp/127.0.0.1:7447`:
-
-```c
-#include <zenoh-pico.h>
-
-int main(void) {
-    z_owned_config_t config;
-    z_config_default(&config);
-    zp_config_insert(z_loan_mut(config), Z_CONFIG_CONNECT_KEY, "tcp/127.0.0.1:7447");
-
-    z_owned_session_t s;
-    z_open(&s, z_move(config), NULL);
-    zp_start_read_task(z_loan_mut(s), NULL);
-    zp_start_lease_task(z_loan_mut(s), NULL);
-
-    z_view_keyexpr_t ke;
-    z_view_keyexpr_from_str(&ke, "demo/example/zenoh-pico-pub");
-    z_owned_publisher_t pub;
-    z_declare_publisher(z_loan(s), &pub, z_loan(ke), NULL);
-
-    z_owned_bytes_t payload;
-    z_bytes_copy_from_str(&payload, "Pub from Pico!");
-    z_publisher_put(z_loan(pub), z_move(payload), NULL);
-
-    z_drop(z_move(pub));
-    z_drop(z_move(s));
-    return 0;
-}
-```
-
-`-DZENOH_LINUX=1` selects the platform layer in both methods below.
+`docker run --init -p 7447:7447 eclipse/zenoh`) before running the demo.
+`-DZENOH_LINUX=1` selects the platform layer.
 
 ### From the official distribution
 
 ```sh
 curl -LO https://download.eclipse.org/zenoh/zenoh-pico/1.9.0/zenoh-pico-1.9.0-linux-x64-standalone.zip
 unzip zenoh-pico-1.9.0-linux-x64-standalone.zip -d zenoh-pico
-cc z_pub.c -DZENOH_LINUX=1 -Izenoh-pico/include -Lzenoh-pico/lib -lzenohpico -pthread -o z_pub
-LD_LIBRARY_PATH=zenoh-pico/lib ./z_pub
+```
+
+Save the publisher as `pub.c`. It connects to the local router on
+`tcp/127.0.0.1:7447`:
+
+```c
+#include <stdio.h>
+#include "zenoh-pico.h"
+
+int main(void) {
+    z_owned_config_t config;
+    z_config_default(&config);
+    zp_config_insert(z_loan_mut(config), Z_CONFIG_MODE_KEY, "client");
+    zp_config_insert(z_loan_mut(config), Z_CONFIG_CONNECT_KEY, "tcp/127.0.0.1:7447");
+
+    z_owned_session_t s;
+    z_open(&s, z_move(config), NULL);
+
+    z_view_keyexpr_t ke;
+    z_view_keyexpr_from_str(&ke, "demo/example/hello");
+    z_owned_publisher_t pub;
+    z_declare_publisher(z_loan(s), &pub, z_loan(ke), NULL);
+
+    char buf[64];
+    for (int i = 0; i < 10; i++) {
+        snprintf(buf, sizeof(buf), "Hello #%d", i);
+        printf("Sent %s\n", buf);
+        z_owned_bytes_t payload;
+        z_bytes_copy_from_str(&payload, buf);
+        z_publisher_put(z_loan(pub), z_move(payload), NULL);
+        z_sleep_s(1);
+    }
+    z_drop(z_move(pub));
+    z_drop(z_move(s));
+    return 0;
+}
+```
+
+and the subscriber as `sub.c`:
+
+```c
+#include <stdio.h>
+#include "zenoh-pico.h"
+
+void data_handler(z_loaned_sample_t *sample, void *ctx) {
+    (void)ctx;
+    z_view_string_t key;
+    z_keyexpr_as_view_string(z_sample_keyexpr(sample), &key);
+    z_owned_string_t payload;
+    z_bytes_to_string(z_sample_payload(sample), &payload);
+    printf("%.*s: %.*s\n",
+           (int)z_string_len(z_loan(key)), z_string_data(z_loan(key)),
+           (int)z_string_len(z_loan(payload)), z_string_data(z_loan(payload)));
+    z_drop(z_move(payload));
+}
+
+int main(void) {
+    z_owned_config_t config;
+    z_config_default(&config);
+    zp_config_insert(z_loan_mut(config), Z_CONFIG_MODE_KEY, "client");
+    zp_config_insert(z_loan_mut(config), Z_CONFIG_CONNECT_KEY, "tcp/127.0.0.1:7447");
+
+    z_owned_session_t s;
+    z_open(&s, z_move(config), NULL);
+
+    z_owned_closure_sample_t callback;
+    z_closure(&callback, data_handler, NULL, NULL);
+    z_view_keyexpr_t ke;
+    z_view_keyexpr_from_str(&ke, "demo/example/hello");
+    z_owned_subscriber_t sub;
+    z_declare_subscriber(z_loan(s), &sub, z_loan(ke), z_move(callback), NULL);
+
+    printf("Listening on 'demo/example/hello'...\n");
+    while (1) {
+        z_sleep_s(1);
+    }
+    z_drop(z_move(sub));
+    z_drop(z_move(s));
+    return 0;
+}
+```
+
+With a router running, build and run them together:
+
+```sh
+cc pub.c -DZENOH_LINUX=1 -Izenoh-pico/include -Lzenoh-pico/lib -lzenohpico -pthread -o pub
+cc sub.c -DZENOH_LINUX=1 -Izenoh-pico/include -Lzenoh-pico/lib -lzenohpico -pthread -o sub
+LD_LIBRARY_PATH=zenoh-pico/lib ./sub   # terminal 1
+LD_LIBRARY_PATH=zenoh-pico/lib ./pub   # terminal 2
 ```
 
 ### From latest source
 
-Build from `main` with CMake (needs `git`, `cmake` and a C compiler):
+Build from `main` with CMake (needs `git`, `cmake` and a C compiler); the
+bundled examples are built under `build/examples/`. With a router running:
 
 ```sh
 git clone https://github.com/eclipse-zenoh/zenoh-pico.git
-cmake -S zenoh-pico -B zenoh-pico/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$PWD/zenoh-pico/install"
-cmake --build zenoh-pico/build --target install
-cc z_pub.c -DZENOH_LINUX=1 -Izenoh-pico/install/include -Lzenoh-pico/install/lib -lzenohpico -pthread -o z_pub
-LD_LIBRARY_PATH=zenoh-pico/install/lib ./z_pub
+cd zenoh-pico
+make
+./build/examples/z_sub -m client -e tcp/127.0.0.1:7447   # terminal 1
+./build/examples/z_pub -m client -e tcp/127.0.0.1:7447   # terminal 2
 ```
 
 ---
@@ -328,10 +533,10 @@ LD_LIBRARY_PATH=zenoh-pico/install/lib ./z_pub
 
 Repository: <https://github.com/eclipse-zenoh/zenoh-go>
 
-zenoh-go is a cgo wrapper around zenoh-c. As stated in its README, it requires
+zenoh-go is a cgo wrapper around zenoh-c. As stated in its README it requires
 zenoh-c built **with unstable features** (`-DZENOHC_BUILD_WITH_UNSTABLE_API=ON`),
-which the prebuilt archives do not enable — so build zenoh-c from source once
-and point cgo at it (needs [Rust](https://rustup.rs/), `git`, `cmake` and a C
+which the prebuilt archives do not enable — so build zenoh-c from source once and
+point cgo at it (needs [Rust](https://rustup.rs/), `git`, `cmake` and a C
 compiler):
 
 ```sh
@@ -346,47 +551,100 @@ export CGO_LDFLAGS="-L$PWD/zenoh-c/install/lib"
 export LD_LIBRARY_PATH="$PWD/zenoh-c/install/lib"
 ```
 
-> For the latest zenoh-c, drop `--branch 1.9.0 --depth 1` to clone `main`.
+### From the official distribution
 
-Create the module and save the publisher as `z_pub.go`:
-
-```sh
-mkdir zenoh-go-pub && cd zenoh-go-pub
-go mod init example.com/zenoh-go-pub
-```
+Create a module (keep the environment variables from above). Save the publisher
+as `mypub/main.go`:
 
 ```go
 package main
 
-import "github.com/eclipse-zenoh/zenoh-go/zenoh"
+import (
+	"fmt"
+	"time"
+
+	"github.com/eclipse-zenoh/zenoh-go/zenoh"
+)
 
 func main() {
-    session, _ := zenoh.Open(zenoh.NewConfigDefault(), nil)
-    defer session.Drop()
-    ke, _ := zenoh.NewKeyExpr("demo/example/zenoh-go-pub")
-    pub, _ := session.DeclarePublisher(ke, nil)
-    defer pub.Drop()
-    pub.Put(zenoh.NewZBytesFromString("Pub from Go!"), nil)
+	session, _ := zenoh.Open(zenoh.NewConfigDefault(), nil)
+	defer session.Drop()
+	keyexpr, _ := zenoh.NewKeyExpr("demo/example/hello")
+	pub, _ := session.DeclarePublisher(keyexpr, nil)
+	defer pub.Drop()
+
+	for i := 0; i < 10; i++ {
+		msg := fmt.Sprintf("Hello #%d", i)
+		fmt.Println("Sent", msg)
+		pub.Put(zenoh.NewZBytesFromString(msg), &zenoh.PublisherPutOptions{})
+		time.Sleep(time.Second)
+	}
 }
 ```
 
-### From the official distribution
+and the subscriber as `mysub/main.go`:
 
-Pin the published module version (keep the environment variables from above):
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+	"os/signal"
+
+	"github.com/eclipse-zenoh/zenoh-go/zenoh"
+)
+
+func main() {
+	session, _ := zenoh.Open(zenoh.NewConfigDefault(), nil)
+	defer session.Drop()
+	keyexpr, _ := zenoh.NewKeyExpr("demo/example/hello")
+	sub, _ := session.DeclareSubscriber(
+		keyexpr,
+		zenoh.Closure[zenoh.Sample]{
+			Call: func(sample zenoh.Sample) {
+				fmt.Printf("%s: %s\n", sample.KeyExpr().String(), sample.Payload().String())
+			},
+		},
+		nil,
+	)
+	defer sub.Drop()
+
+	fmt.Println("Listening on 'demo/example/hello'...")
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, os.Interrupt)
+	<-stop
+}
+```
+
+Pull the published module and run the two programs together:
 
 ```sh
+go mod init example.com/zenoh-demo
 go get github.com/eclipse-zenoh/zenoh-go@v1.9.0
-go run .
+go mod tidy
+go run ./mysub   # terminal 1
+go run ./mypub   # terminal 2
 ```
 
 ### From latest source
 
-Track the `main` branch of the Go module instead (use the matching zenoh-c
-branch):
+Clone with submodules, build the bundled zenoh-c with unstable features and run
+the bundled examples:
 
 ```sh
-go get github.com/eclipse-zenoh/zenoh-go@main
-go run .
+git clone --recurse-submodules https://github.com/eclipse-zenoh/zenoh-go.git
+cd zenoh-go
+mkdir -p build && cd build
+cmake ../zenoh-c -DZENOHC_BUILD_WITH_UNSTABLE_API=ON -DCMAKE_INSTALL_PREFIX="$PWD"
+cmake --build . --target install --config Release
+cd ..
+export CGO_CFLAGS="-I$PWD/build/include"
+export CGO_LDFLAGS="-L$PWD/build/lib"
+export LD_LIBRARY_PATH="$PWD/build/lib"
+make z_sub z_pub
+./bin/z_sub   # terminal 1
+./bin/z_pub   # terminal 2
 ```
 
 ---
@@ -400,20 +658,43 @@ The Java library is published on Maven Central as
 the artifact bundles the native library for common platforms. The example below
 uses Gradle (8+) with JDK 21.
 
+### From the official distribution
+
 Create the project layout:
 
 ```sh
-mkdir -p zenoh-java-pub/src/main/java
-cd zenoh-java-pub
+mkdir -p zenoh-demo/src/main/java
+cd zenoh-demo
 ```
 
 `settings.gradle.kts`:
 
 ```kotlin
-rootProject.name = "zpub"
+rootProject.name = "zenoh-demo"
 ```
 
-`src/main/java/ZPub.java`:
+`build.gradle.kts`:
+
+```kotlin
+plugins { java }
+repositories { mavenCentral() }
+dependencies {
+    implementation("org.eclipse.zenoh:zenoh-java:1.9.0")
+}
+java {
+    toolchain { languageVersion.set(JavaLanguageVersion.of(21)) }
+}
+tasks.register<JavaExec>("pub") {
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass.set("Pub")
+}
+tasks.register<JavaExec>("sub") {
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass.set("Sub")
+}
+```
+
+`src/main/java/Pub.java`:
 
 ```java
 import io.zenoh.Config;
@@ -422,66 +703,61 @@ import io.zenoh.Zenoh;
 import io.zenoh.keyexpr.KeyExpr;
 import io.zenoh.pubsub.Publisher;
 
-public class ZPub {
+public class Pub {
     public static void main(String[] args) throws Exception {
         try (Session session = Zenoh.open(Config.loadDefault())) {
-            Publisher publisher = session.declarePublisher(KeyExpr.tryFrom("demo/example/zenoh-java-pub"));
-            publisher.put("Pub from Java!");
+            KeyExpr keyExpr = KeyExpr.tryFrom("demo/example/hello");
+            Publisher publisher = session.declarePublisher(keyExpr);
+            for (int i = 0; i < 10; i++) {
+                String payload = "Hello #" + i;
+                System.out.println("Sent " + payload);
+                publisher.put(payload);
+                Thread.sleep(1000);
+            }
         }
     }
 }
 ```
 
-### From the official distribution
+`src/main/java/Sub.java`:
 
-`build.gradle.kts`:
+```java
+import io.zenoh.Config;
+import io.zenoh.Session;
+import io.zenoh.Zenoh;
+import io.zenoh.keyexpr.KeyExpr;
 
-```kotlin
-plugins {
-    id("application")
-}
-repositories { mavenCentral() }
-dependencies {
-    implementation("org.eclipse.zenoh:zenoh-java:1.9.0")
-}
-application {
-    mainClass.set("ZPub")
-}
-java {
-    toolchain { languageVersion.set(JavaLanguageVersion.of(21)) }
+public class Sub {
+    public static void main(String[] args) throws Exception {
+        Session session = Zenoh.open(Config.loadDefault());
+        KeyExpr keyExpr = KeyExpr.tryFrom("demo/example/hello");
+        System.out.println("Listening on 'demo/example/hello'...");
+        session.declareSubscriber(keyExpr, sample ->
+            System.out.println(sample.getKeyExpr() + ": " + sample.getPayload()));
+        new java.util.concurrent.CountDownLatch(1).await();
+    }
 }
 ```
 
+Run them together:
+
 ```sh
-gradle run
+gradle sub   # terminal 1
+gradle pub   # terminal 2
 ```
 
 ### From latest source
 
-Build the binding from `main` and publish it to your local Maven repository
-(needs [Rust](https://rustup.rs/) and a JDK; the repo ships a Gradle wrapper):
+The repository ships the `z_pub` / `z_sub` examples as Gradle tasks that compile
+the native JNI library on the first run (needs [Rust](https://rustup.rs/) and a
+JDK; the repo ships a Gradle wrapper):
 
 ```sh
 git clone https://github.com/eclipse-zenoh/zenoh-java.git
 cd zenoh-java
-./gradlew publishJvmPublicationToMavenLocal
+./gradlew ZSub   # terminal 1
+./gradlew ZPub   # terminal 2
 ```
-
-This compiles the native Zenoh JNI library and publishes the JVM artifact under
-`~/.m2/repository/org/eclipse/zenoh/zenoh-java-jvm/`. Check that directory for
-the exact version, then point the project at `mavenLocal()`:
-
-```kotlin
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
-dependencies {
-    implementation("org.eclipse.zenoh:zenoh-java-jvm:<version-from-~/.m2>")
-}
-```
-
-Then run `gradle run` as above.
 
 ---
 
@@ -490,23 +766,46 @@ Then run `gradle run` as above.
 Repository: <https://github.com/eclipse-zenoh/zenoh-kotlin>
 
 The Kotlin library is published on Maven Central as
-[`org.eclipse.zenoh:zenoh-kotlin`](https://central.sonatype.com/artifact/org.eclipse.zenoh/zenoh-kotlin).
-The example below uses Gradle (8+) with JDK 21.
+[`org.eclipse.zenoh:zenoh-kotlin`](https://central.sonatype.com/artifact/org.eclipse.zenoh/zenoh-kotlin);
+the artifact bundles the native library for common platforms. The example below
+uses Gradle (8+) with JDK 21.
+
+### From the official distribution
 
 Create the project layout:
 
 ```sh
-mkdir -p zenoh-kotlin-pub/src/main/kotlin
-cd zenoh-kotlin-pub
+mkdir -p zenoh-demo/src/main/kotlin
+cd zenoh-demo
 ```
 
 `settings.gradle.kts`:
 
 ```kotlin
-rootProject.name = "zpub"
+rootProject.name = "zenoh-demo"
 ```
 
-`src/main/kotlin/ZPub.kt`:
+`build.gradle.kts`:
+
+```kotlin
+plugins { kotlin("jvm") version "2.0.21" }
+repositories { mavenCentral() }
+dependencies {
+    implementation("org.eclipse.zenoh:zenoh-kotlin:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+}
+kotlin { jvmToolchain(21) }
+tasks.register<JavaExec>("pub") {
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass.set("PubKt")
+}
+tasks.register<JavaExec>("sub") {
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass.set("SubKt")
+}
+```
+
+`src/main/kotlin/Pub.kt`:
 
 ```kotlin
 import io.zenoh.Config
@@ -516,61 +815,59 @@ import io.zenoh.keyexpr.intoKeyExpr
 
 fun main() {
     val session = Zenoh.open(Config.default()).getOrThrow()
-    val publisher = session.declarePublisher("demo/example/zenoh-kotlin-pub".intoKeyExpr().getOrThrow()).getOrThrow()
-    publisher.put(ZBytes.from("Pub from Kotlin!"))
+    val keyExpr = "demo/example/hello".intoKeyExpr().getOrThrow()
+    val publisher = session.declarePublisher(keyExpr).getOrThrow()
+    for (i in 0..9) {
+        val payload = "Hello #$i"
+        println("Sent $payload")
+        publisher.put(ZBytes.from(payload))
+        Thread.sleep(1000)
+    }
     session.close()
 }
 ```
 
-### From the official distribution
-
-`build.gradle.kts`:
+`src/main/kotlin/Sub.kt`:
 
 ```kotlin
-plugins {
-    kotlin("jvm") version "2.0.21"
-    application
+import io.zenoh.Config
+import io.zenoh.Zenoh
+import io.zenoh.keyexpr.intoKeyExpr
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.runBlocking
+
+fun main() {
+    val session = Zenoh.open(Config.default()).getOrThrow()
+    val keyExpr = "demo/example/hello".intoKeyExpr().getOrThrow()
+    val subscriber = session.declareSubscriber(keyExpr, Channel()).getOrThrow()
+    println("Listening on 'demo/example/hello'...")
+    runBlocking {
+        for (sample in subscriber.receiver) {
+            println("${sample.keyExpr}: ${sample.payload}")
+        }
+    }
 }
-repositories { mavenCentral() }
-dependencies {
-    implementation("org.eclipse.zenoh:zenoh-kotlin:1.9.0")
-}
-application {
-    mainClass.set("ZPubKt")
-}
-kotlin { jvmToolchain(21) }
 ```
 
+Run them together:
+
 ```sh
-gradle run
+gradle sub   # terminal 1
+gradle pub   # terminal 2
 ```
 
 ### From latest source
 
-Build the binding from `main` and publish it to your local Maven repository
-(needs [Rust](https://rustup.rs/) and a JDK; the repo ships a Gradle wrapper):
+The repository ships the `z_pub` / `z_sub` examples as Gradle tasks that compile
+the native JNI library on the first run (needs [Rust](https://rustup.rs/) and a
+JDK; the repo ships a Gradle wrapper):
 
 ```sh
 git clone https://github.com/eclipse-zenoh/zenoh-kotlin.git
 cd zenoh-kotlin
-./gradlew publishJvmPublicationToMavenLocal
+./gradlew ZSub   # terminal 1
+./gradlew ZPub   # terminal 2
 ```
-
-This publishes the JVM artifact under
-`~/.m2/repository/org/eclipse/zenoh/zenoh-kotlin-jvm/`. Check that directory for
-the exact version, then point the project at `mavenLocal()`:
-
-```kotlin
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
-dependencies {
-    implementation("org.eclipse.zenoh:zenoh-kotlin-jvm:<version-from-~/.m2>")
-}
-```
-
-Then run `gradle run` as above.
 
 ---
 
@@ -581,33 +878,22 @@ Repository: <https://github.com/eclipse-zenoh/zenoh-ts>
 The library is published on npm as
 [`@eclipse-zenoh/zenoh-ts`](https://www.npmjs.com/package/@eclipse-zenoh/zenoh-ts).
 It reaches the Zenoh network over a WebSocket connection to the
-`zenoh-plugin-remote-api`, so you run the **remote-api bridge** alongside it.
-The command-line examples use [Deno](https://deno.com/) (the library targets
-browsers and Deno, not Node.js).
-
-Save the publisher as `z_pub.ts`:
-
-```typescript
-import { Config, KeyExpr, Session } from "@eclipse-zenoh/zenoh-ts";
-
-const session = await Session.open(new Config("ws/127.0.0.1:10000"));
-const publisher = await session.declarePublisher(KeyExpr.autocanonize("demo/example/zenoh-ts-pub"));
-await publisher.put("Pub from TypeScript!");
-await session.close();
-```
+`zenoh-plugin-remote-api`, so you run the **remote-api bridge** alongside it. The
+command-line examples use [Deno](https://deno.com/) (the library targets browsers
+and Deno, not Node.js).
 
 ### From the official distribution
 
 Download and start the bridge (listens on `ws://localhost:10000` by default):
 
 ```sh
-curl -LO https://download.eclipse.org/zenoh/zenoh-plugin-remote-api/1.9.0/zenoh-ts-1.9.0-x86_64-unknown-linux-gnu-standalone.zip
+curl -LO https://github.com/eclipse-zenoh/zenoh-ts/releases/download/1.9.0/zenoh-ts-1.9.0-x86_64-unknown-linux-gnu-standalone.zip
 unzip zenoh-ts-1.9.0-x86_64-unknown-linux-gnu-standalone.zip -d zenoh-bridge
 chmod +x zenoh-bridge/zenoh-bridge-remote-api
 ./zenoh-bridge/zenoh-bridge-remote-api &
 ```
 
-Map the npm package for Deno in `deno.json`, then run:
+Map the npm package for Deno in `deno.json`:
 
 ```json
 {
@@ -617,15 +903,52 @@ Map the npm package for Deno in `deno.json`, then run:
 }
 ```
 
+Save the publisher as `pub.ts`:
+
+```typescript
+import { Config, KeyExpr, Session, Encoding } from "@eclipse-zenoh/zenoh-ts";
+
+const session = await Session.open(new Config("ws/127.0.0.1:10000"));
+const publisher = await session.declarePublisher(KeyExpr.autocanonize("demo/example/hello"));
+
+for (let i = 0; i < 10; i++) {
+  const msg = `Hello #${i}`;
+  console.log("Sent", msg);
+  await publisher.put(msg, { encoding: Encoding.TEXT_PLAIN });
+  await new Promise((r) => setTimeout(r, 1000));
+}
+
+await session.close();
+```
+
+and the subscriber as `sub.ts`:
+
+```typescript
+import { Config, Session, KeyExpr, RingChannel, ChannelReceiver, Sample } from "@eclipse-zenoh/zenoh-ts";
+
+const session = await Session.open(new Config("ws/127.0.0.1:10000"));
+const sub = await session.declareSubscriber(new KeyExpr("demo/example/hello"), {
+  handler: new RingChannel(10),
+});
+
+console.log("Listening on 'demo/example/hello'...");
+for await (const sample of sub.receiver() as ChannelReceiver<Sample>) {
+  console.log(`${sample.keyexpr()}: ${sample.payload().toString()}`);
+}
+```
+
+Run them together (both connect to the bridge):
+
 ```sh
-deno run -A z_pub.ts
+deno run -A sub.ts   # terminal 1
+deno run -A pub.ts   # terminal 2
 ```
 
 ### From latest source
 
 The repository contains both the bridge and the library. Run the bridge from
-source with Cargo (needs [Rust](https://rustup.rs/)), then build the library
-with [yarn](https://classic.yarnpkg.com/):
+source with Cargo (needs [Rust](https://rustup.rs/)), build the library with
+[yarn](https://classic.yarnpkg.com/), then run the bundled examples with Deno:
 
 ```sh
 git clone https://github.com/eclipse-zenoh/zenoh-ts.git
@@ -633,24 +956,14 @@ cd zenoh-ts
 cargo run            # starts zenoh-bridge-remote-api on ws://localhost:10000
 ```
 
-In another shell, build the TypeScript library (output goes to
-`zenoh-ts/dist`):
+In another shell, build the library and run the examples:
 
 ```sh
 cd zenoh-ts/zenoh-ts
 yarn install
 yarn build
-```
-
-Point `deno.json` at the local build instead of the npm package (adjust to the
-entry in `dist` if needed), then `deno run -A z_pub.ts`:
-
-```json
-{
-  "imports": {
-    "@eclipse-zenoh/zenoh-ts": "./zenoh-ts/dist/index.js"
-  }
-}
+yarn start example deno z_sub   # terminal 1
+yarn start example deno z_pub   # terminal 2
 ```
 
 ---

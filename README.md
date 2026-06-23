@@ -8,5 +8,6 @@ microcontrollers to the cloud.
 
 - [Introduction](zenoh/intro.md) — Zenoh concepts, features and the supported
   programming languages.
-- [Installation guide](zenoh/install.md) — install each language binding from
-  its official distribution and run a first publisher (`z_pub`).
+- [Installation guide](zenoh/install.md) — install each language binding and run
+  a publisher/subscriber pair to watch data flow, or build from source and run
+  the bundled examples.
