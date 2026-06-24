@@ -1,8 +1,10 @@
 # Installing Zenoh
 
 Zenoh is a Rust core ([zenoh](https://github.com/eclipse-zenoh/zenoh)) plus a
-family of bindings for other languages. For each language this guide shows two
-ways to get it running:
+family of bindings for other languages, together with
+[zenoh-pico](https://github.com/eclipse-zenoh/zenoh-pico), an independent
+lightweight C implementation for constrained and embedded targets. For each
+language this guide shows two ways to get it running:
 
 - **From the official distribution** — install the prebuilt binding from its
   package registry (or a prebuilt archive), then write a tiny **publisher** and
@@ -13,37 +15,14 @@ ways to get it running:
   follow each project's README and track the tip of `main`, so the exact version
   may be ahead of the distribution.
 
-Every example below publishes to and subscribes on the same key,
-`demo/example/hello`.
+## Platform
 
-## Versions
-
-- Language bindings published on package registries — **Rust** (crates.io),
-  **Python** (PyPI), **Go** (Go modules), **Java** / **Kotlin** (Maven Central)
-  and **TypeScript** (npm) — are at version **1.9.0**.
-- The native libraries (**zenoh-c**, **zenoh-cpp**, **zenoh-pico**), the
-  **router** (`zenohd`) and the **remote-api bridge** are distributed as
-  prebuilt binaries on the [Eclipse download server](https://download.eclipse.org/zenoh/)
-  and on each repository's GitHub releases page, also at **1.9.0**.
-- The from-source steps build the current `main` branch of each repository.
-
-## Before you start
-
-- **Running a demo.** Each "official distribution" example is a pair of tiny
-  programs. Start the **subscriber** in one terminal and the **publisher** in
-  another: the publisher sends `Hello #0` .. `Hello #9` (one per second) and the
-  subscriber prints each message as it arrives.
-- **Peer mode vs. a router.** A Zenoh session runs in *peer* mode by default, so
-  the publisher and subscriber discover each other directly (over UDP multicast)
-  with **no** router. Two bindings are exceptions and need a daemon running
-  first: **zenoh-pico** (runs in *client* mode) and **zenoh-ts** (talks to a
-  WebSocket bridge). See [Running a Zenoh router](#running-a-zenoh-router).
-- **Platform.** The distribution commands below were verified on Linux and
-  download the **x86_64** archives. For other targets pick the matching archive
-  on the release page — e.g. `aarch64-unknown-linux-gnu` (or `linux-arm64` for
-  zenoh-pico), `apple-darwin`, `pc-windows-msvc`. On macOS the native libraries
-  and the router are also available from the Homebrew tap
-  [`eclipse-zenoh/homebrew-zenoh`](https://github.com/eclipse-zenoh/homebrew-zenoh).
+The distribution commands below were verified on Linux and download the
+**x86_64** archives. For other targets pick the matching archive on the release
+page — e.g. `aarch64-unknown-linux-gnu` (or `linux-arm64` for zenoh-pico),
+`apple-darwin`, `pc-windows-msvc`. On macOS the native libraries and the router
+are also available from the Homebrew tap
+[`eclipse-zenoh/homebrew-zenoh`](https://github.com/eclipse-zenoh/homebrew-zenoh).
 
 ## Contents
 
@@ -379,19 +358,23 @@ int main() {
 }
 ```
 
-Build and run them together:
+Build and run them together. Linking the static `libzenohc.a` directly (instead
+of `-lzenohc`) makes the binaries self-contained, so they need no
+`LD_LIBRARY_PATH`:
 
 ```sh
-c++ -std=c++17 -DZENOHCXX_ZENOHC=1 pub.cpp -Izenoh-cpp/include -Izenoh-c/include -Lzenoh-c/lib -lzenohc -o pub
-c++ -std=c++17 -DZENOHCXX_ZENOHC=1 sub.cpp -Izenoh-cpp/include -Izenoh-c/include -Lzenoh-c/lib -lzenohc -o sub
-LD_LIBRARY_PATH=zenoh-c/lib ./sub   # terminal 1
-LD_LIBRARY_PATH=zenoh-c/lib ./pub   # terminal 2
+c++ -std=c++17 -DZENOHCXX_ZENOHC=1 pub.cpp -Izenoh-cpp/include -Izenoh-c/include zenoh-c/lib/libzenohc.a -pthread -ldl -lm -lrt -o pub
+c++ -std=c++17 -DZENOHCXX_ZENOHC=1 sub.cpp -Izenoh-cpp/include -Izenoh-c/include zenoh-c/lib/libzenohc.a -pthread -ldl -lm -lrt -o sub
+./sub   # terminal 1
+./pub   # terminal 2
 ```
 
 ### From latest source
 
 Build and install zenoh-c first (needs [Rust](https://rustup.rs/), `git`,
-`cmake` and a C++ compiler), then build the zenoh-cpp examples against it:
+`cmake` and a C++ compiler), then build the zenoh-cpp examples against it. CMake
+bakes the install lib directory into the examples' run path, so they need no
+`LD_LIBRARY_PATH`:
 
 ```sh
 git clone https://github.com/eclipse-zenoh/zenoh-c.git
@@ -401,8 +384,8 @@ cmake --build zenoh-c/build --target install --config Release
 git clone https://github.com/eclipse-zenoh/zenoh-cpp.git
 cmake -S zenoh-cpp -B zenoh-cpp/build -DZENOHCXX_ZENOHC=ON -DCMAKE_PREFIX_PATH="$PWD/zenoh-c/install"
 cmake --build zenoh-cpp/build --target examples
-LD_LIBRARY_PATH="$PWD/zenoh-c/install/lib" ./zenoh-cpp/build/examples/zenohc/z_sub   # terminal 1
-LD_LIBRARY_PATH="$PWD/zenoh-c/install/lib" ./zenoh-cpp/build/examples/zenohc/z_pub   # terminal 2
+./zenoh-cpp/build/examples/zenohc/z_sub   # terminal 1
+./zenoh-cpp/build/examples/zenohc/z_pub   # terminal 2
 ```
 
 ---
@@ -416,7 +399,8 @@ Unlike the other bindings it runs in **client** mode, so it needs a running
 router. Start one as described in
 [Running a Zenoh router](#running-a-zenoh-router) (or, quickly,
 `docker run --init -p 7447:7447 eclipse/zenoh`) before running the demo.
-`-DZENOH_LINUX=1` selects the platform layer.
+The headers pick the system layer from a platform macro, so `-DZENOH_LINUX=1`
+is required when compiling on Linux.
 
 ### From the official distribution
 
@@ -505,13 +489,15 @@ int main(void) {
 }
 ```
 
-With a router running, build and run them together:
+With a router running, build and run them together. Linking the static
+`libzenohpico.a` directly (instead of `-lzenohpico`) makes the binaries
+self-contained, so they need no `LD_LIBRARY_PATH`:
 
 ```sh
-cc pub.c -DZENOH_LINUX=1 -Izenoh-pico/include -Lzenoh-pico/lib -lzenohpico -pthread -o pub
-cc sub.c -DZENOH_LINUX=1 -Izenoh-pico/include -Lzenoh-pico/lib -lzenohpico -pthread -o sub
-LD_LIBRARY_PATH=zenoh-pico/lib ./sub   # terminal 1
-LD_LIBRARY_PATH=zenoh-pico/lib ./pub   # terminal 2
+cc pub.c -DZENOH_LINUX=1 -Izenoh-pico/include zenoh-pico/lib/libzenohpico.a -pthread -o pub
+cc sub.c -DZENOH_LINUX=1 -Izenoh-pico/include zenoh-pico/lib/libzenohpico.a -pthread -o sub
+./sub   # terminal 1
+./pub   # terminal 2
 ```
 
 ### From latest source
@@ -965,6 +951,11 @@ yarn build
 yarn start example deno z_sub   # terminal 1
 yarn start example deno z_pub   # terminal 2
 ```
+
+Run `yarn start` with no arguments to print the available run variants (the Deno
+command-line examples, the test suite, and the browser examples). One browser
+variant is a [Nuxt](https://nuxt.com/) app, `yarn start example browser nuxt`,
+which exercises the Zenoh API from a graphical web UI.
 
 ---
 
