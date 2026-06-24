@@ -358,19 +358,23 @@ int main() {
 }
 ```
 
-Build and run them together:
+Build and run them together. Linking the static `libzenohc.a` directly (instead
+of `-lzenohc`) makes the binaries self-contained, so they need no
+`LD_LIBRARY_PATH`:
 
 ```sh
-c++ -std=c++17 -DZENOHCXX_ZENOHC=1 pub.cpp -Izenoh-cpp/include -Izenoh-c/include -Lzenoh-c/lib -lzenohc -o pub
-c++ -std=c++17 -DZENOHCXX_ZENOHC=1 sub.cpp -Izenoh-cpp/include -Izenoh-c/include -Lzenoh-c/lib -lzenohc -o sub
-LD_LIBRARY_PATH=zenoh-c/lib ./sub   # terminal 1
-LD_LIBRARY_PATH=zenoh-c/lib ./pub   # terminal 2
+c++ -std=c++17 -DZENOHCXX_ZENOHC=1 pub.cpp -Izenoh-cpp/include -Izenoh-c/include zenoh-c/lib/libzenohc.a -pthread -ldl -lm -lrt -o pub
+c++ -std=c++17 -DZENOHCXX_ZENOHC=1 sub.cpp -Izenoh-cpp/include -Izenoh-c/include zenoh-c/lib/libzenohc.a -pthread -ldl -lm -lrt -o sub
+./sub   # terminal 1
+./pub   # terminal 2
 ```
 
 ### From latest source
 
 Build and install zenoh-c first (needs [Rust](https://rustup.rs/), `git`,
-`cmake` and a C++ compiler), then build the zenoh-cpp examples against it:
+`cmake` and a C++ compiler), then build the zenoh-cpp examples against it. CMake
+bakes the install lib directory into the examples' run path, so they need no
+`LD_LIBRARY_PATH`:
 
 ```sh
 git clone https://github.com/eclipse-zenoh/zenoh-c.git
@@ -380,8 +384,8 @@ cmake --build zenoh-c/build --target install --config Release
 git clone https://github.com/eclipse-zenoh/zenoh-cpp.git
 cmake -S zenoh-cpp -B zenoh-cpp/build -DZENOHCXX_ZENOHC=ON -DCMAKE_PREFIX_PATH="$PWD/zenoh-c/install"
 cmake --build zenoh-cpp/build --target examples
-LD_LIBRARY_PATH="$PWD/zenoh-c/install/lib" ./zenoh-cpp/build/examples/zenohc/z_sub   # terminal 1
-LD_LIBRARY_PATH="$PWD/zenoh-c/install/lib" ./zenoh-cpp/build/examples/zenohc/z_pub   # terminal 2
+./zenoh-cpp/build/examples/zenohc/z_sub   # terminal 1
+./zenoh-cpp/build/examples/zenohc/z_pub   # terminal 2
 ```
 
 ---
