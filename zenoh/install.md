@@ -15,9 +15,6 @@ language this guide shows two ways to get it running:
   follow each project's README and track the tip of `main`, so the exact version
   may be ahead of the distribution.
 
-Every example below publishes to and subscribes on the same key,
-`demo/example/hello`.
-
 ## Platform
 
 The distribution commands below were verified on Linux and download the
