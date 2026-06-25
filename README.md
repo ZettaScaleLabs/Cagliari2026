@@ -11,3 +11,5 @@ microcontrollers to the cloud.
 - [Installation guide](zenoh/install.md) — install each language binding and run
   a publisher/subscriber pair to watch data flow, or build from source and run
   the bundled examples.
+- [Challenge](zenoh/challenge.md) — the hackathon challenge: goal, the three
+  levels, application ideas, deliverables, and how projects are evaluated.
