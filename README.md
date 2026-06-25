@@ -13,3 +13,5 @@ microcontrollers to the cloud.
   the bundled examples.
 - [Challenge](zenoh/challenge.md) — the hackathon challenge: goal, the three
   levels, application ideas, deliverables, and how projects are evaluated.
+- [Presentation](presentation/zenoh.md) — a Marp slide deck introducing Zenoh
+  and its core concepts (see [presentation/](presentation/) to build it).
