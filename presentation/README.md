@@ -72,13 +72,12 @@ extension to preview and export `zenoh.md` directly.
 
 1. Title — Eclipse Zenoh
 2. What is Zenoh
-3. Zenoh's advantages
-4. Concepts — Key Expressions
-5. Concepts — Publish / Subscribe
-6. Concepts — Sample
-7. Concepts — Get / Reply
-8. Concepts — Selector, Reply
-9. Concepts — Session
-10. Concepts — Liveliness
-11. Concepts — Serialization
-12. Concepts — Advanced Pub/Sub
+3. Key Expressions
+4. Publish / Subscribe
+5. Sample
+6. Get / Reply
+7. Selector, Reply
+8. Session
+9. Liveliness
+10. Serialization
+11. Advanced Pub/Sub

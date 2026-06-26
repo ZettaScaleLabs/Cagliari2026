@@ -143,21 +143,14 @@ Mikhail ILIN&nbsp;&nbsp;·&nbsp;&nbsp;Ivan PAEZ
 
 ---
 
+<!-- _class: cols2 small -->
+
 # What is Zenoh
 
-**Zenoh** is a data-oriented **publish / subscribe** and **query / reply** network protocol.
+**Zenoh** is a location-transparent **publish / subscribe** and **query / reply** network protocol. Built as a **universal communication protocol** that works at every infrastructure level, **from microcontrollers to the cloud**.
 
-- Data is addressed by **slash-separated keys** — e.g. `room/sensor/temp` — not by node addresses.
-- Built as a **universal communication protocol** that works at every infrastructure level, **from microcontrollers to the cloud**.
-- It unifies data **in motion**, data **at rest**, and **computations** in a single, efficient stack.
-
-Learn more: [zenoh.io](https://zenoh.io/) · the [Zenoh book](https://corsaro.me/fr/zenoh/book/) · [Zenoh Rust](https://docs.rs/zenoh/latest/zenoh/index.html) & [Zenoh-Python](https://zenoh-python.readthedocs.io/en/latest/) API docs.
-
----
-
-<!-- _class: cols2 -->
-
-# Zenoh's advantages
+- **Location transparency**
+  Data is addressed by slash-separated keys — e.g. `room/sensor/temp` — not by node addresses.
 
 - **Transport-agnostic**
   Runs over TCP, TLS, QUIC, UDP, and more — plus shared-memory transport with an enhanced API.
@@ -173,8 +166,7 @@ Learn more: [zenoh.io](https://zenoh.io/) · the [Zenoh book](https://corsaro.me
 
 ---
 
-# Concepts
-## Key Expressions
+# Key Expressions
 
 - A **key expression (KE)** is Zenoh's address space: a small, glob-like language describing a **set of keys**.
 - Every operation targets a KE, and a KE is **associated with a value — or a stream of values** (each new publication updates it).
@@ -187,8 +179,7 @@ Learn more: [zenoh.io](https://zenoh.io/) · the [Zenoh book](https://corsaro.me
 
 <!-- _class: media -->
 
-# Concepts
-## Publish / Subscribe
+# Publish / Subscribe
 
 Data is **published** under a key; every instance **subscribed** to a matching key receives it. Subscription declarations are spread across the network, so routers know which subscribers are interested.
 
@@ -198,8 +189,7 @@ Data is **published** under a key; every instance **subscribed** to a matching k
 
 <!-- _class: small tight -->
 
-# Concepts
-## Sample
+# Sample
 
 A **`Sample`** is the unit of data delivered to subscribers and carried inside replies.
 
@@ -221,8 +211,7 @@ A **`Sample`** is the unit of data delivered to subscribers and carried inside r
 
 <!-- _class: media -->
 
-# Concepts
-## Get / Reply
+# Get / Reply
 
 Data is **requested by key** via `Session::get` (or a `Querier`); every **queryable** serving a matching key sends back **replies**. Each request returns **zero or more** `Reply` values — each carrying a `Sample` (`Ok`) or a `ReplyError` (`Err`).
 
@@ -233,8 +222,7 @@ Data is **requested by key** via `Session::get` (or a `Querier`); every **querya
 <!-- _class: small -->
 <!-- _backgroundColor: #ffffff -->
 
-# Concepts
-## Selector, Reply
+# Selector, Reply
 
 ![bg right:45% fit](../assets/zenoh-location-transparency.svg)
 
@@ -247,8 +235,7 @@ Data is **requested by key** via `Session::get` (or a `Querier`); every **querya
 
 ---
 
-# Concepts
-## Session
+# Session
 
 - The **`Session`** is the main Zenoh object — it holds the runtime and the node's connection state. Opened with `zenoh::open(Config)`.
 - **`config()`** — the runtime configuration (connect/listen endpoints, scouting, transports…).
@@ -259,8 +246,7 @@ Data is **requested by key** via `Session::get` (or a `Querier`); every **querya
 
 ---
 
-# Concepts
-## Liveliness
+# Liveliness
 
 - A node declares a named **`LivelinessToken`** on a key expression — a lightweight presence signal.
 - A token stays **alive** until it is **undeclared**, or its **session is closed / disconnected** from the network.
@@ -272,8 +258,7 @@ Data is **requested by key** via `Session::get` (or a `Querier`); every **querya
 
 ---
 
-# Concepts
-## Serialization
+# Serialization
 
 - **Not part of the Zenoh wire protocol** — on the wire a payload is just bytes (`ZBytes`).
 - It lives in **`zenoh-ext`** as a convenience: `z_serialize` / `z_deserialize` (`ZSerializer` / `ZDeserializer`).
@@ -282,8 +267,7 @@ Data is **requested by key** via `Session::get` (or a `Querier`); every **querya
 
 ---
 
-# Concepts
-## Advanced Pub/Sub
+# Advanced Pub/Sub
 
 A **configurable** layer on top of base pub/sub for **guaranteed delivery** — sending data over pub/sub and using query/reply to retransmit what was missed.
 
