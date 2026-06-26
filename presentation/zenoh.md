@@ -113,36 +113,42 @@ section.media img { margin-top: 6px; }
 section.title {
   background: radial-gradient(1200px 620px at 72% -12%, #16345f 0%, var(--zenoh-navy) 56%, #060d22 100%);
   color: #eaf2ff;
-  text-align: center;
+  text-align: left;
   justify-content: center;
-  padding: 64px;
+  padding: 72px 90px;
 }
 section.title h1 {
   color: #ffffff;
-  font-size: 78px;
-  margin: 0 0 10px;
+  font-size: 86px;
+  margin: 0 0 6px;
 }
-section.title h1::after { display: none; }
+section.title h1::after {
+  display: block;
+  width: 140px;
+  height: 6px;
+  margin: 14px 0 0;
+}
 section.title p { margin: 0; }
 section.title p:nth-of-type(1) {
   color: var(--zenoh-cyan);
-  font-size: 30px;
+  font-size: 34px;
   letter-spacing: 0.4px;
+  margin-top: 26px;
 }
 section.title p:nth-of-type(2) {
   color: #c7d6ef;
-  font-size: 26px;
-  margin-top: 30px;
+  font-size: 28px;
+  margin-top: 40px;
 }
 section.title p:nth-of-type(3) {
   display: inline-block;
   background: #ffffff;
   border-radius: 16px;
-  padding: 16px 30px;
-  margin-top: 46px;
+  padding: 18px 34px;
+  margin-top: 56px;
   box-shadow: 0 16px 40px rgba(0,0,0,0.35);
 }
-section.title p:nth-of-type(3) img { vertical-align: middle; margin: 0 22px; }
+section.title p:nth-of-type(3) img { vertical-align: middle; margin: 0 26px; }
 section.title header { display: none; }
 </style>
 
