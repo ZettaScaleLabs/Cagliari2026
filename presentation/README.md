@@ -8,6 +8,19 @@ The deck reuses the diagrams from [`../assets`](../assets) — the
 publish/subscribe and query/reply slides embed the **animated** SVGs, which play
 when the deck is rendered to **HTML** and opened in a browser.
 
+## Live deck
+
+Every push to `main` that touches `presentation/` or `assets/` rebuilds the deck
+to HTML and publishes it to GitHub Pages via
+[`.github/workflows/pages.yml`](../.github/workflows/pages.yml):
+
+<https://zettascalelabs.github.io/Cagliari2026/>
+
+The workflow renders only HTML (no headless browser needed) and copies `assets/`
+alongside it so the relative image paths and SVG animations keep working. The
+first run needs the repository's **Settings -> Pages -> Source** set to
+**GitHub Actions** (the workflow attempts to enable this automatically).
+
 ## Build
 
 Run the commands from this `presentation/` directory so the relative
