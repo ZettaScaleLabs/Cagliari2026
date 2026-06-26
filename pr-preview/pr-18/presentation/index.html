@@ -14,20 +14,14 @@
 <p>Mikhail ILIN  ·  Ivan PAEZ</p>
 <p><img src="../assets/eclipse-foundation-logo.svg" alt="" style="height:62px;" /> <img src="../assets/zenoh-dragon.png" alt="" style="height:84px;" /> <img src="../assets/svg-components/zetta-scale-logo.svg" alt="" style="height:54px;" /></p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="2" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" lang="C" data-marpit-pagination="2" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;" data-marpit-pagination-total="12" data-size="16:9">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="2" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="cols2 small" lang="C" class="cols2 small" data-marpit-pagination="2" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;--class:cols2 small;" data-marpit-pagination-total="11" data-size="16:9">
 <h1 id="what-is-zenoh">What is Zenoh</h1>
-<p><strong>Zenoh</strong> is a data-oriented <strong>publish / subscribe</strong> and <strong>query / reply</strong> network protocol.</p>
+<p><strong>Zenoh</strong> is a location-transparent <strong>publish / subscribe</strong> and <strong>query / reply</strong> network protocol. Built as a <strong>universal communication protocol</strong> that works at every infrastructure level, <strong>from microcontrollers to the cloud</strong>.</p>
 <ul>
-<li>Data is addressed by <strong>slash-separated keys</strong> — e.g. <code>room/sensor/temp</code> — not by node addresses.</li>
-<li>Built as a <strong>universal communication protocol</strong> that works at every infrastructure level, <strong>from microcontrollers to the cloud</strong>.</li>
-<li>It unifies data <strong>in motion</strong>, data <strong>at rest</strong>, and <strong>computations</strong> in a single, efficient stack.</li>
-</ul>
-<p>Learn more: <a href="https://zenoh.io/">zenoh.io</a> · the <a href="https://corsaro.me/fr/zenoh/book/">Zenoh book</a> · <a href="https://docs.rs/zenoh/latest/zenoh/index.html">Zenoh Rust</a> &amp; <a href="https://zenoh-python.readthedocs.io/en/latest/">Zenoh-Python</a> API docs.</p>
-<footer>Eclipse Zenoh · Cagliari 2026</footer>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="3" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="cols2" lang="C" class="cols2" data-marpit-pagination="3" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;--class:cols2;" data-marpit-pagination-total="12" data-size="16:9">
-<h1 id="zenohs-advantages">Zenoh's advantages</h1>
-<ul>
+<li>
+<p><strong>Location transparency</strong><br />
+Data is addressed by slash-separated keys — e.g. <code>room/sensor/temp</code> — not by node addresses.</p>
+</li>
 <li>
 <p><strong>Transport-agnostic</strong><br />
 Runs over TCP, TLS, QUIC, UDP, and more — plus shared-memory transport with an enhanced API.</p>
@@ -47,9 +41,8 @@ Subscribe to or request data with wildcards — <code>*/sensor/temp</code>, or <
 </ul>
 <footer>Eclipse Zenoh · Cagliari 2026</footer>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="4" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" lang="C" data-marpit-pagination="4" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;" data-marpit-pagination-total="12" data-size="16:9">
-<h1 id="concepts">Concepts</h1>
-<h2 id="key-expressions">Key Expressions</h2>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="3" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" lang="C" data-marpit-pagination="3" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;" data-marpit-pagination-total="11" data-size="16:9">
+<h1 id="key-expressions">Key Expressions</h1>
 <ul>
 <li>A <strong>key expression (KE)</strong> is Zenoh's address space: a small, glob-like language describing a <strong>set of keys</strong>.</li>
 <li>Every operation targets a KE, and a KE is <strong>associated with a value — or a stream of values</strong> (each new publication updates it).</li>
@@ -63,16 +56,14 @@ Subscribe to or request data with wildcards — <code>*/sensor/temp</code>, or <
 </ul>
 <footer>Eclipse Zenoh · Cagliari 2026</footer>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="5" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="media" lang="C" class="media" data-marpit-pagination="5" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;--class:media;" data-marpit-pagination-total="12" data-size="16:9">
-<h1 id="concepts-1">Concepts</h1>
-<h2 id="publish--subscribe">Publish / Subscribe</h2>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="4" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="media" lang="C" class="media" data-marpit-pagination="4" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;--class:media;" data-marpit-pagination-total="11" data-size="16:9">
+<h1 id="publish--subscribe">Publish / Subscribe</h1>
 <p>Data is <strong>published</strong> under a key; every instance <strong>subscribed</strong> to a matching key receives it. Subscription declarations are spread across the network, so routers know which subscribers are interested.</p>
 <p><img src="../assets/zenoh-pub-sub.svg" alt="" style="height:404px;" /></p>
 <footer>Eclipse Zenoh · Cagliari 2026</footer>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="6" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="small tight" lang="C" class="small tight" data-marpit-pagination="6" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;--class:small tight;" data-marpit-pagination-total="12" data-size="16:9">
-<h1 id="concepts-2">Concepts</h1>
-<h2 id="sample">Sample</h2>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="5" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="small tight" lang="C" class="small tight" data-marpit-pagination="5" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;--class:small tight;" data-marpit-pagination-total="11" data-size="16:9">
+<h1 id="sample">Sample</h1>
 <p>A <strong><code>Sample</code></strong> is the unit of data delivered to subscribers and carried inside replies.</p>
 <table>
 <thead>
@@ -130,16 +121,14 @@ Subscribe to or request data with wildcards — <code>*/sensor/temp</code>, or <
 </table>
 <footer>Eclipse Zenoh · Cagliari 2026</footer>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="7" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="media" lang="C" class="media" data-marpit-pagination="7" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;--class:media;" data-marpit-pagination-total="12" data-size="16:9">
-<h1 id="concepts-3">Concepts</h1>
-<h2 id="get--reply">Get / Reply</h2>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="6" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="media" lang="C" class="media" data-marpit-pagination="6" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;--class:media;" data-marpit-pagination-total="11" data-size="16:9">
+<h1 id="get--reply">Get / Reply</h1>
 <p>Data is <strong>requested by key</strong> via <code>Session::get</code> (or a <code>Querier</code>); every <strong>queryable</strong> serving a matching key sends back <strong>replies</strong>. Each request returns <strong>zero or more</strong> <code>Reply</code> values — each carrying a <code>Sample</code> (<code>Ok</code>) or a <code>ReplyError</code> (<code>Err</code>).</p>
 <p><img src="../assets/zenoh-query.svg" alt="" style="height:356px;" /></p>
 <footer>Eclipse Zenoh · Cagliari 2026</footer>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="small" data-background-color="#ffffff" lang="C" class="small" data-marpit-pagination="8" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;--class:small;--background-color:#ffffff;background-color:#ffffff;background-image:none;--marpit-advanced-background-split:45%;" data-marpit-pagination-total="12" data-size="16:9" data-marpit-advanced-background="background" data-marpit-advanced-background-split="right"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;../assets/zenoh-location-transparency.svg&quot;);background-size:contain;"></figure></div></section></foreignObject><foreignObject width="55%" height="720"><section id="8" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="small" data-background-color="#ffffff" lang="C" class="small" data-marpit-pagination="8" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;--class:small;--background-color:#ffffff;background-color:#ffffff;background-image:none;--marpit-advanced-background-split:45%;" data-marpit-pagination-total="12" data-size="16:9" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right">
-<h1 id="concepts-4">Concepts</h1>
-<h2 id="selector-reply">Selector, Reply</h2>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="small" data-background-color="#ffffff" lang="C" class="small" data-marpit-pagination="7" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;--class:small;--background-color:#ffffff;background-color:#ffffff;background-image:none;--marpit-advanced-background-split:45%;" data-marpit-pagination-total="11" data-size="16:9" data-marpit-advanced-background="background" data-marpit-advanced-background-split="right"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;../assets/zenoh-location-transparency.svg&quot;);background-size:contain;"></figure></div></section></foreignObject><foreignObject width="55%" height="720"><section id="7" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="small" data-background-color="#ffffff" lang="C" class="small" data-marpit-pagination="7" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;--class:small;--background-color:#ffffff;background-color:#ffffff;background-image:none;--marpit-advanced-background-split:45%;" data-marpit-pagination-total="11" data-size="16:9" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right">
+<h1 id="selector-reply">Selector, Reply</h1>
 
 <ul>
 <li>A <strong><code>Selector</code></strong> = a key expression <strong>+ parameters</strong>, URL-like: <code>room/temp?day=2023-03-15;unit=C</code>
@@ -154,9 +143,8 @@ Subscribe to or request data with wildcards — <code>*/sensor/temp</code>, or <
 </ul>
 <footer>Eclipse Zenoh · Cagliari 2026</footer>
 </section>
-</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="small" data-background-color="#ffffff" lang="C" class="small" data-marpit-pagination="8" style="" data-marpit-pagination-total="12" data-size="16:9" data-marpit-advanced-background="pseudo" data-marpit-advanced-background-split="right"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="9" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" lang="C" data-marpit-pagination="9" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;" data-marpit-pagination-total="12" data-size="16:9">
-<h1 id="concepts-5">Concepts</h1>
-<h2 id="session">Session</h2>
+</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="small" data-background-color="#ffffff" lang="C" class="small" data-marpit-pagination="7" style="" data-marpit-pagination-total="11" data-size="16:9" data-marpit-advanced-background="pseudo" data-marpit-advanced-background-split="right"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="8" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" lang="C" data-marpit-pagination="8" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;" data-marpit-pagination-total="11" data-size="16:9">
+<h1 id="session">Session</h1>
 <ul>
 <li>The <strong><code>Session</code></strong> is the main Zenoh object — it holds the runtime and the node's connection state. Opened with <code>zenoh::open(Config)</code>.</li>
 <li><strong><code>config()</code></strong> — the runtime configuration (connect/listen endpoints, scouting, transports…).</li>
@@ -167,9 +155,8 @@ Subscribe to or request data with wildcards — <code>*/sensor/temp</code>, or <
 </ul>
 <footer>Eclipse Zenoh · Cagliari 2026</footer>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="10" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" lang="C" data-marpit-pagination="10" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;" data-marpit-pagination-total="12" data-size="16:9">
-<h1 id="concepts-6">Concepts</h1>
-<h2 id="liveliness">Liveliness</h2>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="9" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" lang="C" data-marpit-pagination="9" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;" data-marpit-pagination-total="11" data-size="16:9">
+<h1 id="liveliness">Liveliness</h1>
 <ul>
 <li>A node declares a named <strong><code>LivelinessToken</code></strong> on a key expression — a lightweight presence signal.</li>
 <li>A token stays <strong>alive</strong> until it is <strong>undeclared</strong>, or its <strong>session is closed / disconnected</strong> from the network.</li>
@@ -184,9 +171,8 @@ Subscribe to or request data with wildcards — <code>*/sensor/temp</code>, or <
 </ul>
 <footer>Eclipse Zenoh · Cagliari 2026</footer>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="11" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" lang="C" data-marpit-pagination="11" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;" data-marpit-pagination-total="12" data-size="16:9">
-<h1 id="concepts-7">Concepts</h1>
-<h2 id="serialization">Serialization</h2>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="10" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" lang="C" data-marpit-pagination="10" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;" data-marpit-pagination-total="11" data-size="16:9">
+<h1 id="serialization">Serialization</h1>
 <ul>
 <li><strong>Not part of the Zenoh wire protocol</strong> — on the wire a payload is just bytes (<code>ZBytes</code>).</li>
 <li>It lives in <strong><code>zenoh-ext</code></strong> as a convenience: <code>z_serialize</code> / <code>z_deserialize</code> (<code>ZSerializer</code> / <code>ZDeserializer</code>).</li>
@@ -195,9 +181,8 @@ Subscribe to or request data with wildcards — <code>*/sensor/temp</code>, or <
 </ul>
 <footer>Eclipse Zenoh · Cagliari 2026</footer>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="12" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" lang="C" data-marpit-pagination="12" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;" data-marpit-pagination-total="12" data-size="16:9">
-<h1 id="concepts-8">Concepts</h1>
-<h2 id="advanced-pubsub">Advanced Pub/Sub</h2>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="11" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" lang="C" data-marpit-pagination="11" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;" data-marpit-pagination-total="11" data-size="16:9">
+<h1 id="advanced-pubsub">Advanced Pub/Sub</h1>
 <p>A <strong>configurable</strong> layer on top of base pub/sub for <strong>guaranteed delivery</strong> — sending data over pub/sub and using query/reply to retransmit what was missed.</p>
 <ul>
 <li><strong><code>AdvancedPublisher</code></strong> — <strong>caches</strong> published samples, <strong>numbers</strong> them for miss detection, announces its presence, and can emit periodic <strong>heartbeats</strong>.</li>
