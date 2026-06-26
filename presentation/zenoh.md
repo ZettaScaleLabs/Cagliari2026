@@ -6,6 +6,7 @@ author: Mikhail ILIN, Ivan PAEZ
 paginate: true
 size: 16:9
 footer: 'Eclipse Zenoh · Cagliari 2026'
+header: '![h:36](../assets/svg-components/zetta-scale-logo.svg)'
 ---
 
 <style>
@@ -68,6 +69,21 @@ td code { white-space: nowrap; }
 footer { color: var(--muted); font-size: 15px; }
 section::after { color: var(--muted); font-size: 15px; }
 
+/* logo header: top-right on all slides */
+header {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  left: auto;
+  width: auto;
+  padding: 0;
+  margin: 0;
+  text-align: right;
+}
+
+/* left-align titles on all non-title slides */
+section h1 { text-align: left; }
+
 /* dense slides */
 section.small { font-size: 21px; }
 section.small h2 { margin: 10px 0 12px; }
@@ -127,11 +143,13 @@ section.title p:nth-of-type(3) {
   box-shadow: 0 16px 40px rgba(0,0,0,0.35);
 }
 section.title p:nth-of-type(3) img { vertical-align: middle; margin: 0 22px; }
+section.title header { display: none; }
 </style>
 
 <!-- _class: title -->
 <!-- _paginate: false -->
 <!-- _footer: '' -->
+<!-- _header: '' -->
 
 # Eclipse Zenoh
 
