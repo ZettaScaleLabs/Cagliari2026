@@ -10,21 +10,46 @@ when the deck is rendered to **HTML** and opened in a browser.
 
 ## Live deck
 
-Every push to `main` that touches `presentation/` or `assets/` rebuilds the deck
-to HTML and publishes it to GitHub Pages via
-[`.github/workflows/pages.yml`](../.github/workflows/pages.yml):
+The deck is published to GitHub Pages from the **`gh-pages`** branch:
 
-<https://zettascalelabs.github.io/Cagliari2026/>
+- **Main:** <https://zettascalelabs.github.io/Cagliari2026/>
+- **Per-PR preview:** `https://zettascalelabs.github.io/Cagliari2026/pr-preview/pr-<N>/`
 
-The workflow renders only HTML (no headless browser needed) and copies `assets/`
-alongside it so the relative image paths and SVG animations keep working. The
-first run needs the repository's **Settings -> Pages -> Source** set to
-**GitHub Actions** (the workflow attempts to enable this automatically).
+Two workflows keep this up to date:
+
+- [`.github/workflows/pages.yml`](../.github/workflows/pages.yml) — on every push
+  to `main` that touches `presentation/` or `assets/`, it rebuilds the deck and
+  publishes it to the site root. It keeps the `pr-preview/` folder intact
+  (`clean-exclude`), so open previews survive a main deploy.
+- [`.github/workflows/pr-preview.yml`](../.github/workflows/pr-preview.yml) — for
+  every pull request that changes `presentation/` or `assets/`, it builds the
+  deck and deploys it to `pr-preview/pr-<N>/`, posts a sticky comment with the
+  link, and removes the folder when the PR is closed.
+
+Both build with [`build.sh`](build.sh), which renders HTML only (no headless
+browser) and copies `assets/` alongside the deck so the relative image paths and
+SVG animations keep working under any sub-path.
+
+Setup notes:
+
+- One-time: set **Settings -> Pages -> Source** to **Deploy from a branch**,
+  branch **`gh-pages`** / **`/ (root)`**. The first `pages.yml` run creates the
+  branch.
+- Previews run for same-repo PR branches. Pull requests from **forks** get a
+  read-only token, so their preview job is skipped (switch to a
+  `pull_request_target` flow if fork previews are needed).
 
 ## Build
 
-Run the commands from this `presentation/` directory so the relative
-`../assets/...` paths resolve.
+Build the full publishable site (deck + assets + redirect) exactly like CI, from
+the repository root:
+
+```sh
+bash presentation/build.sh _site   # output in ./_site
+```
+
+Or work with the deck directly. Run these from this `presentation/` directory so
+the relative `../assets/...` paths resolve.
 
 ```sh
 # Interactive preview with live reload (opens in the browser, animations play)

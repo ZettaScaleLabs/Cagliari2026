@@ -9,17 +9,16 @@ on:
       - .github/workflows/pages.yml
   workflow_dispatch:
 
+# Push the built deck to the gh-pages branch (Pages source = gh-pages).
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
+  group: pages-main
   cancel-in-progress: true
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,35 +27,15 @@ jobs:
         with:
           node-version: 20
 
-      - uses: actions/configure-pages@v5
-        with:
-          enablement: true
-
       - name: Build Marp deck
-        run: |
-          mkdir -p _site/presentation
-          cp -r assets _site/assets
-          npx --yes @marp-team/marp-cli@4.4.0 presentation/zenoh.md \
-            -o _site/presentation/index.html
-          cat > _site/index.html <<'EOF'
-          <!doctype html>
-          <meta charset="utf-8">
-          <meta http-equiv="refresh" content="0; url=./presentation/">
-          <link rel="canonical" href="./presentation/">
-          <title>Eclipse Zenoh presentation</title>
-          <a href="./presentation/">Eclipse Zenoh presentation</a>
-          EOF
+        run: bash presentation/build.sh _site
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Publish to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          path: _site
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          branch: gh-pages
+          folder: _site
+          # Replace the site root but keep the per-PR previews intact.
+          clean: true
+          clean-exclude: |
+            pr-preview/
