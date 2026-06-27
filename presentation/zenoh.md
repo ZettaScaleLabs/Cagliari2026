@@ -108,13 +108,24 @@ section.side img.side {
   width: 42%;
   height: auto;
 }
-section.side ul, section.side ol { width: 48%; }
+section.side ul, section.side ol, section.side > p { width: 48%; }
 
 /* grouped-field slide (Sample): several short groups, tighter rhythm */
 section.groups { font-size: 19.5px; }
 section.groups > p { margin: 0 0 8px; }
 section.groups h2 { margin: 10px 0 5px; }
 section.groups li { margin: 2px 0; }
+
+/* diagram rows (Matching, Consolidation): three small SVGs side by side */
+section .diorow { display: flex; gap: 16px; justify-content: center; align-items: flex-start; margin: 12px 0 0; }
+section .diorow figure { margin: 0; text-align: center; }
+section .diorow img { width: 272px; height: auto; }
+section .diorow figcaption { font-size: 14px; color: var(--muted); margin-top: 0; }
+
+/* selector breakdown chip */
+section .selector { font-size: 26px; margin: 6px 0 14px; }
+section .selector .kx { color: var(--zenoh-navy); font-weight: 700; }
+section .selector .pm { color: #c47f12; font-weight: 700; }
 
 /* title slide */
 section.title {
@@ -253,16 +264,60 @@ Data delivered to subscribers — and carried inside every reply — arrives as 
 
 <!-- _class: small side -->
 
-# Selector, Reply
+# Selector
 
 <img class="side" src="../assets/zenoh-location-transparency.svg" />
 
-- A **`Selector`** = a key expression **+ parameters**, URL-like: `room/temp?day=2023-03-15;unit=C`
-  - `key_expr()` · `parameters()` · `accept_replies()`
-- A **`Reply`** carries `result()` → `Ok(Sample)` or `Err(ReplyError)`, plus the `replier_id()`.
-- **Completeness** — a queryable may declare `complete = true`, claiming it holds **all** data for its keyexpr; otherwise it is partial.
-- **Target** selects which queryables answer: `BestMatching` (nearest), `All`, or `AllComplete`.
-- Replies can be **best-effort** and **consolidated** so the querier sees only the latest value per key.
+A **`Selector`** says **what a query asks for** — a key expression plus optional parameters, written URL-style:
+
+<p class="selector"><span class="kx">room/*/temp</span><span class="pm">?from=sensor;unit=C</span></p>
+
+- **`key_expr()`** — the **set of keys** the query matches: the *what*.
+- **`parameters()`** — free-form `key=value;…` arguments handed to every queryable: the *how* — filters, ranges, formatting.
+- Parameters are **opaque to Zenoh** — it routes purely on the key expression; each queryable interprets them itself.
+- So one key expression can serve many requests: the same queryable reads the parameters to decide what to compute or return.
+
+---
+
+<!-- _class: small -->
+
+# Matching
+
+Every queryable whose key expression matches can answer. Two things decide **which ones actually do**:
+
+- **Completeness** — a queryable may declare `complete = true`, claiming it holds **all** the data for its key expression; otherwise it is **partial** (it may hold only some).
+- **Target** — chosen by the querier, it selects which matching queryables the query reaches:
+
+<div class="diorow">
+  <figure><img src="../assets/zenoh-target-bestmatching.svg" alt="BestMatching target reaches only the nearest queryable" /><figcaption><code>BestMatching</code> <em>(default)</em> — nearest match</figcaption></figure>
+  <figure><img src="../assets/zenoh-target-all.svg" alt="All target reaches every matching queryable" /><figcaption><code>All</code> — every match</figcaption></figure>
+  <figure><img src="../assets/zenoh-target-allcomplete.svg" alt="AllComplete target reaches only complete queryables" /><figcaption><code>AllComplete</code> — complete only</figcaption></figure>
+</div>
+
+---
+
+<!-- _class: small -->
+
+# Consolidation
+
+When several replies carry the **same key**, consolidation decides what the querier finally sees. Three modes — illustrated for two keys **A** and **B** whose values arrive out of order:
+
+<div class="diorow">
+  <figure><img src="../assets/zenoh-consolidation-none.svg" alt="None consolidation delivers every reply" /><figcaption><code>None</code> — every reply, in arrival order</figcaption></figure>
+  <figure><img src="../assets/zenoh-consolidation-monotonic.svg" alt="Monotonic consolidation drops stale replies" /><figcaption><code>Monotonic</code> — never goes backwards</figcaption></figure>
+  <figure><img src="../assets/zenoh-consolidation-latest.svg" alt="Latest consolidation keeps only the newest value per key" /><figcaption><code>Latest</code> — newest per key only</figcaption></figure>
+</div>
+
+---
+
+# Reply
+
+Each **`Reply`** is one queryable's answer to the query. `result()` returns one of two variants:
+
+- **`Ok(Sample)`** — a successful answer: a full **`Sample`** (payload, encoding, timestamp…) for a matched key.
+- **`Err(ReplyError)`** — the queryable reported a failure; `ReplyError` carries a **`payload()`** and its **`encoding()`** describing what went wrong.
+- **`replier_id()`** — identifies which queryable produced this reply.
+- A single `get` yields **zero or more** replies, each independently `Ok` or `Err`.
 
 ---
 

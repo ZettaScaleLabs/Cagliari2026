@@ -74,10 +74,13 @@ extension to preview and export `zenoh.md` directly.
 2. What is Zenoh
 3. Key Expressions
 4. Publish / Subscribe
-5. Sample
-6. Get / Reply
-7. Selector, Reply
-8. Session
-9. Liveliness
-10. Serialization
-11. Advanced Pub/Sub
+5. Get / Reply
+6. Sample
+7. Selector
+8. Matching
+9. Consolidation
+10. Reply
+11. Session
+12. Liveliness
+13. Serialization
+14. Advanced Pub/Sub
