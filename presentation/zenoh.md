@@ -220,7 +220,7 @@ Data is **published** under a key; every instance **subscribed** to a matching k
 
 # Sample
 
-Data delivered to subscribers — and carried inside every reply — arrives as a **`Sample`**.
+Data delivered to subscribers — and carried inside every reply — arrives as a **`Sample`**. On the user API you never build one when sending: it is assembled internally from the publisher / queryable options and the reply-operation parameters.
 
 ## Required
 
@@ -232,9 +232,9 @@ Data delivered to subscribers — and carried inside every reply — arrives as 
 
 - **`encoding`** *(optional)* — it's up to the application to use it and how to interpret it. A set of predefined encodings are hardcoded into constants to transmit them efficiently, without a string value; others are transmitted as a string.
 - **`timestamp`** *(optional)* — the timestamp assigned to the data. If enabled, assigned automatically with the current time and node id (i.e. the timer is identified).
-- **`attachment`** *(optional)* — extra user-defined bytes carried alongside the payload.
+- **`attachment`** *(optional)* — a separate bytes buffer for user-defined metadata.
 
-## Quality of service — how the message *was* transmitted
+## Quality of service — how to transmit the message, or how it *was* transmitted
 
 - **`priority`** — the priority it was sent with; **`congestion_control`** — drop it or block when links were congested.
 - **`express`** — if set, the message was not batched during transmission, to reduce latency.
