@@ -73,16 +73,14 @@ Subscribe to or request data with wildcards — <code>*/sensor/temp</code>, or <
 </ul>
 <h2 id="metadata">Metadata</h2>
 <ul>
-<li><strong><code>encoding</code></strong> <em>(optional)</em> — how to interpret the payload bytes; if not set, defaults to raw bytes.</li>
-<li><strong><code>timestamp</code></strong> <em>(optional)</em> — the time the data was associated with the key, used to order updates and drop stale ones.</li>
+<li><strong><code>encoding</code></strong> <em>(optional)</em> — it's up to the application to use it and how to interpret it. A set of predefined encodings are hardcoded into constants to transmit them efficiently, without a string value; others are transmitted as a string.</li>
+<li><strong><code>timestamp</code></strong> <em>(optional)</em> — the timestamp assigned to the data. If enabled, assigned automatically with the current time and node id (i.e. the timer is identified).</li>
 <li><strong><code>attachment</code></strong> <em>(optional)</em> — extra user-defined bytes carried alongside the payload.</li>
-<li><strong><code>source_info</code></strong> <em>(optional)</em> — identity of the source and the sequence number of this message.</li>
 </ul>
 <h2 id="quality-of-service--how-the-message-was-transmitted">Quality of service — how the message <em>was</em> transmitted</h2>
 <ul>
 <li><strong><code>priority</code></strong> — the priority it was sent with; <strong><code>congestion_control</code></strong> — drop it or block when links were congested.</li>
 <li><strong><code>express</code></strong> — if set, the message was not batched during transmission, to reduce latency.</li>
-<li><strong><code>reliability</code></strong> — whether it was carried reliably or best-effort.</li>
 </ul>
 <footer>Eclipse Zenoh · Cagliari 2026</footer>
 </section>
