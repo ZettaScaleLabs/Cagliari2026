@@ -230,16 +230,14 @@ Data delivered to subscribers — and carried inside every reply — arrives as 
 
 ## Metadata
 
-- **`encoding`** *(optional)* — how to interpret the payload bytes; if not set, defaults to raw bytes.
-- **`timestamp`** *(optional)* — the time the data was associated with the key, used to order updates and drop stale ones.
+- **`encoding`** *(optional)* — it's up to the application to use it and how to interpret it. A set of predefined encodings are hardcoded into constants to transmit them efficiently, without a string value; others are transmitted as a string.
+- **`timestamp`** *(optional)* — the timestamp assigned to the data. If enabled, assigned automatically with the current time and node id (i.e. the timer is identified).
 - **`attachment`** *(optional)* — extra user-defined bytes carried alongside the payload.
-- **`source_info`** *(optional)* — identity of the source and the sequence number of this message.
 
 ## Quality of service — how the message *was* transmitted
 
 - **`priority`** — the priority it was sent with; **`congestion_control`** — drop it or block when links were congested.
 - **`express`** — if set, the message was not batched during transmission, to reduce latency.
-- **`reliability`** — whether it was carried reliably or best-effort.
 
 ---
 
