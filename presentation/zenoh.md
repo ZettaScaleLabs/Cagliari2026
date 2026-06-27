@@ -108,7 +108,7 @@ section.side img.side {
   width: 42%;
   height: auto;
 }
-section.side ul, section.side ol, section.side > p { width: 48%; }
+section.side ul, section.side ol { width: 48%; }
 
 /* grouped-field slide (Sample): several short groups, tighter rhythm */
 section.groups { font-size: 19.5px; }
@@ -116,11 +116,11 @@ section.groups > p { margin: 0 0 8px; }
 section.groups h2 { margin: 10px 0 5px; }
 section.groups li { margin: 2px 0; }
 
-/* diagram rows (Matching, Consolidation): three small SVGs side by side */
-section .diorow { display: flex; gap: 16px; justify-content: center; align-items: flex-start; margin: 12px 0 0; }
+/* diagram rows (Matching, Consolidation): three network diagrams side by side */
+section .diorow { display: flex; gap: 10px; justify-content: center; align-items: flex-start; margin: 10px 0 0; }
 section .diorow figure { margin: 0; text-align: center; }
-section .diorow img { width: 272px; height: auto; }
-section .diorow figcaption { font-size: 14px; color: var(--muted); margin-top: 0; }
+section .diorow img { width: 368px; height: auto; }
+section .diorow figcaption { font-size: 14px; color: var(--muted); margin-top: -2px; }
 
 /* selector breakdown chip */
 section .selector { font-size: 26px; margin: 6px 0 14px; }
@@ -262,11 +262,9 @@ Data delivered to subscribers — and carried inside every reply — arrives as 
 
 ---
 
-<!-- _class: small side -->
+<!-- _class: small -->
 
 # Selector
-
-<img class="side" src="../assets/zenoh-location-transparency.svg" />
 
 A **`Selector`** says **what a query asks for** — a key expression plus optional parameters, written URL-style:
 
@@ -300,7 +298,7 @@ Every queryable whose key expression matches can answer. Two things decide **whi
 
 # Consolidation
 
-When several replies carry the **same key**, consolidation decides what the querier finally sees. Three modes — illustrated for two keys **A** and **B** whose values arrive out of order:
+When several queryables answer for the **same key**, consolidation decides what the querier finally sees. Below, three storages reply with values stamped **`t1 < t2 < t3`**, reaching the robot out of order (`t2`, `t1`, `t3`):
 
 <div class="diorow">
   <figure><img src="../assets/zenoh-consolidation-none.svg" alt="None consolidation delivers every reply" /><figcaption><code>None</code> — every reply, in arrival order</figcaption></figure>
