@@ -110,6 +110,12 @@ section.side img.side {
 }
 section.side ul, section.side ol { width: 48%; }
 
+/* grouped-field slide (Sample): several short groups, tighter rhythm */
+section.groups { font-size: 19.5px; }
+section.groups > p { margin: 0 0 8px; }
+section.groups h2 { margin: 12px 0 6px; }
+section.groups li { margin: 3px 0; }
+
 /* title slide */
 section.title {
   background: radial-gradient(1200px 620px at 72% -12%, #16345f 0%, var(--zenoh-navy) 56%, #060d22 100%);
@@ -210,25 +216,30 @@ Data is **published** under a key; every instance **subscribed** to a matching k
 
 ---
 
-<!-- _class: small -->
+<!-- _class: small groups -->
 
 # Sample
 
 Data delivered to subscribers — and carried inside every reply — arrives as a **`Sample`**.
 
-## Required — what the data *is*
+## Required
 
-| Field | Meaning |
-|---|---|
-| `key_expr` | The key the data is associated with |
-| `payload` | The data bytes (`ZBytes`) |
-| `kind` | `Put` (new value) or `Delete` (value removed) |
+- **`key_expr`** — the key the data is associated with: where it belongs in the address space.
+- **`payload`** — the data itself, an opaque buffer of bytes (`ZBytes`).
+- **`encoding`** — tells the receiver how to interpret those bytes, so it knows what the payload *means*.
+- **`kind`** — whether this is a new value (`Put`) or a removal of the value at the key (`Delete`).
 
-## Optional — grouped as the put / publisher builders compose them
+## Metadata
 
-- **Encoding** *(`EncodingBuilderTrait`)* — `encoding`: a hint for how to interpret the payload bytes (e.g. `text/plain`, `application/json`).
-- **Quality of service** *(`QoSBuilderTrait`)* — how the message is transmitted: `priority`, `congestion_control` (`Drop` / `Block`), `express` (unbatched → lower latency), `reliability` (`Reliable` / `BestEffort`).
-- **Metadata** *(`SampleBuilderTrait`)* — `timestamp` (ordering / dedup), `attachment` (user-defined buffer), `source_info` (source id + sequence number).
+- **`timestamp`** — when the data was produced; lets receivers order updates and discard stale ones.
+- **`attachment`** — extra user-defined data travelling alongside the payload, for app-level context.
+- **`source_info`** — identifies the producer and the position of this message in its stream.
+
+## Quality of service — how the message *was* transmitted
+
+- **`priority`** & **`congestion_control`** — how the network ranked this message, and what it did when links were busy.
+- **`express`** — whether it was sent on its own for lowest latency, rather than batched with others.
+- **`reliability`** — whether delivery was guaranteed or best-effort.
 
 ---
 
