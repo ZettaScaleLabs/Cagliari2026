@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 300" role="img" aria-labelledby="cl-t cl-d">
+  <title id="cl-t">Consolidation Latest</title>
+  <desc id="cl-d">With consolidation Latest only the single newest value per key is delivered, once all replies have arrived.</desc>
+  <style>
+    .h{font:700 17px Inter,Arial,sans-serif;fill:#0b1641}
+    .lab{font:700 12px Inter,Arial,sans-serif;fill:#5b6b86}
+    .op{font:600 12px Inter,Arial,sans-serif;fill:#c47f12}
+    .leg{font:11px Inter,Arial,sans-serif;fill:#8a98ad}
+    .k{font:700 16px Inter,Arial,sans-serif;fill:#fff}
+    .v{font:11px Inter,Arial,sans-serif;fill:#eef7ff}
+    .keep{fill:none;stroke:#f5aa00;stroke-width:2.5}
+  </style>
+
+  <text class="h" x="190" y="22" text-anchor="middle">Latest</text>
+
+  <!-- arriving -->
+  <text class="lab" x="18" y="48">Replies arriving &#8594;</text>
+  <g opacity=".4"><rect x="18" y="56" width="62" height="46" rx="8" fill="#2f8fd6"/><text class="k" x="49" y="77" text-anchor="middle">A</text><text class="v" x="49" y="94" text-anchor="middle">v2</text></g>
+  <g opacity=".4"><rect x="88" y="56" width="62" height="46" rx="8" fill="#3fae9b"/><text class="k" x="119" y="77" text-anchor="middle">B</text><text class="v" x="119" y="94" text-anchor="middle">v1</text></g>
+  <g opacity=".4"><rect x="158" y="56" width="62" height="46" rx="8" fill="#2f8fd6"/><text class="k" x="189" y="77" text-anchor="middle">A</text><text class="v" x="189" y="94" text-anchor="middle">v1</text></g>
+  <g><rect x="228" y="56" width="62" height="46" rx="8" fill="#2f8fd6"/><text class="k" x="259" y="77" text-anchor="middle">A</text><text class="v" x="259" y="94" text-anchor="middle">v3</text></g>
+  <rect class="keep" x="226" y="54" width="66" height="50" rx="10"/>
+  <g><rect x="298" y="56" width="62" height="46" rx="8" fill="#3fae9b"/><text class="k" x="329" y="77" text-anchor="middle">B</text><text class="v" x="329" y="94" text-anchor="middle">v2</text></g>
+  <rect class="keep" x="296" y="54" width="66" height="50" rx="10"/>
+
+  <!-- flow -->
+  <path d="M183 118 L183 128 L176 128 L190 140 L204 128 L197 128 L197 118 Z" fill="#f5aa00" opacity=".9"/>
+  <text class="op" x="190" y="160" text-anchor="middle">keep only the newest value per key</text>
+
+  <!-- delivered -->
+  <text class="lab" x="18" y="186">Delivered to app</text>
+  <g><rect x="18" y="192" width="62" height="46" rx="8" fill="#2f8fd6"/><text class="k" x="49" y="213" text-anchor="middle">A</text><text class="v" x="49" y="230" text-anchor="middle">v3</text></g>
+  <g><rect x="88" y="192" width="62" height="46" rx="8" fill="#3fae9b"/><text class="k" x="119" y="213" text-anchor="middle">B</text><text class="v" x="119" y="230" text-anchor="middle">v2</text></g>
+
+  <text class="leg" x="190" y="262" text-anchor="middle">A, B = keys &#160;&#183;&#160; v1 &lt; v2 &lt; v3 = value versions</text>
+</svg>

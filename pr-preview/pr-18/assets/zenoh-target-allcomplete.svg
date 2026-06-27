@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 300" role="img" aria-labelledby="ac-t ac-d">
+  <title id="ac-t">QueryTarget AllComplete</title>
+  <desc id="ac-d">With target AllComplete only queryables that declared complete answer, so the two complete ones reply and the partial one is skipped.</desc>
+  <defs>
+    <linearGradient id="ac-qg" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#62bfff"/><stop offset="1" stop-color="#247fbd"/>
+    </linearGradient>
+    <marker id="ac-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#f5aa00"/>
+    </marker>
+  </defs>
+  <style>
+    .h{font:700 17px Inter,Arial,sans-serif;fill:#0b1641}
+    .qt{font:700 14px Inter,Arial,sans-serif;fill:#fff}
+    .qs{font:11px Inter,Arial,sans-serif;fill:#e7f4ff}
+    .ttl{font:700 13px Inter,Arial,sans-serif}
+    .pt{font:700 10px Inter,Arial,sans-serif;fill:#fff}
+    .idle{fill:none;stroke:#cfd8e6;stroke-width:2;stroke-dasharray:3 6}
+    .live{fill:none;stroke:#f5aa00;stroke-width:3}
+    .faded{opacity:.36}
+    .pk{fill:#f5aa00;stroke:#fff;stroke-width:2}
+    .bdg{fill:#fff7e6;stroke:#f5aa00;stroke-width:1.5}
+    .bdgt{font:700 13px Inter,Arial,sans-serif;fill:#c47f12}
+  </style>
+
+  <text class="h" x="190" y="22" text-anchor="middle">AllComplete</text>
+
+  <!-- connection lines -->
+  <path class="live" d="M252 68 L132 153" marker-end="url(#ac-ah)"/>
+  <path class="idle faded" d="M126 159 L252 158"/>
+  <path class="live" d="M252 248 L132 165" marker-end="url(#ac-ah)"/>
+
+  <!-- Queryable B (complete) -->
+  <rect x="252" y="42" width="110" height="52" rx="10" fill="#2c93c5" stroke="#07315f" stroke-width="2"/>
+  <text class="ttl" x="307" y="64" text-anchor="middle" fill="#fff">Queryable</text>
+  <rect x="271" y="72" width="72" height="16" rx="8" fill="#2bb673"/>
+  <text class="pt" x="307" y="84" text-anchor="middle">&#10003; complete</text>
+  <!-- Queryable A (partial) -->
+  <g class="faded">
+    <rect x="252" y="132" width="110" height="52" rx="10" fill="#ffffff" stroke="#62bfff" stroke-width="2" stroke-dasharray="6 4"/>
+    <text class="ttl" x="307" y="154" text-anchor="middle" fill="#0b3a82">Queryable</text>
+    <rect x="277" y="162" width="60" height="16" rx="8" fill="#9fb0c9"/>
+    <text class="pt" x="307" y="174" text-anchor="middle">partial</text>
+  </g>
+  <!-- Queryable C (complete) -->
+  <rect x="252" y="222" width="110" height="52" rx="10" fill="#2c93c5" stroke="#07315f" stroke-width="2"/>
+  <text class="ttl" x="307" y="244" text-anchor="middle" fill="#fff">Queryable</text>
+  <rect x="271" y="252" width="72" height="16" rx="8" fill="#2bb673"/>
+  <text class="pt" x="307" y="264" text-anchor="middle">&#10003; complete</text>
+
+  <!-- Querier -->
+  <rect x="18" y="132" width="108" height="54" rx="11" fill="url(#ac-qg)" stroke="#0b3a82" stroke-width="2"/>
+  <text class="qt" x="72" y="156" text-anchor="middle">Querier</text>
+  <text class="qs" x="72" y="174" text-anchor="middle">get room/temp</text>
+
+  <!-- packets -->
+  <circle class="pk" cx="192" cy="110" r="7"/>
+  <circle class="pk" cx="192" cy="206" r="7"/>
+
+  <!-- count badge -->
+  <rect class="bdg" x="30" y="206" width="84" height="26" rx="13"/>
+  <circle cx="46" cy="219" r="5" fill="#f5aa00"/>
+  <text class="bdgt" x="58" y="223">2 replies</text>
+</svg>
