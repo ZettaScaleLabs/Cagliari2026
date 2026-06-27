@@ -216,6 +216,16 @@ Data is **published** under a key; every instance **subscribed** to a matching k
 
 ---
 
+<!-- _class: media -->
+
+# Get / Reply
+
+Data is **requested by key** via `Session::get` (or a `Querier`); every **queryable** serving a matching key sends back **replies**. Each request returns **zero or more** `Reply` values — each carrying a `Sample` (`Ok`) or a `ReplyError` (`Err`).
+
+![h:356](../assets/zenoh-query.svg)
+
+---
+
 <!-- _class: small groups -->
 
 # Sample
@@ -238,16 +248,6 @@ Data delivered to subscribers — and carried inside every reply — arrives as 
 
 - **`priority`** — the priority it was sent with; **`congestion_control`** — drop it or block when links were congested.
 - **`express`** — if set, the message was not batched during transmission, to reduce latency.
-
----
-
-<!-- _class: media -->
-
-# Get / Reply
-
-Data is **requested by key** via `Session::get` (or a `Querier`); every **queryable** serving a matching key sends back **replies**. Each request returns **zero or more** `Reply` values — each carrying a `Sample` (`Ok`) or a `ReplyError` (`Err`).
-
-![h:356](../assets/zenoh-query.svg)
 
 ---
 
