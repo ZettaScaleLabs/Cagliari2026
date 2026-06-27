@@ -210,25 +210,25 @@ Data is **published** under a key; every instance **subscribed** to a matching k
 
 ---
 
-<!-- _class: small tight -->
+<!-- _class: small -->
 
 # Sample
 
-A **`Sample`** is the unit of data delivered to subscribers and carried inside replies.
+Data delivered to subscribers — and carried inside every reply — arrives as a **`Sample`**.
+
+## Required — what the data *is*
 
 | Field | Meaning |
 |---|---|
 | `key_expr` | The key the data is associated with |
 | `payload` | The data bytes (`ZBytes`) |
 | `kind` | `Put` (new value) or `Delete` (value removed) |
-| `encoding` | Hint describing how to interpret the payload |
-| `timestamp` | Optional network timestamp (ordering / dedup) |
-| `priority` | Transmission priority of the message |
-| `congestion_control` | Behaviour under congestion: `Drop` or `Block` |
-| `express` | If `true`, the message is **not batched** → lower latency |
-| `reliability` | `Reliable` or `BestEffort` delivery |
-| `attachment` | Optional user-defined metadata buffer |
-| `source_info` | Source id and sequence number of the message |
+
+## Optional — grouped as the put / publisher builders compose them
+
+- **Encoding** *(`EncodingBuilderTrait`)* — `encoding`: a hint for how to interpret the payload bytes (e.g. `text/plain`, `application/json`).
+- **Quality of service** *(`QoSBuilderTrait`)* — how the message is transmitted: `priority`, `congestion_control` (`Drop` / `Block`), `express` (unbatched → lower latency), `reliability` (`Reliable` / `BestEffort`).
+- **Metadata** *(`SampleBuilderTrait`)* — `timestamp` (ordering / dedup), `attachment` (user-defined buffer), `source_info` (source id + sequence number).
 
 ---
 
