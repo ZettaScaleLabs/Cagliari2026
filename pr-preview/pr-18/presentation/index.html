@@ -62,7 +62,13 @@ Subscribe to or request data with wildcards — <code>*/sensor/temp</code>, or <
 <p><img src="../assets/zenoh-pub-sub.svg" alt="" style="height:404px;" /></p>
 <footer>Eclipse Zenoh · Cagliari 2026</footer>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="5" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="small groups" lang="C" class="small groups" data-marpit-pagination="5" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;--class:small groups;" data-marpit-pagination-total="11" data-size="16:9">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="5" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="media" lang="C" class="media" data-marpit-pagination="5" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;--class:media;" data-marpit-pagination-total="11" data-size="16:9">
+<h1 id="get--reply">Get / Reply</h1>
+<p>Data is <strong>requested by key</strong> via <code>Session::get</code> (or a <code>Querier</code>); every <strong>queryable</strong> serving a matching key sends back <strong>replies</strong>. Each request returns <strong>zero or more</strong> <code>Reply</code> values — each carrying a <code>Sample</code> (<code>Ok</code>) or a <code>ReplyError</code> (<code>Err</code>).</p>
+<p><img src="../assets/zenoh-query.svg" alt="" style="height:356px;" /></p>
+<footer>Eclipse Zenoh · Cagliari 2026</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="6" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="small groups" lang="C" class="small groups" data-marpit-pagination="6" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;--class:small groups;" data-marpit-pagination-total="11" data-size="16:9">
 <h1 id="sample">Sample</h1>
 <p>Data delivered to subscribers — and carried inside every reply — arrives as a <strong><code>Sample</code></strong>. On the user API you never build one when sending: it is assembled internally from the publisher / queryable options and the reply-operation parameters.</p>
 <h2 id="required">Required</h2>
@@ -82,12 +88,6 @@ Subscribe to or request data with wildcards — <code>*/sensor/temp</code>, or <
 <li><strong><code>priority</code></strong> — the priority it was sent with; <strong><code>congestion_control</code></strong> — drop it or block when links were congested.</li>
 <li><strong><code>express</code></strong> — if set, the message was not batched during transmission, to reduce latency.</li>
 </ul>
-<footer>Eclipse Zenoh · Cagliari 2026</footer>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="6" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="media" lang="C" class="media" data-marpit-pagination="6" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;--class:media;" data-marpit-pagination-total="11" data-size="16:9">
-<h1 id="get--reply">Get / Reply</h1>
-<p>Data is <strong>requested by key</strong> via <code>Session::get</code> (or a <code>Querier</code>); every <strong>queryable</strong> serving a matching key sends back <strong>replies</strong>. Each request returns <strong>zero or more</strong> <code>Reply</code> values — each carrying a <code>Sample</code> (<code>Ok</code>) or a <code>ReplyError</code> (<code>Err</code>).</p>
-<p><img src="../assets/zenoh-query.svg" alt="" style="height:356px;" /></p>
 <footer>Eclipse Zenoh · Cagliari 2026</footer>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="7" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="small side" lang="C" class="small side" data-marpit-pagination="7" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;--class:small side;" data-marpit-pagination-total="11" data-size="16:9">
