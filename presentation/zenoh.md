@@ -113,8 +113,8 @@ section.side ul, section.side ol { width: 48%; }
 /* grouped-field slide (Sample): several short groups, tighter rhythm */
 section.groups { font-size: 19.5px; }
 section.groups > p { margin: 0 0 8px; }
-section.groups h2 { margin: 12px 0 6px; }
-section.groups li { margin: 3px 0; }
+section.groups h2 { margin: 10px 0 5px; }
+section.groups li { margin: 2px 0; }
 
 /* title slide */
 section.title {
@@ -224,22 +224,22 @@ Data delivered to subscribers — and carried inside every reply — arrives as 
 
 ## Required
 
-- **`key_expr`** — the key the data is associated with: where it belongs in the address space.
-- **`payload`** — the data itself, an opaque buffer of bytes (`ZBytes`).
-- **`encoding`** — tells the receiver how to interpret those bytes, so it knows what the payload *means*.
+- **`key_expr`** — the key expression on which this `Sample` was published.
+- **`payload`** — the data itself, a buffer of bytes (`ZBytes`).
 - **`kind`** — whether this is a new value (`Put`) or a removal of the value at the key (`Delete`).
 
 ## Metadata
 
-- **`timestamp`** — when the data was produced; lets receivers order updates and discard stale ones.
-- **`attachment`** — extra user-defined data travelling alongside the payload, for app-level context.
-- **`source_info`** — identifies the producer and the position of this message in its stream.
+- **`encoding`** *(optional)* — how to interpret the payload bytes; if not set, defaults to raw bytes.
+- **`timestamp`** *(optional)* — the time the data was associated with the key, used to order updates and drop stale ones.
+- **`attachment`** *(optional)* — extra user-defined bytes carried alongside the payload.
+- **`source_info`** *(optional)* — identity of the source and the sequence number of this message.
 
 ## Quality of service — how the message *was* transmitted
 
-- **`priority`** & **`congestion_control`** — how the network ranked this message, and what it did when links were busy.
-- **`express`** — whether it was sent on its own for lowest latency, rather than batched with others.
-- **`reliability`** — whether delivery was guaranteed or best-effort.
+- **`priority`** — the priority it was sent with; **`congestion_control`** — drop it or block when links were congested.
+- **`express`** — if set, the message was not batched during transmission, to reduce latency.
+- **`reliability`** — whether it was carried reliably or best-effort.
 
 ---
 
