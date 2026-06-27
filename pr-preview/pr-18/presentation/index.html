@@ -97,8 +97,8 @@ Subscribe to or request data with wildcards — <code>*/sensor/temp</code>, or <
 <ul>
 <li><strong><code>key_expr()</code></strong> — the <strong>set of keys</strong> the query matches: the <em>what</em>.</li>
 <li><strong><code>parameters()</code></strong> — free-form <code>key=value;…</code> arguments handed to every queryable: the <em>how</em> — filters, ranges, formatting.</li>
-<li>Parameters are <strong>opaque to Zenoh</strong> — it routes purely on the key expression; each queryable interprets them itself.</li>
-<li>So one key expression can serve many requests: the same queryable reads the parameters to decide what to compute or return.</li>
+<li>Parameters are <strong>user-defined</strong>, but there are ones <strong>interpreted by Zenoh itself</strong> — e.g. <code>_anyke</code> for <strong><code>accept_replies()</code></strong>, which lets make <strong>disjoint</strong> replies (on key expressions outside requested keyexpr).</li>
+<li>So one key expression can serve different requests: the same queryable reads the parameters to decide what to compute or return.</li>
 </ul>
 <footer>Eclipse Zenoh · Cagliari 2026</footer>
 </section>
