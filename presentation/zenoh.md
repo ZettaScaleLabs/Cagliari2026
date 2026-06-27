@@ -6,7 +6,6 @@ author: Mikhail ILIN, Ivan PAEZ
 paginate: true
 size: 16:9
 footer: 'Eclipse Zenoh · Cagliari 2026'
-header: '![h:36](../assets/svg-components/zetta-scale-logo.svg)'
 ---
 
 <style>
@@ -22,7 +21,13 @@ section {
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
   font-size: 25px;
   color: var(--ink);
-  background: #ffffff;
+  background-color: #ffffff;
+  /* Logo template: fixed top-right on every content slide, independent of
+     content flow and split backgrounds. */
+  background-image: url(../assets/svg-components/zetta-scale-logo.svg);
+  background-repeat: no-repeat;
+  background-position: right 64px top 28px;
+  background-size: 132px auto;
   padding: 54px 64px 60px;
   line-height: 1.45;
 }
@@ -31,13 +36,14 @@ section h1 {
   color: var(--zenoh-navy);
   font-size: 46px;
   margin: 0 0 2px;
+  text-align: left;
 }
 section h1::after {
   content: "";
   display: block;
   width: 84px;
   height: 5px;
-  margin-top: 10px;
+  margin: 10px 0 0;
   background: linear-gradient(90deg, var(--zenoh-blue), var(--zenoh-cyan));
   border-radius: 3px;
 }
@@ -69,21 +75,6 @@ td code { white-space: nowrap; }
 footer { color: var(--muted); font-size: 15px; }
 section::after { color: var(--muted); font-size: 15px; }
 
-/* logo header: top-right on all slides */
-header {
-  position: absolute;
-  top: 20px;
-  right: 40px;
-  left: auto;
-  width: auto;
-  padding: 0;
-  margin: 0;
-  text-align: right;
-}
-
-/* left-align titles on all non-title slides */
-section h1 { text-align: left; }
-
 /* dense slides */
 section.small { font-size: 21px; }
 section.small h2 { margin: 10px 0 12px; }
@@ -92,8 +83,6 @@ section.small li { margin: 4px 0; }
 
 /* extra-tight table slide (Sample) */
 section.tight { padding-top: 40px; }
-section.tight h1 { font-size: 38px; }
-section.tight h1::after { margin-top: 6px; height: 4px; }
 section.tight h2 { font-size: 24px; margin: 8px 0 10px; }
 section.tight > p { margin: 0 0 10px; }
 section.tight table { font-size: 17px; }
@@ -103,11 +92,23 @@ section.tight th, section.tight td { padding: 4px 12px; line-height: 1.3; }
 section.cols2 ul { column-count: 2; column-gap: 52px; }
 section.cols2 li { break-inside: avoid; }
 
-/* centered media slides */
+/* centered media slides — only the media is centered; the title block stays
+   left-aligned and identical to every other slide. */
 section.media { text-align: center; }
-section.media h1::after { margin-left: auto; margin-right: auto; }
+section.media h1 { text-align: left; }
 section.media p.cap { color: var(--muted); font-size: 20px; margin: 6px 0 14px; }
 section.media img { margin-top: 6px; }
+
+/* side image slide: image pinned to the right, below the logo zone, so the
+   top-right logo template stays clear (avoids Marpit split-bg covering it). */
+section.side img.side {
+  position: absolute;
+  right: 48px;
+  top: 196px;
+  width: 42%;
+  height: auto;
+}
+section.side ul, section.side ol { width: 48%; }
 
 /* title slide */
 section.title {
@@ -149,13 +150,11 @@ section.title p:nth-of-type(3) {
   box-shadow: 0 16px 40px rgba(0,0,0,0.35);
 }
 section.title p:nth-of-type(3) img { vertical-align: middle; margin: 0 26px; }
-section.title header { display: none; }
 </style>
 
 <!-- _class: title -->
 <!-- _paginate: false -->
 <!-- _footer: '' -->
-<!-- _header: '' -->
 
 # Eclipse Zenoh
 
@@ -243,12 +242,11 @@ Data is **requested by key** via `Session::get` (or a `Querier`); every **querya
 
 ---
 
-<!-- _class: small -->
-<!-- _backgroundColor: #ffffff -->
+<!-- _class: small side -->
 
 # Selector, Reply
 
-![bg right:45% fit](../assets/zenoh-location-transparency.svg)
+<img class="side" src="../assets/zenoh-location-transparency.svg" />
 
 - A **`Selector`** = a key expression **+ parameters**, URL-like: `room/temp?day=2023-03-15;unit=C`
   - `key_expr()` · `parameters()` · `accept_replies()`
