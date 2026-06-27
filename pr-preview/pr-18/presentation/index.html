@@ -62,9 +62,10 @@ Subscribe to or request data with wildcards — <code>*/sensor/temp</code>, or <
 <p><img src="../assets/zenoh-pub-sub.svg" alt="" style="height:404px;" /></p>
 <footer>Eclipse Zenoh · Cagliari 2026</footer>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="5" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="small tight" lang="C" class="small tight" data-marpit-pagination="5" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;--class:small tight;" data-marpit-pagination-total="11" data-size="16:9">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="5" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="small" lang="C" class="small" data-marpit-pagination="5" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;--class:small;" data-marpit-pagination-total="11" data-size="16:9">
 <h1 id="sample">Sample</h1>
-<p>A <strong><code>Sample</code></strong> is the unit of data delivered to subscribers and carried inside replies.</p>
+<p>Data delivered to subscribers — and carried inside every reply — arrives as a <strong><code>Sample</code></strong>.</p>
+<h2 id="required--what-the-data-is">Required — what the data <em>is</em></h2>
 <table>
 <thead>
 <tr>
@@ -85,40 +86,14 @@ Subscribe to or request data with wildcards — <code>*/sensor/temp</code>, or <
 <td><code>kind</code></td>
 <td><code>Put</code> (new value) or <code>Delete</code> (value removed)</td>
 </tr>
-<tr>
-<td><code>encoding</code></td>
-<td>Hint describing how to interpret the payload</td>
-</tr>
-<tr>
-<td><code>timestamp</code></td>
-<td>Optional network timestamp (ordering / dedup)</td>
-</tr>
-<tr>
-<td><code>priority</code></td>
-<td>Transmission priority of the message</td>
-</tr>
-<tr>
-<td><code>congestion_control</code></td>
-<td>Behaviour under congestion: <code>Drop</code> or <code>Block</code></td>
-</tr>
-<tr>
-<td><code>express</code></td>
-<td>If <code>true</code>, the message is <strong>not batched</strong> → lower latency</td>
-</tr>
-<tr>
-<td><code>reliability</code></td>
-<td><code>Reliable</code> or <code>BestEffort</code> delivery</td>
-</tr>
-<tr>
-<td><code>attachment</code></td>
-<td>Optional user-defined metadata buffer</td>
-</tr>
-<tr>
-<td><code>source_info</code></td>
-<td>Source id and sequence number of the message</td>
-</tr>
 </tbody>
 </table>
+<h2 id="optional--grouped-as-the-put--publisher-builders-compose-them">Optional — grouped as the put / publisher builders compose them</h2>
+<ul>
+<li><strong>Encoding</strong> <em>(<code>EncodingBuilderTrait</code>)</em> — <code>encoding</code>: a hint for how to interpret the payload bytes (e.g. <code>text/plain</code>, <code>application/json</code>).</li>
+<li><strong>Quality of service</strong> <em>(<code>QoSBuilderTrait</code>)</em> — how the message is transmitted: <code>priority</code>, <code>congestion_control</code> (<code>Drop</code> / <code>Block</code>), <code>express</code> (unbatched → lower latency), <code>reliability</code> (<code>Reliable</code> / <code>BestEffort</code>).</li>
+<li><strong>Metadata</strong> <em>(<code>SampleBuilderTrait</code>)</em> — <code>timestamp</code> (ordering / dedup), <code>attachment</code> (user-defined buffer), <code>source_info</code> (source id + sequence number).</li>
+</ul>
 <footer>Eclipse Zenoh · Cagliari 2026</footer>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="6" data-paginate="true" data-footer="Eclipse Zenoh · Cagliari 2026" data-class="media" lang="C" class="media" data-marpit-pagination="6" style="--paginate:true;--footer:Eclipse Zenoh · Cagliari 2026;--class:media;" data-marpit-pagination-total="11" data-size="16:9">
