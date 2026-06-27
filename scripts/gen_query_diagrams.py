@@ -1,25 +1,27 @@
 #!/usr/bin/env python3
-"""Generate the Matching (QueryTarget) and Consolidation diagram family.
+"""Generate the Matching (QueryTarget) and Consolidation diagrams.
 
-Every diagram reuses the robot / router / storage artwork and the loose network
-layout of assets/zenoh-location-transparency.svg (itself lifted from
-assets/zenoh-query.svg), so the Matching and Consolidation slides stay visually
-consistent with it.
+Both are single combined pictures that reuse the robot / router / storage artwork
+and the loose network layout of assets/zenoh-location-transparency.svg (itself
+lifted from assets/zenoh-query.svg), so the two slides stay visually consistent
+with it and with each other.
 
-Topology (shared by all six diagrams):
-    robot ── router1 ──┬── storage1   complete=true,  value t2   (nearest)
-                       └── storage3   complete=false, value t1
-              router1 ── router2 ──── storage2   complete=true,  value t3 (far)
+Shared template: three storages on top, two routers in the middle, three robots
+at the bottom — each robot runs the same Get but with a different parameter, so
+the three behave differently on one identical network.
 
-Matching: the yellow flow(s) show which storages the Get reaches.
-    BestMatching -> nearest complete (storage1)            -> 1 reply
-    All          -> every matching storage                 -> 3 replies
-    AllComplete  -> only complete storages (1 and 2)       -> 2 replies
+Matching (assets/zenoh-matching.svg): each robot uses a different QueryTarget.
+Its request path is drawn in its own colour (red / green / blue), and overlapping
+paths are drawn as parallel lanes so all three stay visible. Each
+storage holds one Sample (A / B / C) and is marked complete or partial; the tray
+under a robot shows the Samples that target collects:
+    BestMatching -> nearest complete storage           -> A
+    All          -> every matching storage             -> A, B, C
+    AllComplete  -> only the complete storages          -> A, B
 
-Consolidation: all three storages reply; each carries a Sample (the card glyph,
-assets/svg-components/sample.svg) tagged with its value timestamp t1<t2<t3. The
-small number on each card is the order in which that reply reaches the robot
-(t2 first, then t1, then t3). The "robot keeps" tray shows what survives:
+Consolidation (assets/zenoh-consolidation.svg): each robot uses a different
+consolidation. The storages reply with Samples for the same key tagged t1<t2<t3,
+reaching the robots in the order t2, t1, t3; the tray shows what survives:
     None       -> every reply, in arrival order      t2, t1, t3
     Monotonic  -> drop any value older than the last  t2, (t1 dropped), t3
     Latest     -> only the newest value               t3
@@ -31,18 +33,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "assets" / "zenoh-query.svg"
 ASSETS = ROOT / "assets"
 
-W, H = 600, 372
-
-ROBOT = (96, 290)
-ROUTER1 = (252, 298)
-ROUTER2 = (450, 286)
-STORAGE1 = (190, 182)   # complete=true,  t2, nearest (via router1)
-STORAGE3 = (336, 166)   # complete=false, t1          (via router1)
-STORAGE2 = (470, 196)   # complete=true,  t3, far      (via router2)
-
-STORAGE_TOP = 62
-LABEL_GAP = 20
-LINE = 18
+W, H = 980, 500
 
 
 def slice_between(text, start_marker, end_open_marker, close_marker="</g>"):
@@ -52,40 +43,19 @@ def slice_between(text, start_marker, end_open_marker, close_marker="</g>"):
     return text[start:end]
 
 
-def link(a, b):
-    return f"M{a[0]} {a[1]} L{b[0]} {b[1]}"
-
-
-BASE_LINKS = " ".join([
-    link(ROBOT, ROUTER1),
-    link(ROUTER1, ROUTER2),
-    link(ROUTER1, STORAGE1),
-    link(ROUTER1, STORAGE3),
-    link(ROUTER2, STORAGE2),
-])
-
-FLOW1 = f"M{ROBOT[0]} {ROBOT[1]} L{ROUTER1[0]} {ROUTER1[1]} L{STORAGE1[0]} {STORAGE1[1]}"
-FLOW3 = f"M{ROBOT[0]} {ROBOT[1]} L{ROUTER1[0]} {ROUTER1[1]} L{STORAGE3[0]} {STORAGE3[1]}"
-FLOW2 = (f"M{ROBOT[0]} {ROBOT[1]} L{ROUTER1[0]} {ROUTER1[1]} "
-         f"L{ROUTER2[0]} {ROUTER2[1]} L{STORAGE2[0]} {STORAGE2[1]}")
-
 SYMBOLS = slice_between(SRC.read_text(), '<g id="computer">', '<g id="storage">')
 
 STYLE = """  <style>
     .bg { fill: #f7f7f7; }
-    .link { fill: none; stroke: #c7c7c7; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
     .flow { fill: none; stroke: #f5aa00; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+    .req { fill: none; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
     .endpoint { filter: url(#softShadow); }
-    .getLabel, .storageLabel { fill: #f5aa00; font: 700 15px Arial, sans-serif; }
-    .key { fill: #85888f; font: 15px Arial, sans-serif; }
-    .flag { fill: #85888f; font: 13px Arial, sans-serif; }
+    .getLabel { fill: #f5aa00; font: 700 15px Arial, sans-serif; }
+    .flag { fill: #85888f; font: 700 13px Arial, sans-serif; }
     .flag-true { fill: #3a9b4e; font-weight: 700; }
     .flag-false { fill: #c0392b; font-weight: 700; }
     .samp { fill: #0b3a82; font: 700 15px Arial, sans-serif; }
-    .order { fill: #fff; font: 700 11px Arial, sans-serif; }
-    .trayLabel { fill: #f5aa00; font: 700 13px Arial, sans-serif; }
     .legend { fill: #85888f; font: 12px Arial, sans-serif; }
-    .count { fill: #c47f12; font: 700 14px Arial, sans-serif; }
   </style>"""
 
 
@@ -125,85 +95,12 @@ def document(name, title, desc, body, w=W, h=H):
     print(f"Wrote assets/{name}")
 
 
-def flows(paths):
-    return "\n  ".join(f'<path class="flow" d="{p}"/>' for p in paths)
-
+# --- shared building blocks ---------------------------------------------------
 
 def storage_use(pos, opacity=1.0):
     op = "" if opacity == 1.0 else f' opacity="{opacity}"'
     return f'    <use href="#storage" x="{pos[0]}" y="{pos[1]}"{op}/>'
 
-
-def routers_and_robot():
-    return (
-        '  <g id="routers" class="endpoint">\n'
-        f'    <use href="#node" x="{ROUTER1[0]}" y="{ROUTER1[1]}"/>\n'
-        f'    <use href="#node" x="{ROUTER2[0]}" y="{ROUTER2[1]}"/>\n'
-        '  </g>'
-    )
-
-
-def robot_use():
-    return f'    <use href="#robot" x="{ROBOT[0]}" y="{ROBOT[1]}"/>'
-
-
-# --- Matching (target) labels -------------------------------------------------
-
-def storage_flag_labels(pos, complete, opacity=1.0):
-    x = pos[0]
-    flag_y = pos[1] - STORAGE_TOP - LABEL_GAP
-    key_y = flag_y - LINE
-    title_y = key_y - LINE
-    value = "true" if complete else "false"
-    cls = "flag-true" if complete else "flag-false"
-    op = "" if opacity == 1.0 else f' opacity="{opacity}"'
-    return (
-        f'    <g{op}>\n'
-        f'      <text class="storageLabel" text-anchor="middle" x="{x}" y="{title_y}">Storage</text>\n'
-        f'      <text class="key" text-anchor="middle" x="{x}" y="{key_y}">warehouse/**</text>\n'
-        f'      <text class="flag" text-anchor="middle" x="{x}" y="{flag_y}">complete = '
-        f'<tspan class="{cls}">{value}</tspan></text>\n'
-        f'    </g>'
-    )
-
-
-def count_badge(n):
-    word = "reply" if n == 1 else "replies"
-    return (
-        '    <g transform="translate(96 228)">\n'
-        '      <rect x="-52" y="-14" width="104" height="28" rx="14" fill="#fff7e6" stroke="#f5aa00" stroke-width="1.5"/>\n'
-        f'      <text x="0" y="5" text-anchor="middle" class="count">{n} {word}</text>\n'
-        '    </g>'
-    )
-
-
-def target_diagram(name, target, paths, n, complete3_opacity=1.0):
-    body = "\n".join([
-        f'  <g id="base-links"><path class="link" d="{BASE_LINKS}"/></g>',
-        "  " + flows(paths),
-        routers_and_robot(),
-        '  <g id="endpoints" class="endpoint">',
-        robot_use(),
-        storage_use(STORAGE1),
-        storage_use(STORAGE3, complete3_opacity),
-        storage_use(STORAGE2),
-        "  </g>",
-        '  <g id="labels">',
-        f'    <text class="getLabel" x="28" y="332">Get (target = {target})</text>',
-        '    <text class="key" x="28" y="351">warehouse/robot1/order</text>',
-        storage_flag_labels(STORAGE1, True),
-        storage_flag_labels(STORAGE3, False, complete3_opacity),
-        storage_flag_labels(STORAGE2, True),
-        count_badge(n),
-        "  </g>",
-    ])
-    desc = (f"A robot issues a Get for warehouse/robot1/order with target {target}. "
-            "Three storages serve warehouse/** (two complete, one incomplete); the "
-            f"yellow paths show the {n} storage(s) the request reaches.")
-    document(name, f"QueryTarget {target}", desc, body)
-
-
-# --- Consolidation labels -----------------------------------------------------
 
 def storage_sample(pos, label, dy=86):
     cx, cy = pos[0], pos[1] - dy
@@ -237,30 +134,136 @@ def centered_tray(cx, y, cards, step=46):
     )
 
 
-# One combined picture: three storages reply through the routers to three
-# robots, each running the same Get for the same key but with a different
-# consolidation, so each robot keeps a different set of the same samples. A
-# second router carries the right-hand storage and robot, so the topology is
-# deliberately a little irregular rather than a symmetric star.
-CW, CH = 980, 500
-C_S1, C_S2, C_S3 = (200, 160), (470, 145), (805, 165)   # t2, t1, t3
-C_ROUTER1 = (430, 275)
-C_ROUTER2 = (715, 335)
-C_ROBOTS = {"None": (175, 395), "Monotonic": (455, 407), "Latest": (810, 402)}
+def get_label(cx, y, text):
+    return (f'    <text class="getLabel" text-anchor="middle" x="{cx}" y="{y}">{text}</text>')
+
+
+# A second router carries the right-hand storage and robot, so the topology is
+# deliberately a little irregular rather than a symmetric star. Both diagrams use
+# the same coordinates so the slides line up.
+S1, S2, S3 = (200, 160), (470, 145), (805, 165)
+R1, R2 = (430, 275), (715, 335)
+ROBOT_L, ROBOT_C, ROBOT_R = (175, 395), (455, 407), (810, 401)
+
+
+def routers():
+    return ('  <g id="routers" class="endpoint">\n'
+            f'    <use href="#node" x="{R1[0]}" y="{R1[1]}"/>\n'
+            f'    <use href="#node" x="{R2[0]}" y="{R2[1]}"/>\n'
+            '  </g>')
+
+
+# --- Matching -----------------------------------------------------------------
+
+MATCH_NODES = {"S1": S1, "S2": S2, "S3": S3, "R1": R1, "R2": R2,
+               "BM": ROBOT_L, "ALL": ROBOT_C, "AC": ROBOT_R}
+LANE_GAP = 8
+
+# lane: a stable offset rank so each request keeps the same side on every shared
+# link; All sits in the centre lane and keeps the default flow colour.
+REQUESTS = [
+    ("BestMatching", dict(lane=-1, color="#e03131",
+                          routes=[["BM", "R1", "S1"]],
+                          tray=[("A", False)])),
+    ("All", dict(lane=0, color="#2f9e44",
+                 routes=[["ALL", "R1", "S1"], ["ALL", "R1", "S2"], ["ALL", "R1", "R2", "S3"]],
+                 tray=[("A", False), ("B", False), ("C", False)])),
+    ("AllComplete", dict(lane=1, color="#1c7ed6",
+                         routes=[["AC", "R2", "R1", "S1"], ["AC", "R2", "R1", "S2"]],
+                         tray=[("A", False), ("B", False)])),
+]
+MATCH_ROBOT = {"BestMatching": "BM", "All": "ALL", "AllComplete": "AC"}
+
+
+def _perp(a, b):
+    dx, dy = b[0] - a[0], b[1] - a[1]
+    length = (dx * dx + dy * dy) ** 0.5
+    return (-dy / length, dx / length)
+
+
+def _offset_segment(n1, n2, lane):
+    # canonical node order keeps the perpendicular (hence the lane side) stable
+    a, b = sorted((n1, n2))
+    pa, pb = MATCH_NODES[a], MATCH_NODES[b]
+    nx, ny = _perp(pa, pb)
+    o = lane * LANE_GAP
+    return (f"M{pa[0] + nx * o:.1f} {pa[1] + ny * o:.1f} "
+            f"L{pb[0] + nx * o:.1f} {pb[1] + ny * o:.1f}")
+
+
+def request_path_segments():
+    segments, seen = [], set()
+    for _, req in REQUESTS:
+        for route in req["routes"]:
+            for n1, n2 in zip(route, route[1:]):
+                key = (tuple(sorted((n1, n2))), req["lane"])
+                if key in seen:
+                    continue
+                seen.add(key)
+                segments.append((_offset_segment(n1, n2, req["lane"]), req["color"]))
+    return segments
+
+
+def completeness_flag(pos, complete):
+    word, cls = ("complete", "flag-true") if complete else ("partial", "flag-false")
+    return (f'    <text class="flag" text-anchor="middle" x="{pos[0]}" y="{pos[1] - 112}">'
+            f'<tspan class="{cls}">{word}</tspan></text>')
+
+
+def color_legend(y):
+    items = [(req["color"], name) for name, req in REQUESTS]
+    xs = [205, 435, 605]
+    parts = ['    <text class="legend" x="70" y="{}">query paths:</text>'.format(y + 4)]
+    for (color, label), x in zip(items, xs):
+        parts.append(f'    <line x1="{x}" y1="{y}" x2="{x + 28}" y2="{y}" '
+                     f'stroke="{color}" stroke-width="5" stroke-linecap="round"/>')
+        parts.append(f'    <text class="legend" x="{x + 36}" y="{y + 4}">{label}</text>')
+    return "\n".join(parts)
+
+
+def matching_combined(name="zenoh-matching.svg"):
+    body = ['  <g id="requests">']
+    body += [f'    <path class="req" d="{d}" stroke="{c}"/>' for d, c in request_path_segments()]
+    body += ['  </g>', '  <g id="nodes" class="endpoint">',
+             f'    <use href="#node" x="{R1[0]}" y="{R1[1]}"/>',
+             f'    <use href="#node" x="{R2[0]}" y="{R2[1]}"/>',
+             storage_use(S1), storage_use(S2), storage_use(S3),
+             f'    <use href="#robot" x="{ROBOT_L[0]}" y="{ROBOT_L[1]}"/>',
+             f'    <use href="#robot" x="{ROBOT_C[0]}" y="{ROBOT_C[1]}"/>',
+             f'    <use href="#robot" x="{ROBOT_R[0]}" y="{ROBOT_R[1]}"/>',
+             '  </g>', '  <g id="labels">',
+             completeness_flag(S1, True), storage_sample(S1, "A"),
+             completeness_flag(S2, True), storage_sample(S2, "B"),
+             completeness_flag(S3, False), storage_sample(S3, "C")]
+    for target, req in REQUESTS:
+        pos = MATCH_NODES[MATCH_ROBOT[target]]
+        body.append(get_label(pos[0], pos[1] + 27, f"Get (target = {target})"))
+        body.append(centered_tray(pos[0], pos[1] + 56, req["tray"]))
+    body.append(color_legend(490))
+    body.append("  </g>")
+
+    desc = ("Three storages serve the same key (two complete, one partial), each holding a Sample "
+            "A, B or C. Three robots run the same Get with a different target; each request path is "
+            "drawn in its own colour. BestMatching reaches the nearest complete storage "
+            "(A); All reaches every storage (A, B, C); AllComplete reaches only the complete "
+            "storages (A, B). The tray under each robot shows the Samples it collects.")
+    document(name, "QueryTarget matching", desc, "\n".join(body))
+
+
+# --- Consolidation ------------------------------------------------------------
+
+CONS_ROBOTS = {"None": ROBOT_L, "Monotonic": ROBOT_C, "Latest": ROBOT_R}
 
 
 def consolidation_combined(name="zenoh-consolidation.svg"):
-    robots = C_ROBOTS
+    robots = CONS_ROBOTS
 
     def seg(a, b):
         return f"M{a[0]} {a[1]} L{b[0]} {b[1]}"
 
     flow_paths = [
-        seg(C_S1, C_ROUTER1), seg(C_S2, C_ROUTER1), seg(C_S3, C_ROUTER2),
-        seg(C_ROUTER1, C_ROUTER2),
-        seg(C_ROUTER1, robots["None"]),
-        seg(C_ROUTER1, robots["Monotonic"]),
-        seg(C_ROUTER2, robots["Latest"]),
+        seg(S1, R1), seg(S2, R1), seg(S3, R2), seg(R1, R2),
+        seg(R1, robots["None"]), seg(R1, robots["Monotonic"]), seg(R2, robots["Latest"]),
     ]
 
     keeps = {
@@ -268,42 +271,32 @@ def consolidation_combined(name="zenoh-consolidation.svg"):
         "Monotonic": [("t2", False), ("t1", True), ("t3", False)],
         "Latest": [("t3", False)],
     }
-    body_lines = ['  <g id="flows">']
-    body_lines += [f'    <path class="flow" d="{p}"/>' for p in flow_paths]
-    body_lines += ['  </g>', '  <g id="nodes" class="endpoint">',
-                   f'    <use href="#node" x="{C_ROUTER1[0]}" y="{C_ROUTER1[1]}"/>',
-                   f'    <use href="#node" x="{C_ROUTER2[0]}" y="{C_ROUTER2[1]}"/>',
-                   storage_use(C_S1), storage_use(C_S2), storage_use(C_S3)]
-    body_lines += [f'    <use href="#robot" x="{p[0]}" y="{p[1]}"/>' for p in robots.values()]
-    body_lines += ['  </g>', '  <g id="labels">',
-                   storage_sample(C_S1, "t2"),
-                   storage_sample(C_S2, "t1"),
-                   storage_sample(C_S3, "t3")]
+    body = ['  <g id="flows">']
+    body += [f'    <path class="flow" d="{p}"/>' for p in flow_paths]
+    body += ['  </g>', '  <g id="nodes" class="endpoint">',
+             f'    <use href="#node" x="{R1[0]}" y="{R1[1]}"/>',
+             f'    <use href="#node" x="{R2[0]}" y="{R2[1]}"/>',
+             storage_use(S1), storage_use(S2), storage_use(S3)]
+    body += [f'    <use href="#robot" x="{p[0]}" y="{p[1]}"/>' for p in robots.values()]
+    body += ['  </g>', '  <g id="labels">',
+             storage_sample(S1, "t2"), storage_sample(S2, "t1"), storage_sample(S3, "t3")]
     for mode, pos in robots.items():
-        body_lines.append(
-            f'    <text class="getLabel" text-anchor="middle" x="{pos[0]}" y="{pos[1] + 27}">'
-            f'Get (consolidation = {mode})</text>')
-        body_lines.append(centered_tray(pos[0], pos[1] + 56, keeps[mode]))
-    body_lines.append('    <text class="legend" text-anchor="middle" x="490" y="486">'
-                      'each storage replies with one Sample &#183; t1 &lt; t2 &lt; t3 (newer) &#183; '
-                      'they reach the robots in the order t2, t1, t3</text>')
-    body_lines.append("  </g>")
+        body.append(get_label(pos[0], pos[1] + 27, f"Get (consolidation = {mode})"))
+        body.append(centered_tray(pos[0], pos[1] + 56, keeps[mode]))
+    body.append('    <text class="legend" text-anchor="middle" x="490" y="486">'
+                'each storage replies with one Sample &#183; t1 &lt; t2 &lt; t3 (newer) &#183; '
+                'they reach the robots in the order t2, t1, t3</text>')
+    body.append("  </g>")
 
     desc = ("Three storages reply with Samples for the same key (t1&lt;t2&lt;t3), reaching the "
             "robots in the order t2, t1, t3. Three robots run the same Get with different "
             "consolidation: None keeps t2, t1, t3; Monotonic drops the stale t1 and keeps t2, t3; "
             "Latest keeps only t3.")
-    document(name, "Reply consolidation", desc, "\n".join(body_lines), w=CW, h=CH)
+    document(name, "Reply consolidation", desc, "\n".join(body))
 
 
 def main():
-    # Matching / QueryTarget
-    target_diagram("zenoh-target-bestmatching.svg", "BestMatching", [FLOW1], 1)
-    target_diagram("zenoh-target-all.svg", "All", [FLOW1, FLOW3, FLOW2], 3)
-    target_diagram("zenoh-target-allcomplete.svg", "AllComplete", [FLOW1, FLOW2], 2,
-                   complete3_opacity=0.3)
-
-    # Consolidation — one combined picture, three robots (one per mode)
+    matching_combined("zenoh-matching.svg")
     consolidation_combined("zenoh-consolidation.svg")
 
 

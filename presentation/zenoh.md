@@ -241,9 +241,9 @@ Data is **published** under a key; every instance **subscribed** to a matching k
 
 # Get / Reply
 
-Data is **requested by key** via `Session::get` (or a `Querier`); every **queryable** serving a matching key sends back **replies**. Each request returns **zero or more** `Reply` values — each carrying a `Sample` (`Ok`) or a `ReplyError` (`Err`).
+Data is **requested by key** via `Session::get` (or a `Querier`); every **queryable** serving a matching key sends back **replies**. Each request returns **zero or more** `Reply` values.
 
-![h:356](../assets/zenoh-query.svg)
+![h:404](../assets/zenoh-query.svg)
 
 ---
 
@@ -267,8 +267,20 @@ Data delivered to subscribers — and carried inside every reply — arrives as 
 
 ## Quality of service — how to transmit the message, or how it *was* transmitted
 
-- **`priority`** — the priority it was sent with; **`congestion_control`** — drop it or block when links were congested.
+- **`priority`** — the priority it was sent with.
+- **`congestion_control`** — drop it or block when links were congested.
 - **`express`** — if set, the message was not batched during transmission, to reduce latency.
+
+---
+
+# Reply
+
+Each **`Reply`** is one queryable's answer to the query. `result()` returns one of two variants:
+
+- **`Ok(Sample)`** — a successful answer: a full **`Sample`** (payload, encoding, timestamp…) for a matched key.
+- **`Err(ReplyError)`** — the queryable reported a failure; `ReplyError` carries a **`payload()`** and its **`encoding()`** describing what went wrong.
+- **`replier_id()`** — identifies which queryable produced this reply.
+- A single `get` yields **zero or more** replies, each independently `Ok` or `Err`.
 
 ---
 
@@ -293,14 +305,10 @@ A **`Selector`** says **what a query asks for** — a key expression plus option
 
 Every queryable whose key expression matches can answer. Two things decide **which ones actually do**:
 
-- **Completeness** — a queryable may declare `complete = true`, claiming it holds **all** the data for its key expression; otherwise it is **partial** (it may hold only some).
-- **Target** — chosen by the querier, it selects which matching queryables the query reaches:
+- **Completeness** — a queryable may declare `complete = true`, claiming it holds **all** the data for its key expression; otherwise it is **partial**.
+- **Target** — chosen by the querier, it selects which matching queryables the query reaches: **`BestMatching`** *(default)* the nearest, **`All`** every one, **`AllComplete`** only the complete ones.
 
-<div class="diorow">
-  <figure><img src="../assets/zenoh-target-bestmatching.svg" alt="BestMatching target reaches only the nearest queryable" /><figcaption><code>BestMatching</code> <em>(default)</em> — nearest match</figcaption></figure>
-  <figure><img src="../assets/zenoh-target-all.svg" alt="All target reaches every matching queryable" /><figcaption><code>All</code> — every match</figcaption></figure>
-  <figure><img src="../assets/zenoh-target-allcomplete.svg" alt="AllComplete target reaches only complete queryables" /><figcaption><code>AllComplete</code> — complete only</figcaption></figure>
-</div>
+<div class="solo"><img src="../assets/zenoh-matching.svg" alt="Three storages (two complete holding samples A and B, one partial holding C) feed two routers and three robots; each robot uses a different target and its request path is a different colour — BestMatching collects A, All collects A B C, AllComplete collects A B" /></div>
 
 ---
 
@@ -311,17 +319,6 @@ Every queryable whose key expression matches can answer. Two things decide **whi
 When several queryables answer for the **same key**, consolidation decides what the querier finally sees. The three storages reply with values stamped **`t1 < t2 < t3`**, reaching the robots out of order (`t2`, `t1`, `t3`); each robot runs the same query differently — **`None`** keeps all, **`Monotonic`** drops the stale `t1`, **`Latest`** keeps only `t3`.
 
 <div class="solo"><img src="../assets/zenoh-consolidation.svg" alt="Three storages reply with samples t2, t1, t3 through a router to three robots; the None robot keeps t2, t1, t3, the Monotonic robot drops the stale t1 and keeps t2, t3, and the Latest robot keeps only t3" /></div>
-
----
-
-# Reply
-
-Each **`Reply`** is one queryable's answer to the query. `result()` returns one of two variants:
-
-- **`Ok(Sample)`** — a successful answer: a full **`Sample`** (payload, encoding, timestamp…) for a matched key.
-- **`Err(ReplyError)`** — the queryable reported a failure; `ReplyError` carries a **`payload()`** and its **`encoding()`** describing what went wrong.
-- **`replier_id()`** — identifies which queryable produced this reply.
-- A single `get` yields **zero or more** replies, each independently `Ok` or `Err`.
 
 ---
 
@@ -343,7 +340,7 @@ The session can **establish connections to other nodes without configuring them 
 
 ### `zenoh::scout`
 
-A standalone **information API**: it runs the same network browse as the scouting performed internally at session open, but **only to report** the nodes it finds — it establishes no connection.
+A standalone **information API**: it runs the same network browse as the scouting performed internally at session open, but only to report the nodes it finds.
 
 ---
 
@@ -356,6 +353,16 @@ A standalone **information API**: it runs the same network browse as the scoutin
   - **`declare_subscriber()`** — be notified as tokens appear (`Put`) or disappear (`Delete`).
   - The **`history`** option replays already-declared tokens to a new subscriber.
 - Ideal for **presence detection** and reacting to nodes joining or failing.
+
+---
+
+<!-- _class: media -->
+
+# Liveliness in action
+
+A **server** declares a liveliness **`Subscriber`** for `robot/*` with **`history = true`** — as robots connect and disconnect, it is notified with **`Put`** and **`Delete`** samples routed to it.
+
+![h:418](../assets/zenoh-liveliness.svg)
 
 ---
 
