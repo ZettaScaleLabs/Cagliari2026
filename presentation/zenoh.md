@@ -53,6 +53,12 @@ section h2 {
   font-weight: 600;
   margin: 16px 0 18px;
 }
+section h3 {
+  color: var(--zenoh-navy);
+  font-size: 20px;
+  font-weight: 700;
+  margin: 10px 0 4px;
+}
 
 section a { color: var(--zenoh-blue); text-decoration: none; }
 strong { color: var(--zenoh-navy); }
@@ -319,14 +325,25 @@ Each **`Reply`** is one queryable's answer to the query. `result()` returns one 
 
 ---
 
+<!-- _class: small -->
+
 # Session
 
-- The **`Session`** is the main Zenoh object — it holds the runtime and the node's connection state. Opened with `zenoh::open(Config)`.
-- **`config()`** — the runtime configuration (connect/listen endpoints, scouting, transports…).
-- **`info()`** → `SessionInfo`: `zid()`, `routers_zid()`, `peers_zid()`, plus `links()` / `transports()` — the **connectivity API**.
-- **`zid()`** → the **`ZenohId`**, this node's unique network identity.
-- **Scouting** — discover peers automatically via UDP multicast or gossip (`zenoh::scout`), no manual config.
-- Roughly **1 session = 1 Zenoh node** *(plugins are the exception: they share one `zenohd` runtime, hence one `zid`)*.
+The **`Session`** is the main Zenoh object — it holds the runtime and the node's connection state. Opened with `zenoh::open(Config)`.
+
+## Connectivity API
+
+The session provides an API to **get information about its connections to other nodes**.
+
+- **`info()`** → `SessionInfo`: `zid()`, `routers_zid()`, `peers_zid()`, plus `links()` / `transports()`.
+
+## Scouting
+
+The session can **establish connections to other nodes without configuring them explicitly** — peers are discovered automatically over UDP multicast or gossip while the session is opening.
+
+### `zenoh::scout`
+
+A standalone **information API**: it runs the same network browse as the scouting performed internally at session open, but **only to report** the nodes it finds — it establishes no connection.
 
 ---
 
