@@ -272,8 +272,8 @@ A **`Selector`** says **what a query asks for** — a key expression plus option
 
 - **`key_expr()`** — the **set of keys** the query matches: the *what*.
 - **`parameters()`** — free-form `key=value;…` arguments handed to every queryable: the *how* — filters, ranges, formatting.
-- Parameters are **opaque to Zenoh** — it routes purely on the key expression; each queryable interprets them itself.
-- So one key expression can serve many requests: the same queryable reads the parameters to decide what to compute or return.
+- Parameters are **user-defined**, but there are ones **interpreted by Zenoh itself** — e.g. `_anyke` for **`accept_replies()`**, which lets make **disjoint** replies (on key expressions outside requested keyexpr).
+- So one key expression can serve different requests: the same queryable reads the parameters to decide what to compute or return.
 
 ---
 
