@@ -128,6 +128,10 @@ section .diorow figure { margin: 0; text-align: center; }
 section .diorow img { width: 368px; height: auto; }
 section .diorow figcaption { font-size: 14px; color: var(--muted); margin-top: -2px; }
 
+/* single wide diagram, centered (Consolidation) */
+section .solo { text-align: center; margin: 6px 0 0; }
+section .solo img { width: 740px; height: auto; }
+
 /* selector breakdown chip */
 section .selector { font-size: 26px; margin: 6px 0 14px; }
 section .selector .kx { color: var(--zenoh-navy); font-weight: 700; }
@@ -304,13 +308,9 @@ Every queryable whose key expression matches can answer. Two things decide **whi
 
 # Consolidation
 
-When several queryables answer for the **same key**, consolidation decides what the querier finally sees. Below, three storages reply with values stamped **`t1 < t2 < t3`**, reaching the robot out of order (`t2`, `t1`, `t3`):
+When several queryables answer for the **same key**, consolidation decides what the querier finally sees. The three storages reply with values stamped **`t1 < t2 < t3`**, reaching the robots out of order (`t2`, `t1`, `t3`); each robot runs the same query differently — **`None`** keeps all, **`Monotonic`** drops the stale `t1`, **`Latest`** keeps only `t3`.
 
-<div class="diorow">
-  <figure><img src="../assets/zenoh-consolidation-none.svg" alt="None consolidation delivers every reply" /><figcaption><code>None</code> — every reply, in arrival order</figcaption></figure>
-  <figure><img src="../assets/zenoh-consolidation-monotonic.svg" alt="Monotonic consolidation drops stale replies" /><figcaption><code>Monotonic</code> — never goes backwards</figcaption></figure>
-  <figure><img src="../assets/zenoh-consolidation-latest.svg" alt="Latest consolidation keeps only the newest value per key" /><figcaption><code>Latest</code> — newest per key only</figcaption></figure>
-</div>
+<div class="solo"><img src="../assets/zenoh-consolidation.svg" alt="Three storages reply with samples t2, t1, t3 through a router to three robots; the None robot keeps t2, t1, t3, the Monotonic robot drops the stale t1 and keeps t2, t3, and the Latest robot keeps only t3" /></div>
 
 ---
 

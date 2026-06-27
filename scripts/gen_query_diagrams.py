@@ -89,8 +89,8 @@ STYLE = """  <style>
   </style>"""
 
 
-def document(name, title, desc, body):
-    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" role="img" aria-labelledby="title desc">
+def document(name, title, desc, body, w=W, h=H):
+    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" role="img" aria-labelledby="title desc">
   <title id="title">{title}</title>
   <desc id="desc">{desc}</desc>
   <defs>
@@ -116,7 +116,7 @@ def document(name, title, desc, body):
 
 {STYLE}
 
-  <rect class="bg" width="{W}" height="{H}"/>
+  <rect class="bg" width="{w}" height="{h}"/>
 
 {body}
 </svg>
@@ -205,15 +205,13 @@ def target_diagram(name, target, paths, n, complete3_opacity=1.0):
 
 # --- Consolidation labels -----------------------------------------------------
 
-def storage_sample(pos, label, order):
-    cx, cy = pos[0], pos[1] - 80
+def storage_sample(pos, label, dy=86):
+    cx, cy = pos[0], pos[1] - dy
     return (
         f'    <g transform="translate({cx} {cy})">\n'
         '      <rect x="-23" y="-15" width="46" height="30" rx="7" fill="#ffffff" stroke="#0b3a82" stroke-width="2"/>\n'
         '      <circle cx="-12" cy="0" r="5.5" fill="#f5aa00"/>\n'
         f'      <text x="7" y="5" text-anchor="middle" class="samp">{label}</text>\n'
-        '      <circle cx="-23" cy="-15" r="9" fill="#247fbd" stroke="#fff" stroke-width="1.5"/>\n'
-        f'      <text x="-23" y="-11" text-anchor="middle" class="order">{order}</text>\n'
         '    </g>'
     )
 
@@ -231,38 +229,71 @@ def tray_card(cx, cy, label, dropped=False):
     )
 
 
-def robot_tray(cards):
-    start_x, y, step = 58, 220, 50
-    parts = ['    <text class="trayLabel" x="32" y="200">robot keeps</text>']
-    for i, (label, dropped) in enumerate(cards):
-        parts.append(tray_card(start_x + i * step, y, label, dropped))
-    return "\n".join(parts)
+def centered_tray(cx, y, cards, step=46):
+    start = cx - (len(cards) - 1) * step / 2
+    return "\n".join(
+        tray_card(start + i * step, y, label, dropped)
+        for i, (label, dropped) in enumerate(cards)
+    )
 
 
-def consolidation_diagram(name, mode, cards, explain):
-    body = "\n".join([
-        f'  <g id="base-links"><path class="link" d="{BASE_LINKS}"/></g>',
-        "  " + flows([FLOW1, FLOW3, FLOW2]),
-        routers_and_robot(),
-        '  <g id="endpoints" class="endpoint">',
-        robot_use(),
-        storage_use(STORAGE1),
-        storage_use(STORAGE3),
-        storage_use(STORAGE2),
-        "  </g>",
-        '  <g id="labels">',
-        f'    <text class="getLabel" x="28" y="332">Get (consolidation = {mode})</text>',
-        '    <text class="key" x="28" y="351">warehouse/robot1/order</text>',
-        storage_sample(STORAGE1, "t2", 1),
-        storage_sample(STORAGE3, "t1", 2),
-        storage_sample(STORAGE2, "t3", 3),
-        robot_tray(cards),
-        '    <text class="legend" text-anchor="end" x="572" y="360">t1 &lt; t2 &lt; t3  (newer)</text>',
-        "  </g>",
-    ])
-    desc = (f"A robot issues a Get with consolidation {mode}. Three storages each reply with a "
-            "Sample for the same key, tagged t1&lt;t2&lt;t3 and arriving in the order t2, t1, t3. " + explain)
-    document(name, f"Consolidation {mode}", desc, body)
+# One combined picture: three storages reply through the routers to three
+# robots, each running the same Get for the same key but with a different
+# consolidation, so each robot keeps a different set of the same samples. A
+# second router carries the right-hand storage and robot, so the topology is
+# deliberately a little irregular rather than a symmetric star.
+CW, CH = 980, 500
+C_S1, C_S2, C_S3 = (200, 160), (470, 145), (805, 165)   # t2, t1, t3
+C_ROUTER1 = (430, 275)
+C_ROUTER2 = (715, 335)
+C_ROBOTS = {"None": (175, 395), "Monotonic": (455, 407), "Latest": (810, 402)}
+
+
+def consolidation_combined(name="zenoh-consolidation.svg"):
+    robots = C_ROBOTS
+
+    def seg(a, b):
+        return f"M{a[0]} {a[1]} L{b[0]} {b[1]}"
+
+    flow_paths = [
+        seg(C_S1, C_ROUTER1), seg(C_S2, C_ROUTER1), seg(C_S3, C_ROUTER2),
+        seg(C_ROUTER1, C_ROUTER2),
+        seg(C_ROUTER1, robots["None"]),
+        seg(C_ROUTER1, robots["Monotonic"]),
+        seg(C_ROUTER2, robots["Latest"]),
+    ]
+
+    keeps = {
+        "None": [("t2", False), ("t1", False), ("t3", False)],
+        "Monotonic": [("t2", False), ("t1", True), ("t3", False)],
+        "Latest": [("t3", False)],
+    }
+    body_lines = ['  <g id="flows">']
+    body_lines += [f'    <path class="flow" d="{p}"/>' for p in flow_paths]
+    body_lines += ['  </g>', '  <g id="nodes" class="endpoint">',
+                   f'    <use href="#node" x="{C_ROUTER1[0]}" y="{C_ROUTER1[1]}"/>',
+                   f'    <use href="#node" x="{C_ROUTER2[0]}" y="{C_ROUTER2[1]}"/>',
+                   storage_use(C_S1), storage_use(C_S2), storage_use(C_S3)]
+    body_lines += [f'    <use href="#robot" x="{p[0]}" y="{p[1]}"/>' for p in robots.values()]
+    body_lines += ['  </g>', '  <g id="labels">',
+                   storage_sample(C_S1, "t2"),
+                   storage_sample(C_S2, "t1"),
+                   storage_sample(C_S3, "t3")]
+    for mode, pos in robots.items():
+        body_lines.append(
+            f'    <text class="getLabel" text-anchor="middle" x="{pos[0]}" y="{pos[1] + 27}">'
+            f'Get (consolidation = {mode})</text>')
+        body_lines.append(centered_tray(pos[0], pos[1] + 56, keeps[mode]))
+    body_lines.append('    <text class="legend" text-anchor="middle" x="490" y="486">'
+                      'each storage replies with one Sample &#183; t1 &lt; t2 &lt; t3 (newer) &#183; '
+                      'they reach the robots in the order t2, t1, t3</text>')
+    body_lines.append("  </g>")
+
+    desc = ("Three storages reply with Samples for the same key (t1&lt;t2&lt;t3), reaching the "
+            "robots in the order t2, t1, t3. Three robots run the same Get with different "
+            "consolidation: None keeps t2, t1, t3; Monotonic drops the stale t1 and keeps t2, t3; "
+            "Latest keeps only t3.")
+    document(name, "Reply consolidation", desc, "\n".join(body_lines), w=CW, h=CH)
 
 
 def main():
@@ -272,20 +303,8 @@ def main():
     target_diagram("zenoh-target-allcomplete.svg", "AllComplete", [FLOW1, FLOW2], 2,
                    complete3_opacity=0.3)
 
-    # Consolidation
-    consolidation_diagram(
-        "zenoh-consolidation-none.svg", "None",
-        [("t2", False), ("t1", False), ("t3", False)],
-        "None keeps every reply in arrival order, so the robot ends up with t2, t1, t3.")
-    consolidation_diagram(
-        "zenoh-consolidation-monotonic.svg", "Monotonic",
-        [("t2", False), ("t1", True), ("t3", False)],
-        "Monotonic drops any value older than one already delivered, so t1 (after t2) is dropped "
-        "and the robot keeps t2 then t3.")
-    consolidation_diagram(
-        "zenoh-consolidation-latest.svg", "Latest",
-        [("t3", False)],
-        "Latest keeps only the newest value per key, so the robot keeps t3 alone.")
+    # Consolidation — one combined picture, three robots (one per mode)
+    consolidation_combined("zenoh-consolidation.svg")
 
 
 if __name__ == "__main__":
