@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 372" role="img" aria-labelledby="title desc">
-  <title id="title">QueryTarget AllComplete</title>
-  <desc id="desc">A robot issues a Get for warehouse/robot1/order with target AllComplete. Three storages serve warehouse/** (two complete, one incomplete); the yellow paths show the 2 storage(s) the request reaches.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="500" viewBox="0 0 980 500" role="img" aria-labelledby="title desc">
+  <title id="title">QueryTarget matching</title>
+  <desc id="desc">Three storages serve the same key (two complete, one partial), each holding a Sample A, B or C. Three robots run the same Get with a different target; each request path is drawn in its own colour. BestMatching reaches the nearest complete storage (A); All reaches every storage (A, B, C); AllComplete reaches only the complete storages (A, B). The tray under each robot shows the Samples it collects.</desc>
   <defs>
     <linearGradient id="node-fill" x1="0" x2="0" y1="0" y2="1">
       <stop offset="0" stop-color="#62bfff"/>
@@ -130,57 +130,100 @@
 
   <style>
     .bg { fill: #f7f7f7; }
-    .link { fill: none; stroke: #c7c7c7; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
     .flow { fill: none; stroke: #f5aa00; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+    .req { fill: none; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
     .endpoint { filter: url(#softShadow); }
-    .getLabel, .storageLabel { fill: #f5aa00; font: 700 15px Arial, sans-serif; }
-    .key { fill: #85888f; font: 15px Arial, sans-serif; }
-    .flag { fill: #85888f; font: 13px Arial, sans-serif; }
+    .getLabel { fill: #f5aa00; font: 700 15px Arial, sans-serif; }
+    .flag { fill: #85888f; font: 700 13px Arial, sans-serif; }
     .flag-true { fill: #3a9b4e; font-weight: 700; }
     .flag-false { fill: #c0392b; font-weight: 700; }
     .samp { fill: #0b3a82; font: 700 15px Arial, sans-serif; }
-    .order { fill: #fff; font: 700 11px Arial, sans-serif; }
-    .trayLabel { fill: #f5aa00; font: 700 13px Arial, sans-serif; }
     .legend { fill: #85888f; font: 12px Arial, sans-serif; }
-    .count { fill: #c47f12; font: 700 14px Arial, sans-serif; }
   </style>
 
-  <rect class="bg" width="600" height="372"/>
+  <rect class="bg" width="980" height="500"/>
 
-  <g id="base-links"><path class="link" d="M96 290 L252 298 M252 298 L450 286 M252 298 L190 182 M252 298 L336 166 M450 286 L470 196"/></g>
-  <path class="flow" d="M96 290 L252 298 L190 182"/>
-  <path class="flow" d="M96 290 L252 298 L450 286 L470 196"/>
-  <g id="routers" class="endpoint">
-    <use href="#node" x="252" y="298"/>
-    <use href="#node" x="450" y="286"/>
+  <g id="requests">
+    <path class="req" d="M171.6 387.8 L426.6 267.8" stroke="#e03131"/>
+    <path class="req" d="M426.4 282.2 L196.4 167.2" stroke="#e03131"/>
+    <path class="req" d="M455.0 407.0 L430.0 275.0" stroke="#2f9e44"/>
+    <path class="req" d="M430.0 275.0 L200.0 160.0" stroke="#2f9e44"/>
+    <path class="req" d="M430.0 275.0 L470.0 145.0" stroke="#2f9e44"/>
+    <path class="req" d="M430.0 275.0 L715.0 335.0" stroke="#2f9e44"/>
+    <path class="req" d="M715.0 335.0 L805.0 165.0" stroke="#2f9e44"/>
+    <path class="req" d="M814.6 394.4 L719.6 328.4" stroke="#1c7ed6"/>
+    <path class="req" d="M428.4 282.8 L713.4 342.8" stroke="#1c7ed6"/>
+    <path class="req" d="M433.6 267.8 L203.6 152.8" stroke="#1c7ed6"/>
+    <path class="req" d="M437.6 277.4 L477.6 147.4" stroke="#1c7ed6"/>
   </g>
-  <g id="endpoints" class="endpoint">
-    <use href="#robot" x="96" y="290"/>
-    <use href="#storage" x="190" y="182"/>
-    <use href="#storage" x="336" y="166" opacity="0.3"/>
-    <use href="#storage" x="470" y="196"/>
+  <g id="nodes" class="endpoint">
+    <use href="#node" x="430" y="275"/>
+    <use href="#node" x="715" y="335"/>
+    <use href="#storage" x="200" y="160"/>
+    <use href="#storage" x="470" y="145"/>
+    <use href="#storage" x="805" y="165"/>
+    <use href="#robot" x="175" y="395"/>
+    <use href="#robot" x="455" y="407"/>
+    <use href="#robot" x="810" y="401"/>
   </g>
   <g id="labels">
-    <text class="getLabel" x="28" y="332">Get (target = AllComplete)</text>
-    <text class="key" x="28" y="351">warehouse/robot1/order</text>
-    <g>
-      <text class="storageLabel" text-anchor="middle" x="190" y="64">Storage</text>
-      <text class="key" text-anchor="middle" x="190" y="82">warehouse/**</text>
-      <text class="flag" text-anchor="middle" x="190" y="100">complete = <tspan class="flag-true">true</tspan></text>
+    <text class="flag" text-anchor="middle" x="200" y="48"><tspan class="flag-true">complete</tspan></text>
+    <g transform="translate(200 74)">
+      <rect x="-23" y="-15" width="46" height="30" rx="7" fill="#ffffff" stroke="#0b3a82" stroke-width="2"/>
+      <circle cx="-12" cy="0" r="5.5" fill="#f5aa00"/>
+      <text x="7" y="5" text-anchor="middle" class="samp">A</text>
     </g>
-    <g opacity="0.3">
-      <text class="storageLabel" text-anchor="middle" x="336" y="48">Storage</text>
-      <text class="key" text-anchor="middle" x="336" y="66">warehouse/**</text>
-      <text class="flag" text-anchor="middle" x="336" y="84">complete = <tspan class="flag-false">false</tspan></text>
+    <text class="flag" text-anchor="middle" x="470" y="33"><tspan class="flag-true">complete</tspan></text>
+    <g transform="translate(470 59)">
+      <rect x="-23" y="-15" width="46" height="30" rx="7" fill="#ffffff" stroke="#0b3a82" stroke-width="2"/>
+      <circle cx="-12" cy="0" r="5.5" fill="#f5aa00"/>
+      <text x="7" y="5" text-anchor="middle" class="samp">B</text>
     </g>
-    <g>
-      <text class="storageLabel" text-anchor="middle" x="470" y="78">Storage</text>
-      <text class="key" text-anchor="middle" x="470" y="96">warehouse/**</text>
-      <text class="flag" text-anchor="middle" x="470" y="114">complete = <tspan class="flag-true">true</tspan></text>
+    <text class="flag" text-anchor="middle" x="805" y="53"><tspan class="flag-false">partial</tspan></text>
+    <g transform="translate(805 79)">
+      <rect x="-23" y="-15" width="46" height="30" rx="7" fill="#ffffff" stroke="#0b3a82" stroke-width="2"/>
+      <circle cx="-12" cy="0" r="5.5" fill="#f5aa00"/>
+      <text x="7" y="5" text-anchor="middle" class="samp">C</text>
     </g>
-    <g transform="translate(96 228)">
-      <rect x="-52" y="-14" width="104" height="28" rx="14" fill="#fff7e6" stroke="#f5aa00" stroke-width="1.5"/>
-      <text x="0" y="5" text-anchor="middle" class="count">2 replies</text>
+    <text class="getLabel" text-anchor="middle" x="175" y="422">Get (target = BestMatching)</text>
+    <g transform="translate(175.0 451)">
+      <rect x="-23" y="-15" width="46" height="30" rx="7" fill="#ffffff" stroke="#0b3a82" stroke-width="2"/>
+      <circle cx="-12" cy="0" r="5.5" fill="#f5aa00"/>
+      <text x="7" y="5" text-anchor="middle" class="samp">A</text>
     </g>
+    <text class="getLabel" text-anchor="middle" x="455" y="434">Get (target = All)</text>
+    <g transform="translate(409.0 463)">
+      <rect x="-23" y="-15" width="46" height="30" rx="7" fill="#ffffff" stroke="#0b3a82" stroke-width="2"/>
+      <circle cx="-12" cy="0" r="5.5" fill="#f5aa00"/>
+      <text x="7" y="5" text-anchor="middle" class="samp">A</text>
+    </g>
+    <g transform="translate(455.0 463)">
+      <rect x="-23" y="-15" width="46" height="30" rx="7" fill="#ffffff" stroke="#0b3a82" stroke-width="2"/>
+      <circle cx="-12" cy="0" r="5.5" fill="#f5aa00"/>
+      <text x="7" y="5" text-anchor="middle" class="samp">B</text>
+    </g>
+    <g transform="translate(501.0 463)">
+      <rect x="-23" y="-15" width="46" height="30" rx="7" fill="#ffffff" stroke="#0b3a82" stroke-width="2"/>
+      <circle cx="-12" cy="0" r="5.5" fill="#f5aa00"/>
+      <text x="7" y="5" text-anchor="middle" class="samp">C</text>
+    </g>
+    <text class="getLabel" text-anchor="middle" x="810" y="428">Get (target = AllComplete)</text>
+    <g transform="translate(787.0 457)">
+      <rect x="-23" y="-15" width="46" height="30" rx="7" fill="#ffffff" stroke="#0b3a82" stroke-width="2"/>
+      <circle cx="-12" cy="0" r="5.5" fill="#f5aa00"/>
+      <text x="7" y="5" text-anchor="middle" class="samp">A</text>
+    </g>
+    <g transform="translate(833.0 457)">
+      <rect x="-23" y="-15" width="46" height="30" rx="7" fill="#ffffff" stroke="#0b3a82" stroke-width="2"/>
+      <circle cx="-12" cy="0" r="5.5" fill="#f5aa00"/>
+      <text x="7" y="5" text-anchor="middle" class="samp">B</text>
+    </g>
+    <text class="legend" x="70" y="494">query paths:</text>
+    <line x1="205" y1="490" x2="233" y2="490" stroke="#e03131" stroke-width="5" stroke-linecap="round"/>
+    <text class="legend" x="241" y="494">BestMatching</text>
+    <line x1="435" y1="490" x2="463" y2="490" stroke="#2f9e44" stroke-width="5" stroke-linecap="round"/>
+    <text class="legend" x="471" y="494">All</text>
+    <line x1="605" y1="490" x2="633" y2="490" stroke="#1c7ed6" stroke-width="5" stroke-linecap="round"/>
+    <text class="legend" x="641" y="494">AllComplete</text>
   </g>
 </svg>

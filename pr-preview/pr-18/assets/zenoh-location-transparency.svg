@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 372" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="372" viewBox="0 0 600 372" role="img" aria-labelledby="title desc">
   <title id="title">Zenoh location transparency</title>
   <desc id="desc">A robot issues a Get for the key warehouse/robot1/order with target BestMatching. Three storages serve warehouse/**: two are complete and one is incomplete. Zenoh routes the request to the nearest complete storage. Gray lines show the network links; the yellow line shows the path the data actually travels from the robot through the nearest router up to that storage.</desc>
   <defs>

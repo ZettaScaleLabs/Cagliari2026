@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 372" role="img" aria-labelledby="title desc">
-  <title id="title">QueryTarget BestMatching</title>
-  <desc id="desc">A robot issues a Get for warehouse/robot1/order with target BestMatching. Three storages serve warehouse/** (two complete, one incomplete); the yellow paths show the 1 storage(s) the request reaches.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="500" viewBox="0 0 980 500" role="img" aria-labelledby="title desc">
+  <title id="title">Reply consolidation</title>
+  <desc id="desc">Three storages reply with Samples for the same key (t1&lt;t2&lt;t3), reaching the robots in the order t2, t1, t3. Three robots run the same Get with different consolidation: None keeps t2, t1, t3; Monotonic drops the stale t1 and keeps t2, t3; Latest keeps only t3.</desc>
   <defs>
     <linearGradient id="node-fill" x1="0" x2="0" y1="0" y2="1">
       <stop offset="0" stop-color="#62bfff"/>
@@ -130,56 +130,93 @@
 
   <style>
     .bg { fill: #f7f7f7; }
-    .link { fill: none; stroke: #c7c7c7; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
     .flow { fill: none; stroke: #f5aa00; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+    .req { fill: none; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
     .endpoint { filter: url(#softShadow); }
-    .getLabel, .storageLabel { fill: #f5aa00; font: 700 15px Arial, sans-serif; }
-    .key { fill: #85888f; font: 15px Arial, sans-serif; }
-    .flag { fill: #85888f; font: 13px Arial, sans-serif; }
+    .getLabel { fill: #f5aa00; font: 700 15px Arial, sans-serif; }
+    .flag { fill: #85888f; font: 700 13px Arial, sans-serif; }
     .flag-true { fill: #3a9b4e; font-weight: 700; }
     .flag-false { fill: #c0392b; font-weight: 700; }
     .samp { fill: #0b3a82; font: 700 15px Arial, sans-serif; }
-    .order { fill: #fff; font: 700 11px Arial, sans-serif; }
-    .trayLabel { fill: #f5aa00; font: 700 13px Arial, sans-serif; }
     .legend { fill: #85888f; font: 12px Arial, sans-serif; }
-    .count { fill: #c47f12; font: 700 14px Arial, sans-serif; }
   </style>
 
-  <rect class="bg" width="600" height="372"/>
+  <rect class="bg" width="980" height="500"/>
 
-  <g id="base-links"><path class="link" d="M96 290 L252 298 M252 298 L450 286 M252 298 L190 182 M252 298 L336 166 M450 286 L470 196"/></g>
-  <path class="flow" d="M96 290 L252 298 L190 182"/>
-  <g id="routers" class="endpoint">
-    <use href="#node" x="252" y="298"/>
-    <use href="#node" x="450" y="286"/>
+  <g id="flows">
+    <path class="flow" d="M200 160 L430 275"/>
+    <path class="flow" d="M470 145 L430 275"/>
+    <path class="flow" d="M805 165 L715 335"/>
+    <path class="flow" d="M430 275 L715 335"/>
+    <path class="flow" d="M430 275 L175 395"/>
+    <path class="flow" d="M430 275 L455 407"/>
+    <path class="flow" d="M715 335 L810 401"/>
   </g>
-  <g id="endpoints" class="endpoint">
-    <use href="#robot" x="96" y="290"/>
-    <use href="#storage" x="190" y="182"/>
-    <use href="#storage" x="336" y="166"/>
-    <use href="#storage" x="470" y="196"/>
+  <g id="nodes" class="endpoint">
+    <use href="#node" x="430" y="275"/>
+    <use href="#node" x="715" y="335"/>
+    <use href="#storage" x="200" y="160"/>
+    <use href="#storage" x="470" y="145"/>
+    <use href="#storage" x="805" y="165"/>
+    <use href="#robot" x="175" y="395"/>
+    <use href="#robot" x="455" y="407"/>
+    <use href="#robot" x="810" y="401"/>
   </g>
   <g id="labels">
-    <text class="getLabel" x="28" y="332">Get (target = BestMatching)</text>
-    <text class="key" x="28" y="351">warehouse/robot1/order</text>
-    <g>
-      <text class="storageLabel" text-anchor="middle" x="190" y="64">Storage</text>
-      <text class="key" text-anchor="middle" x="190" y="82">warehouse/**</text>
-      <text class="flag" text-anchor="middle" x="190" y="100">complete = <tspan class="flag-true">true</tspan></text>
+    <g transform="translate(200 74)">
+      <rect x="-23" y="-15" width="46" height="30" rx="7" fill="#ffffff" stroke="#0b3a82" stroke-width="2"/>
+      <circle cx="-12" cy="0" r="5.5" fill="#f5aa00"/>
+      <text x="7" y="5" text-anchor="middle" class="samp">t2</text>
     </g>
-    <g>
-      <text class="storageLabel" text-anchor="middle" x="336" y="48">Storage</text>
-      <text class="key" text-anchor="middle" x="336" y="66">warehouse/**</text>
-      <text class="flag" text-anchor="middle" x="336" y="84">complete = <tspan class="flag-false">false</tspan></text>
+    <g transform="translate(470 59)">
+      <rect x="-23" y="-15" width="46" height="30" rx="7" fill="#ffffff" stroke="#0b3a82" stroke-width="2"/>
+      <circle cx="-12" cy="0" r="5.5" fill="#f5aa00"/>
+      <text x="7" y="5" text-anchor="middle" class="samp">t1</text>
     </g>
-    <g>
-      <text class="storageLabel" text-anchor="middle" x="470" y="78">Storage</text>
-      <text class="key" text-anchor="middle" x="470" y="96">warehouse/**</text>
-      <text class="flag" text-anchor="middle" x="470" y="114">complete = <tspan class="flag-true">true</tspan></text>
+    <g transform="translate(805 79)">
+      <rect x="-23" y="-15" width="46" height="30" rx="7" fill="#ffffff" stroke="#0b3a82" stroke-width="2"/>
+      <circle cx="-12" cy="0" r="5.5" fill="#f5aa00"/>
+      <text x="7" y="5" text-anchor="middle" class="samp">t3</text>
     </g>
-    <g transform="translate(96 228)">
-      <rect x="-52" y="-14" width="104" height="28" rx="14" fill="#fff7e6" stroke="#f5aa00" stroke-width="1.5"/>
-      <text x="0" y="5" text-anchor="middle" class="count">1 reply</text>
+    <text class="getLabel" text-anchor="middle" x="175" y="422">Get (consolidation = None)</text>
+    <g transform="translate(129.0 451)">
+      <rect x="-23" y="-15" width="46" height="30" rx="7" fill="#ffffff" stroke="#0b3a82" stroke-width="2"/>
+      <circle cx="-12" cy="0" r="5.5" fill="#f5aa00"/>
+      <text x="7" y="5" text-anchor="middle" class="samp">t2</text>
     </g>
+    <g transform="translate(175.0 451)">
+      <rect x="-23" y="-15" width="46" height="30" rx="7" fill="#ffffff" stroke="#0b3a82" stroke-width="2"/>
+      <circle cx="-12" cy="0" r="5.5" fill="#f5aa00"/>
+      <text x="7" y="5" text-anchor="middle" class="samp">t1</text>
+    </g>
+    <g transform="translate(221.0 451)">
+      <rect x="-23" y="-15" width="46" height="30" rx="7" fill="#ffffff" stroke="#0b3a82" stroke-width="2"/>
+      <circle cx="-12" cy="0" r="5.5" fill="#f5aa00"/>
+      <text x="7" y="5" text-anchor="middle" class="samp">t3</text>
+    </g>
+    <text class="getLabel" text-anchor="middle" x="455" y="434">Get (consolidation = Monotonic)</text>
+    <g transform="translate(409.0 463)">
+      <rect x="-23" y="-15" width="46" height="30" rx="7" fill="#ffffff" stroke="#0b3a82" stroke-width="2"/>
+      <circle cx="-12" cy="0" r="5.5" fill="#f5aa00"/>
+      <text x="7" y="5" text-anchor="middle" class="samp">t2</text>
+    </g>
+    <g transform="translate(455.0 463)" opacity="0.4">
+      <rect x="-23" y="-15" width="46" height="30" rx="7" fill="#ffffff" stroke="#0b3a82" stroke-width="2"/>
+      <circle cx="-12" cy="0" r="5.5" fill="#f5aa00"/>
+      <text x="7" y="5" text-anchor="middle" class="samp">t1</text>
+      <line x1="-21" y1="-13" x2="21" y2="13" stroke="#c0392b" stroke-width="2.5"/>
+    </g>
+    <g transform="translate(501.0 463)">
+      <rect x="-23" y="-15" width="46" height="30" rx="7" fill="#ffffff" stroke="#0b3a82" stroke-width="2"/>
+      <circle cx="-12" cy="0" r="5.5" fill="#f5aa00"/>
+      <text x="7" y="5" text-anchor="middle" class="samp">t3</text>
+    </g>
+    <text class="getLabel" text-anchor="middle" x="810" y="428">Get (consolidation = Latest)</text>
+    <g transform="translate(810.0 457)">
+      <rect x="-23" y="-15" width="46" height="30" rx="7" fill="#ffffff" stroke="#0b3a82" stroke-width="2"/>
+      <circle cx="-12" cy="0" r="5.5" fill="#f5aa00"/>
+      <text x="7" y="5" text-anchor="middle" class="samp">t3</text>
+    </g>
+    <text class="legend" text-anchor="middle" x="490" y="486">each storage replies with one Sample &#183; t1 &lt; t2 &lt; t3 (newer) &#183; they reach the robots in the order t2, t1, t3</text>
   </g>
 </svg>
