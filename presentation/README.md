@@ -73,16 +73,17 @@ extension to preview and export `zenoh.md` directly.
 1. Title — Eclipse Zenoh
 2. What is Zenoh
 3. Key Expressions
-4. Publish / Subscribe
-5. Get / Reply
-6. Sample
-7. Selector
-8. Matching
-9. Consolidation
-10. Reply
-11. Session
-12. Liveliness
-13. Serialization
-14. Advanced Pub/Sub
-15. Language bindings
-16. Links
+4. Config
+5. Session
+6. Publish / Subscribe
+7. Get / Reply
+8. Sample
+9. Selector
+10. Matching
+11. Consolidation
+12. Reply
+13. Liveliness
+14. Serialization
+15. Advanced Pub/Sub
+16. Language bindings
+17. Links
