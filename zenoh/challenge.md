@@ -87,3 +87,13 @@ A link to a GitHub repository with the project sources and clear instructions on
 how to build and run it.
 
 Links to the results will be published in this repository.
+
+## Evaluation Criteria
+
+| Category | Weight | Description |
+|----------|--------|-------------|
+| Zenoh functionality usage | 25% | Correct and idiomatic use of Zenoh API and key expression organization. Using advanced Zenoh features when they are useful for the task |
+| User interface | 25% | Logical application interface, comprehensive onboarding instructions. It's evaluated how smooth the user experience with the application is. Note: command line interface is not penalized, it's completely ok |
+| Application functionality | 25% | How complex and interesting the application is. Does it provide the basic functions which are expected from this kind of application? Does it provide some extended functionality? |
+| Code Quality | 10% | Readability, maintainability, clarity of the application logic, clean separation of AI-sloppy parts (it's inavoidable nowadays 😭) behind clean and strict interfaces |
+| Idea originality | 15% | Thinking out of the box, making the non-trivial application concept, using zenoh in the original domain |

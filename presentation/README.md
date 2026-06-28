@@ -84,3 +84,5 @@ extension to preview and export `zenoh.md` directly.
 12. Liveliness
 13. Serialization
 14. Advanced Pub/Sub
+15. Language bindings
+16. Links

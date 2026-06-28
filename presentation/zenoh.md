@@ -381,3 +381,27 @@ A **configurable** layer on top of base pub/sub for **guaranteed delivery** — 
   - **`recovery`** — request **retransmission of missing** samples (periodic query or heartbeat-driven).
   - **`sample_miss_detection`** — detect gaps and get notified (`Miss`: source + count).
 - **Different strategies, all opt-in and tunable** via `CacheConfig`, `HistoryConfig`, `RecoveryConfig`, `MissDetectionConfig`.
+
+---
+
+<!-- _class: media -->
+
+# Language bindings
+
+A **Rust** core is the source of truth. **`zenoh-pico`** (pure C, embedded) and **`zenoh-c`** wrap it, **`zenoh-cpp`** wraps both, and **`zenoh-go`** wraps C; **Python / Java / Kotlin** wrap Rust directly, while **`zenoh-ts`** connects over a WebSocket bridge.
+
+![h:432](../assets/zenoh-language-bindings.svg)
+
+---
+
+# Links
+
+## Presentation
+
+<https://zettascalelabs.github.io/Cagliari2026/>
+
+## Repository
+
+<https://github.com/ZettaScaleLabs/Cagliari2026>
+
+It also contains an **introduction to the library**, **installation instructions**, and a **challenge** to try.
