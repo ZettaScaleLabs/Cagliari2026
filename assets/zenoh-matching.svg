@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 500" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="500" viewBox="0 0 980 500" role="img" aria-labelledby="title desc">
   <title id="title">QueryTarget matching</title>
   <desc id="desc">Three storages serve the same key (two complete, one partial), each holding a Sample A, B or C. Three robots run the same Get with a different target; each request path is drawn in its own colour. BestMatching reaches the nearest complete storage (A); All reaches every storage (A, B, C); AllComplete reaches only the complete storages (A, B). The tray under each robot shows the Samples it collects.</desc>
   <defs>

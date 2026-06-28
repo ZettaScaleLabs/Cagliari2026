@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 500" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="500" viewBox="0 0 980 500" role="img" aria-labelledby="title desc">
   <title id="title">Reply consolidation</title>
   <desc id="desc">Three storages reply with Samples for the same key (t1&lt;t2&lt;t3), reaching the robots in the order t2, t1, t3. Three robots run the same Get with different consolidation: None keeps t2, t1, t3; Monotonic drops the stale t1 and keeps t2, t3; Latest keeps only t3.</desc>
   <defs>

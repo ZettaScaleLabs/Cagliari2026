@@ -191,7 +191,7 @@ def main():
     body.append(card("c2", "robot/bob", PUT, SLOTS[1], *C2))
     body.append(card("c3", "robot/alice", DEL, SLOTS[2], *C3))
 
-    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" role="img" aria-labelledby="title desc">
+    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-labelledby="title desc">
   <title id="title">Zenoh liveliness subscriber</title>
   <desc id="desc">A server runs session.liveliness().declare_subscriber("robot/*").history() while robot/alice is
 already connected. History delivers a Put for robot/alice; robot/bob connects and the subscriber receives a Put
