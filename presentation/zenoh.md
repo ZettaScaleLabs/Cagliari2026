@@ -236,10 +236,10 @@ Mikhail ILIN&nbsp;&nbsp;·&nbsp;&nbsp;Ivan PAEZ
 Passed to `zenoh::open` — a **JSON5** document (a file, a string, or built in code) that tunes how a node behaves on the network. Its central choice is the node's **mode**:
 
 - **`peer`** *(default)* — discovers neighbours via **multicast + gossip** scouting and auto-connects to them, forming a **dynamic mesh**; no router needed.
-- **`client`** — keeps a **single uplink** to one router, found by a configured endpoint or **multicast scouting**; no gossip, no mesh.
+- **`client`** — keeps a **single uplink** to one node (typically a **`router`**), found by a configured endpoint or **multicast scouting**; no gossip, no mesh.
 - **`router`** (`zenohd`) — **infrastructure** routing between the clients and peers attached to it; connects only where **configured**, never auto-connects.
 
-It also sets **`connect` / `listen` endpoints**, **scouting** (toggle multicast & gossip, tune `autoconnect`), **transports & links** (TCP / TLS / QUIC / UDP / shared-memory; priorities, reliability, buffers), and **QoS & security** (timestamping, query timeouts, access control / TLS).
+Config sets all the parameters of the node: **`connect` / `listen` endpoints**, **scouting** (toggle multicast & gossip, tune `autoconnect`), **transports & links** (TCP / TLS / QUIC / UDP / shared-memory; priorities, reliability, buffers), **QoS & security** (timestamping, query timeouts, access control / TLS), plugins.
 
 ---
 
