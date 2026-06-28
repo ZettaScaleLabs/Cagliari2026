@@ -13,3 +13,6 @@ microcontrollers to the cloud.
   the bundled examples.
 - [Challenge](zenoh/challenge.md) — the hackathon challenge: goal, the three
   levels, application ideas, deliverables, and how projects are evaluated.
+- [Presentation](https://zettascalelabs.github.io/Cagliari2026/) — a Marp slide
+  deck introducing Zenoh and its core concepts (source: [presentation/zenoh.md](presentation/zenoh.md);
+  see [presentation/](presentation/) to build it).

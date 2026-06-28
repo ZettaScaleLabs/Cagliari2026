@@ -1,0 +1,42 @@
+name: Deploy PR preview
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+    paths:
+      - presentation/**
+      - assets/**
+      - .github/workflows/pr-preview.yml
+
+# Push previews to gh-pages and comment the link on the PR.
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    # Forked PRs run with a read-only token and cannot deploy or comment.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build Marp deck
+        if: github.event.action != 'closed'
+        run: bash presentation/build.sh _site
+
+      # Deploys ./_site to gh-pages/pr-preview/pr-<N>/ on open/update,
+      # removes it on close, and posts/updates a sticky PR comment.
+      - name: Deploy PR preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: _site
+          umbrella-dir: pr-preview

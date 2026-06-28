@@ -74,7 +74,7 @@ def main():
     ])
     flow = f"M{ROBOT[0]} {ROBOT[1]} L{ROUTER1[0]} {ROUTER1[1]} L{STORAGE1[0]} {STORAGE1[1]}"
 
-    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" role="img" aria-labelledby="title desc">
+    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-labelledby="title desc">
   <title id="title">Zenoh location transparency</title>
   <desc id="desc">A robot issues a Get for the key warehouse/robot1/order with target BestMatching. Three storages serve warehouse/**: two are complete and one is incomplete. Zenoh routes the request to the nearest complete storage. Gray lines show the network links; the yellow line shows the path the data actually travels from the robot through the nearest router up to that storage.</desc>
   <defs>

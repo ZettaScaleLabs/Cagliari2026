@@ -1,0 +1,41 @@
+name: Deploy presentation to Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - presentation/**
+      - assets/**
+      - .github/workflows/pages.yml
+  workflow_dispatch:
+
+# Push the built deck to the gh-pages branch (Pages source = gh-pages).
+permissions:
+  contents: write
+
+concurrency:
+  group: pages-main
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build Marp deck
+        run: bash presentation/build.sh _site
+
+      - name: Publish to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: _site
+          # Replace the site root but keep the per-PR previews intact.
+          clean: true
+          clean-exclude: |
+            pr-preview/

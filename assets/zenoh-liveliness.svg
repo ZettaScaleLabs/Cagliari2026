@@ -1,12 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="372" viewBox="0 0 600 372" role="img" aria-labelledby="title desc">
-  <title id="title">Zenoh location transparency</title>
-  <desc id="desc">A robot issues a Get for the key warehouse/robot1/order with target BestMatching. Three storages serve warehouse/**: two are complete and one is incomplete. Zenoh routes the request to the nearest complete storage. Gray lines show the network links; the yellow line shows the path the data actually travels from the robot through the nearest router up to that storage.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="430" height="560" viewBox="0 0 430 560" role="img" aria-labelledby="title desc">
+  <title id="title">Zenoh liveliness subscriber</title>
+  <desc id="desc">A server runs session.liveliness().declare_subscriber("robot/*").history() while robot/alice is
+already connected. History delivers a Put for robot/alice; robot/bob connects and the subscriber receives a Put
+for robot/bob; robot/alice disconnects and the subscriber receives a Delete for robot/alice. The three samples
+stay in the subscriber's list (green dot = Put, red dot = Delete).</desc>
   <defs>
     <linearGradient id="node-fill" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0" stop-color="#62bfff"/>
-      <stop offset="1" stop-color="#247fbd"/>
-    </linearGradient>
-    <linearGradient id="storage-fill" x1="0" x2="0" y1="0" y2="1">
       <stop offset="0" stop-color="#62bfff"/>
       <stop offset="1" stop-color="#247fbd"/>
     </linearGradient>
@@ -14,11 +13,15 @@
       <stop offset="0" stop-color="#5bbcff"/>
       <stop offset="1" stop-color="#1f78c9"/>
     </linearGradient>
+    <linearGradient id="workstation-screen-fill" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f7fdff"/>
+      <stop offset="1" stop-color="#caeef9"/>
+    </linearGradient>
     <filter id="softShadow" x="-25%" y="-25%" width="150%" height="150%">
       <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#0b2547" flood-opacity=".25"/>
     </filter>
 
-    <!-- Kept inline for portable README rendering; reusable copies live in assets/svg-components/. -->
+    <!-- Kept inline for portable rendering; reusable copies live in assets/svg-components/. -->
     <g id="computer">
       <path d="M-24,-8 v16 c0,6 11,11 24,11s24,-5 24,-11V-8" fill="url(#node-fill)"/>
       <ellipse cx="0" cy="-8" rx="24" ry="10" fill="#61bdf5"/>
@@ -126,54 +129,108 @@
       <use href="#computer" y="-22"/>
       <use href="#computer" y="-44"/>
     </g>
+
+    <g id="workstation">
+      <path d="M-39,-38 L39,-50 L39,29 L-39,20Z" fill="#2c93c5" stroke="#07315f" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M-29,-29 L27,-37 L27,15 L-29,11Z" fill="url(#workstation-screen-fill)" stroke="#b9ced8" stroke-width="2"/>
+      <path d="M-24,-16 L-2,-21 L18,-10 M-14,7 L5,-7 L24,-4" fill="none" stroke="#c4c9cf" stroke-width="2"/>
+      <path d="M-10,23 h22 l4,18 h-30Z" fill="#1f6f9f" stroke="#07315f" stroke-width="3" stroke-linejoin="round"/>
+    </g>
   </defs>
 
   <style>
     .bg { fill: #f7f7f7; }
-    .link { fill: none; stroke: #c7c7c7; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-    .flow { fill: none; stroke: #f5aa00; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+    .link { fill: none; stroke: #c7c7c7; stroke-width: 2.5; stroke-linecap: round; }
     .endpoint { filter: url(#softShadow); }
-    .getLabel, .storageLabel { fill: #f5aa00; font: 700 15px Arial, sans-serif; }
-    .key { fill: #85888f; font: 15px Arial, sans-serif; }
-    .flag { fill: #85888f; font: 13px Arial, sans-serif; }
-    .flag-true { fill: #3a9b4e; font-weight: 700; }
-    .flag-false { fill: #c0392b; font-weight: 700; }
+    .ke { fill: #0b3a82; font: 700 14px Arial, sans-serif; }
+    .codebox { fill: #eef4ff; stroke: #bcd0f2; stroke-width: 1.5; }
+    .code { fill: #0b3a82; font: 600 13px "SFMono-Regular", "Menlo", "Consolas", monospace; }
+    .samp { fill: #0b3a82; font: 700 14px Arial, sans-serif; }
+
+    .alice, .lk-alice { animation: kf_alice 14.0s linear infinite; }
+    .sub { animation: kf_sub 14.0s linear infinite; }
+    .bob, .lk-bob { animation: kf_bob 14.0s linear infinite; }
+    .card { opacity: 0; }
+    .c1 { animation: kf_c1 14.0s linear infinite; }
+    .c2 { animation: kf_c2 14.0s linear infinite; }
+    .c3 { animation: kf_c3 14.0s linear infinite; }
+    @keyframes kf_alice {
+      0%, 50.0% { opacity: 1; }
+      53.57%, 92.86% { opacity: 0; }
+      96.43%, 100% { opacity: 1; }
+    }
+    @keyframes kf_sub {
+      0%, 2.86% { opacity: 0; }
+      6.43%, 89.29% { opacity: 1; }
+      92.86%, 100% { opacity: 0; }
+    }
+    @keyframes kf_bob {
+      0%, 24.29% { opacity: 0; }
+      27.86%, 89.29% { opacity: 1; }
+      92.86%, 100% { opacity: 0; }
+    }
+    @keyframes kf_c1 {
+      0%, 10.0% { opacity: 0; }
+      12.14%, 89.29% { opacity: 1; }
+      91.43%, 100% { opacity: 0; }
+    }
+    @keyframes kf_c2 {
+      0%, 32.86% { opacity: 0; }
+      35.0%, 89.29% { opacity: 1; }
+      91.43%, 100% { opacity: 0; }
+    }
+    @keyframes kf_c3 {
+      0%, 58.57% { opacity: 0; }
+      60.71%, 89.29% { opacity: 1; }
+      91.43%, 100% { opacity: 0; }
+    }
   </style>
 
-  <rect class="bg" width="600" height="372"/>
+  <rect class="bg" width="430" height="560"/>
 
-  <g id="base-links">
-    <path class="link" d="M96 290 L252 298 M252 298 L450 286 M252 298 L190 182 M252 298 L336 166 M450 286 L470 196"/>
+  <g id="links">
+    <path class="link" d="M215 352 L215 100"/>
+    <path class="link lk-alice" d="M215 352 L110 478"/>
+    <path class="link lk-bob" d="M215 352 L320 478"/>
   </g>
-
-  <path class="flow" d="M96 290 L252 298 L190 182"/>
-
-  <g id="routers" class="endpoint">
-    <use href="#node" x="252" y="298"/>
-    <use href="#node" x="450" y="286"/>
+  <g class="endpoint">
+  <g><g transform="translate(215 100) scale(1.3)"><use href="#workstation"/></g></g>
+  <g><g transform="translate(215 352) scale(1.2)"><use href="#node"/></g></g>
   </g>
-
-  <g id="endpoints" class="endpoint">
-    <use href="#robot" x="96" y="290"/>
-    <use href="#storage" x="190" y="182"/>
-    <use href="#storage" x="336" y="166"/>
-    <use href="#storage" x="470" y="196"/>
+  <g class="sub">
+    <rect class="codebox" x="91" y="46" width="250" height="82" rx="10"/>
+    <text class="code" text-anchor="start" x="100" y="64">session</text>
+    <text class="code" text-anchor="start" x="100" y="84">.liveliness()</text>
+    <text class="code" text-anchor="start" x="100" y="104">.declare_subscriber(<tspan fill="#2f9e44">"robot/*"</tspan>)</text>
+    <text class="code" text-anchor="start" x="100" y="124">.history()</text>
   </g>
-
-  <g id="labels">
-    <text class="getLabel" x="28" y="332">Get (target = BestMatching)</text>
-    <text class="key" x="28" y="351">warehouse/robot1/order</text>
-
-    <text class="storageLabel" text-anchor="middle" x="190" y="64">Storage</text>
-    <text class="key" text-anchor="middle" x="190" y="82">warehouse/**</text>
-    <text class="flag" text-anchor="middle" x="190" y="100">complete = <tspan class="flag-true">true</tspan></text>
-
-    <text class="storageLabel" text-anchor="middle" x="336" y="48">Storage</text>
-    <text class="key" text-anchor="middle" x="336" y="66">warehouse/**</text>
-    <text class="flag" text-anchor="middle" x="336" y="84">complete = <tspan class="flag-false">false</tspan></text>
-
-    <text class="storageLabel" text-anchor="middle" x="470" y="78">Storage</text>
-    <text class="key" text-anchor="middle" x="470" y="96">warehouse/**</text>
-    <text class="flag" text-anchor="middle" x="470" y="114">complete = <tspan class="flag-true">true</tspan></text>
+  <g class="alice">
+    <g transform="translate(110 478) scale(1.3)"><use href="#robot"/></g>
+    <text class="ke" text-anchor="middle" x="110" y="520">token = robot/alice</text>
+  </g>
+  <g class="bob">
+    <g transform="translate(320 478) scale(1.3)"><use href="#robot"/></g>
+    <text class="ke" text-anchor="middle" x="320" y="520">token = robot/bob</text>
+  </g>
+  <g class="card c1">
+    <rect x="-66" y="-15" width="132" height="30" rx="8" fill="#fff" stroke="#0b3a82" stroke-width="2"/>
+    <circle cx="-50" cy="0" r="6" fill="#2f9e44"/>
+    <text x="-36" y="5" text-anchor="start" class="samp">robot/alice</text>
+    <animateMotion dur="14.0s" repeatCount="indefinite" rotate="0" calcMode="linear"
+      keyTimes="0;0.1;0.2071;1" keyPoints="0;0;1;1" path="M215 352 L215 182"/>
+  </g>
+  <g class="card c2">
+    <rect x="-66" y="-15" width="132" height="30" rx="8" fill="#fff" stroke="#0b3a82" stroke-width="2"/>
+    <circle cx="-50" cy="0" r="6" fill="#2f9e44"/>
+    <text x="-36" y="5" text-anchor="start" class="samp">robot/bob</text>
+    <animateMotion dur="14.0s" repeatCount="indefinite" rotate="0" calcMode="linear"
+      keyTimes="0;0.3286;0.4357;1" keyPoints="0;0;1;1" path="M215 352 L215 218"/>
+  </g>
+  <g class="card c3">
+    <rect x="-66" y="-15" width="132" height="30" rx="8" fill="#fff" stroke="#0b3a82" stroke-width="2"/>
+    <circle cx="-50" cy="0" r="6" fill="#e03131"/>
+    <text x="-36" y="5" text-anchor="start" class="samp">robot/alice</text>
+    <animateMotion dur="14.0s" repeatCount="indefinite" rotate="0" calcMode="linear"
+      keyTimes="0;0.5857;0.6929;1" keyPoints="0;0;1;1" path="M215 352 L215 254"/>
   </g>
 </svg>
