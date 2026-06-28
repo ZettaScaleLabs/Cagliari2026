@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 28 28" role="img" aria-labelledby="data-packet-title data-packet-desc">
+  <title id="data-packet-title">Data packet icon</title>
+  <desc id="data-packet-desc">A reusable yellow packet marker for animated data flows.</desc>
+  <defs>
+    <filter id="data-packet-soft-shadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#0b2547" flood-opacity=".25"/>
+    </filter>
+  </defs>
+  <g id="data-packet" fill="#f5aa00" stroke="#fff" stroke-width="3" filter="url(#data-packet-soft-shadow)">
+    <circle r="9"/>
+  </g>
+</svg>
