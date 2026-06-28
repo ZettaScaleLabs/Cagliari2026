@@ -233,7 +233,7 @@ Mikhail ILIN&nbsp;&nbsp;·&nbsp;&nbsp;Ivan PAEZ
 
 # Config
 
-Passed to `zenoh::open` — a **JSON5** document (a file, a string, or built in code) that tunes how a node behaves on the network. Its central choice is the node's **mode**:
+Passed to `zenoh::open` — a **`Config` object** that tunes how a node behaves on the network. It can be **loaded from JSON5 or YAML** (a file or a string) or **built directly in code**. Its central choice is the node's **mode**:
 
 - **`peer`** *(default)* — discovers neighbours via **multicast + gossip** scouting and auto-connects to them, forming a **dynamic mesh**; no router needed.
 - **`client`** — keeps a **single uplink** to one node (typically a **`router`**), found by a configured endpoint or **multicast scouting**; no gossip, no mesh.
