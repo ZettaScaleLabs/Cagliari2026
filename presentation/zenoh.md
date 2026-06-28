@@ -229,6 +229,42 @@ Mikhail ILIN&nbsp;&nbsp;·&nbsp;&nbsp;Ivan PAEZ
 
 ---
 
+<!-- _class: small -->
+
+# Config
+
+Passed to `zenoh::open` — a **JSON5** document (a file, a string, or built in code) that tunes how a node behaves on the network. Its central choice is the node's **mode**:
+
+- **`peer`** *(default)* — discovers neighbours via **multicast + gossip** scouting and auto-connects to them, forming a **dynamic mesh**; no router needed.
+- **`client`** — keeps a **single uplink** to one router, found by a configured endpoint or **multicast scouting**; no gossip, no mesh.
+- **`router`** (`zenohd`) — **infrastructure** routing between the clients and peers attached to it; connects only where **configured**, never auto-connects.
+
+It also sets **`connect` / `listen` endpoints**, **scouting** (toggle multicast & gossip, tune `autoconnect`), **transports & links** (TCP / TLS / QUIC / UDP / shared-memory; priorities, reliability, buffers), and **QoS & security** (timestamping, query timeouts, access control / TLS).
+
+---
+
+<!-- _class: small -->
+
+# Session
+
+The **`Session`** is the main Zenoh object — it holds the runtime and the node's connection state. Opened with `zenoh::open(Config)`.
+
+## Connectivity API
+
+The session provides an API to **get information about its connections to other nodes**.
+
+- **`info()`** → `SessionInfo`: `zid()`, `routers_zid()`, `peers_zid()`, plus `links()` / `transports()`.
+
+## Scouting
+
+The session can **establish connections to other nodes without configuring them explicitly** — peers are discovered automatically over UDP multicast or gossip while the session is opening.
+
+### `zenoh::scout`
+
+A standalone **information API**: it runs the same network browse as the scouting done internally at session open, but only to report the nodes it finds.
+
+---
+
 <!-- _class: media -->
 
 # Publish / Subscribe
@@ -321,28 +357,6 @@ Every queryable whose key expression matches can answer. Two things decide **whi
 When several queryables answer for the **same key**, consolidation decides what the querier finally sees. The three storages reply with values stamped **`t1 < t2 < t3`**, reaching the robots out of order (`t2`, `t1`, `t3`); each robot runs the same query differently — **`None`** keeps all, **`Monotonic`** drops the stale `t1`, **`Latest`** keeps only `t3`.
 
 <div class="solo"><img src="../assets/zenoh-consolidation.svg" alt="Three storages reply with samples t2, t1, t3 through a router to three robots; the None robot keeps t2, t1, t3, the Monotonic robot drops the stale t1 and keeps t2, t3, and the Latest robot keeps only t3" /></div>
-
----
-
-<!-- _class: small -->
-
-# Session
-
-The **`Session`** is the main Zenoh object — it holds the runtime and the node's connection state. Opened with `zenoh::open(Config)`.
-
-## Connectivity API
-
-The session provides an API to **get information about its connections to other nodes**.
-
-- **`info()`** → `SessionInfo`: `zid()`, `routers_zid()`, `peers_zid()`, plus `links()` / `transports()`.
-
-## Scouting
-
-The session can **establish connections to other nodes without configuring them explicitly** — peers are discovered automatically over UDP multicast or gossip while the session is opening.
-
-### `zenoh::scout`
-
-A standalone **information API**: it runs the same network browse as the scouting performed internally at session open, but only to report the nodes it finds.
 
 ---
 
