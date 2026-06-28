@@ -1,21 +1,26 @@
 #!/usr/bin/env python3
 """Generate the animated Liveliness illustration (assets/zenoh-liveliness.svg).
 
-A server declares a liveliness Subscriber for robot/* with history = true; two
-robots (robot/alice, robot/bob) connect and disconnect, and the subscriber
-receives Put / Delete liveliness samples routed through the router. The robot /
-node / storage artwork is lifted from assets/zenoh-query.svg so the diagram
-matches the rest of the deck. Animations are pure CSS keyframes (+ animateMotion
-for the moving samples) on a looping timeline, so they play in HTML / browsers.
+Vertical layout for the right-hand side of the Liveliness slide: the server (a
+liveliness Subscriber for robot/* with history = true) sits on top with the
+samples it collects stacked underneath it; the router is in the middle; the
+robots robot/alice and robot/bob are at the bottom. robot/alice is already
+connected at the start. The robot / node / storage artwork is lifted from
+assets/zenoh-query.svg so the diagram matches the rest of the deck.
 
-Timeline (loop = 16 s):
-    1  robot/alice connects (declares its liveliness token)
-    2  server declares the Subscriber robot/* with history = true
-    3  history delivers Put robot/alice
-    4  robot/bob connects
-    5  subscriber receives Put robot/bob
-    6  robot/bob disconnects
-    7  subscriber receives Delete robot/bob
+Each liveliness sample is drawn like the Sample cards elsewhere in the deck — a
+block with a dot and the key expression — with a green dot for Put and a red dot
+for Delete. Samples travel up from the router and stay in the subscriber's list,
+so by the end three samples are collected. Animations are pure CSS keyframes
+(+ animateMotion for the moving samples) on a looping timeline.
+
+Timeline (loop = 14 s), starting with robot/alice already connected:
+    server declares Subscriber robot/* (history = true)
+    history delivers Put robot/alice      -> green, list slot 1
+    robot/bob connects
+    subscriber receives Put robot/bob      -> green, list slot 2
+    robot/bob disconnects
+    subscriber receives Delete robot/bob   -> red,   list slot 3
 """
 
 from pathlib import Path
@@ -24,14 +29,15 @@ ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "assets" / "zenoh-query.svg"
 OUT = ROOT / "assets" / "zenoh-liveliness.svg"
 
-T = 16.0          # loop length (seconds)
+T = 14.0          # loop length (seconds)
 FADE = 0.5
-W, H = 900, 510
+W, H = 430, 560
 
-SERVER = (155, 310)
-ROUTER = (470, 310)
-ALICE = (800, 170)
-BOB = (800, 415)
+SERVER = (215, 84)
+ROUTER = (215, 355)
+ALICE = (110, 475)
+BOB = (320, 475)
+SLOTS = [(215, 186), (215, 222), (215, 258)]   # collected-sample list (top -> bottom)
 
 PUT = "#2f9e44"
 DEL = "#e03131"
@@ -71,86 +77,66 @@ def text(x, y, s, cls, anchor="middle"):
     return f'    <text class="{cls}" text-anchor="{anchor}" x="{x}" y="{y}">{s}</text>'
 
 
-def packet(cls, label, color, on, off):
-    w = 12 + len(label) * 8.3
-    kt = f"0;{round(on / T, 4)};{round(off / T, 4)};1"
+def card(cls, label, dot, slot, on, off_travel):
+    kt = f"0;{round(on / T, 4)};{round(off_travel / T, 4)};1"
     return (
-        f'  <g class="pkt {cls}">\n'
-        f'    <circle class="dot" r="7" fill="{color}"/>\n'
-        f'    <g transform="translate(0 -22)">\n'
-        f'      <rect x="{-w / 2:.0f}" y="-13" width="{w:.0f}" height="26" rx="13" fill="{color}"/>\n'
-        f'      <text x="0" y="5" text-anchor="middle" class="pilltext">{label}</text>\n'
-        f'    </g>\n'
+        f'  <g class="card {cls}">\n'
+        f'    <rect x="-66" y="-15" width="132" height="30" rx="8" fill="#fff" stroke="#0b3a82" stroke-width="2"/>\n'
+        f'    <circle cx="-50" cy="0" r="6" fill="{dot}"/>\n'
+        f'    <text x="-36" y="5" text-anchor="start" class="samp">{label}</text>\n'
         f'    <animateMotion dur="{T}s" repeatCount="indefinite" rotate="0" calcMode="linear"\n'
-        f'      keyTimes="{kt}" keyPoints="0;0;1;1" path="M{ROUTER[0]} {ROUTER[1]} L{SERVER[0]} {SERVER[1]}"/>\n'
+        f'      keyTimes="{kt}" keyPoints="0;0;1;1" path="M{ROUTER[0]} {ROUTER[1]} L{slot[0]} {slot[1]}"/>\n'
+        f'  </g>'
+    )
+
+
+def robot(pos, name, cls):
+    extra = f" {cls}" if cls else ""
+    return (
+        f'  <g class="robot{extra}">\n'
+        f'    <g transform="translate({pos[0]} {pos[1]}) scale(1.3)"><use href="#robot"/></g>\n'
+        f'    <circle class="token" cx="{pos[0] - 52}" cy="{pos[1] + 38}" r="5"/>\n'
+        + text(pos[0] - 40, pos[1] + 42, name, "ke", anchor="start") + "\n"
         f'  </g>'
     )
 
 
 # timeline (seconds)
-ALICE_ON, ALICE_OFF = 0.5, 15.4
-SUB_ON, SUB_OFF = 2.5, 15.4
-BOB_ON, BOB_OFF = 6.5, 10.5
-PUT_A = (4.4, 6.0)
-PUT_B = (8.4, 10.0)
-DEL_B = (12.4, 14.0)
-
-CAPTIONS = [
-    "1 · robot/alice connects — declares its liveliness token",
-    "2 · server declares Subscriber  robot/*  ·  history = true",
-    "3 · history delivers  Put  robot/alice",
-    "4 · robot/bob connects",
-    "5 · subscriber receives  Put  robot/bob",
-    "6 · robot/bob disconnects",
-    "7 · subscriber receives  Delete  robot/bob",
-]
-CAP_STEP = 2.0
-CAP_LAST_END = 15.7
+SUB_ON, RESET = 0.4, 13.0
+C1 = (1.4, 2.9)     # Put robot/alice (history)
+BOB_ON, BOB_OFF = 3.4, 7.0
+C2 = (4.6, 6.1)     # Put robot/bob
+C3 = (8.2, 9.7)     # Delete robot/bob
 
 KEYFRAMES = "\n".join([
-    fade_keyframes("kf_alice", ALICE_ON, ALICE_OFF),
-    fade_keyframes("kf_sub", SUB_ON, SUB_OFF),
+    fade_keyframes("kf_sub", SUB_ON, RESET),
     fade_keyframes("kf_bob", BOB_ON, BOB_OFF),
-    fade_keyframes("kf_pa", *PUT_A, fade=0.3),
-    fade_keyframes("kf_pb", *PUT_B, fade=0.3),
-    fade_keyframes("kf_db", *DEL_B, fade=0.3),
-] + [
-    fade_keyframes(
-        f"kf_cap{i + 1}",
-        0.3 + i * CAP_STEP,
-        (CAP_LAST_END if i == len(CAPTIONS) - 1 else 0.3 + (i + 1) * CAP_STEP),
-        fade=0.3,
-    )
-    for i in range(len(CAPTIONS))
+    fade_keyframes("kf_c1", C1[0], RESET, fade=0.3),
+    fade_keyframes("kf_c2", C2[0], RESET, fade=0.3),
+    fade_keyframes("kf_c3", C3[0], RESET, fade=0.3),
 ])
 
 STYLE = """  <style>
     .bg { fill: #f7f7f7; }
     .link { fill: none; stroke: #c7c7c7; stroke-width: 2.5; stroke-linecap: round; }
     .endpoint { filter: url(#softShadow); }
-    .node-label { fill: #5b6b86; font: 700 16px Arial, sans-serif; }
-    .ke { fill: #0b3a82; font: 700 15px Arial, sans-serif; }
-    .caption { fill: #16233d; font: 600 18px Arial, sans-serif; }
+    .node-label { fill: #5b6b86; font: 700 15px Arial, sans-serif; }
+    .ke { fill: #0b3a82; font: 700 14px Arial, sans-serif; }
     .badge { fill: #eef4ff; stroke: #147dff; stroke-width: 1.5; }
     .badge-t { fill: #0b1641; font: 700 14px Arial, sans-serif; }
     .badge-k { fill: #147dff; font: 700 14px Arial, sans-serif; }
-    .pilltext { fill: #fff; font: 700 14px Arial, sans-serif; }
-    .dot { stroke: #fff; stroke-width: 2; }
+    .samp { fill: #0b3a82; font: 700 14px Arial, sans-serif; }
     .token { fill: #2f9e44; }
 
-    .alice, .lk-alice { animation: kf_alice %ss linear infinite; }
     .sub { animation: kf_sub %ss linear infinite; }
     .bob, .lk-bob { animation: kf_bob %ss linear infinite; }
-    .pkt { opacity: 0; }
-    .pa { animation: kf_pa %ss linear infinite; }
-    .pb { animation: kf_pb %ss linear infinite; }
-    .db { animation: kf_db %ss linear infinite; }
-%s
+    .card { opacity: 0; }
+    .c1 { animation: kf_c1 %ss linear infinite; }
+    .c2 { animation: kf_c2 %ss linear infinite; }
+    .c3 { animation: kf_c3 %ss linear infinite; }
 %s
   </style>""" % (
-    T, T, T, T, T, T,
-    "\n".join(f"    .cap{i + 1} {{ animation: kf_cap{i + 1} {T}s linear infinite; }}"
-              for i in range(len(CAPTIONS))),
+    T, T, T, T, T,
     "\n".join("    " + line for line in KEYFRAMES.splitlines()),
 )
 
@@ -158,55 +144,42 @@ STYLE = """  <style>
 def main():
     body = []
 
-    # links
+    # links (alice is always connected; bob's link toggles; spine router->server)
     body.append('  <g id="links">')
-    body.append(f'    <path class="link" d="M{SERVER[0]} {SERVER[1]} L{ROUTER[0]} {ROUTER[1]}"/>')
-    body.append(f'    <path class="link lk-alice" d="M{ROUTER[0]} {ROUTER[1]} L{ALICE[0]} {ALICE[1]}"/>')
+    body.append(f'    <path class="link" d="M{ROUTER[0]} {ROUTER[1]} L{SERVER[0]} {SERVER[1]}"/>')
+    body.append(f'    <path class="link" d="M{ROUTER[0]} {ROUTER[1]} L{ALICE[0]} {ALICE[1]}"/>')
     body.append(f'    <path class="link lk-bob" d="M{ROUTER[0]} {ROUTER[1]} L{BOB[0]} {BOB[1]}"/>')
     body.append('  </g>')
 
     # static nodes
     body.append('  <g class="endpoint">')
-    body.append(icon("storage", SERVER, 1.25))
-    body.append(icon("node", ROUTER, 1.4))
+    body.append(icon("storage", SERVER, 1.0))
+    body.append(icon("node", ROUTER, 1.2))
     body.append('  </g>')
-    body.append(text(SERVER[0], SERVER[1] + 42, "Server", "node-label"))
-    body.append(text(ROUTER[0], ROUTER[1] + 40, "Router", "node-label"))
+    body.append(text(ROUTER[0] + 48, ROUTER[1] + 5, "Router", "node-label", anchor="start"))
 
-    # subscriber badge on the server
+    # subscriber badge under the server
     body.append('  <g class="sub">')
-    body.append(f'    <rect class="badge" x="40" y="186" width="250" height="46" rx="12"/>')
-    body.append(text(165, 205, "Liveliness Subscriber", "badge-t"))
-    body.append(text(165, 224, "robot/*  ·  history = true", "badge-k"))
+    body.append('    <rect class="badge" x="95" y="112" width="240" height="42" rx="11"/>')
+    body.append(text(215, 128, "Liveliness Subscriber", "badge-t"))
+    body.append(text(215, 146, "robot/*  ·  history = true", "badge-k"))
     body.append('  </g>')
 
-    # robots (with token + key expression label)
-    body.append('  <g class="alice endpoint">')
-    body.append(icon("robot", ALICE, 1.5))
-    body.append(f'    <circle class="token" cx="{ALICE[0] - 66}" cy="128" r="5"/>')
-    body.append(text(ALICE[0] - 54, 133, "robot/alice", "ke", anchor="start"))
-    body.append('  </g>')
+    # robots
+    body.append(robot(ALICE, "robot/alice", None))
+    body.append(robot(BOB, "robot/bob", "bob"))
 
-    body.append('  <g class="bob endpoint">')
-    body.append(icon("robot", BOB, 1.5))
-    body.append(f'    <circle class="token" cx="{BOB[0] - 60}" cy="463" r="5"/>')
-    body.append(text(BOB[0] - 48, 468, "robot/bob", "ke", anchor="start"))
-    body.append('  </g>')
-
-    # moving liveliness samples (router -> subscriber)
-    body.append(packet("pa", "Put robot/alice", PUT, *PUT_A))
-    body.append(packet("pb", "Put robot/bob", PUT, *PUT_B))
-    body.append(packet("db", "Delete robot/bob", DEL, *DEL_B))
-
-    # step captions
-    for i, cap in enumerate(CAPTIONS):
-        body.append(text(450, 492, cap, f"caption cap{i + 1}"))
+    # collected liveliness samples (travel up from the router, then stay)
+    body.append(card("c1", "robot/alice", PUT, SLOTS[0], *C1))
+    body.append(card("c2", "robot/bob", PUT, SLOTS[1], *C2))
+    body.append(card("c3", "robot/bob", DEL, SLOTS[2], *C3))
 
     svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" role="img" aria-labelledby="title desc">
   <title id="title">Zenoh liveliness subscriber</title>
-  <desc id="desc">A server declares a liveliness Subscriber for robot/* with history=true. robot/alice
-connects and history delivers a Put for robot/alice; robot/bob connects and the subscriber receives a Put for
-robot/bob; robot/bob disconnects and the subscriber receives a Delete for robot/bob.</desc>
+  <desc id="desc">A server declares a liveliness Subscriber for robot/* with history=true while robot/alice is
+already connected. History delivers a Put for robot/alice; robot/bob connects and the subscriber receives a Put
+for robot/bob; robot/bob disconnects and the subscriber receives a Delete for robot/bob. The three samples stay
+in the subscriber's list (green dot = Put, red dot = Delete).</desc>
   <defs>
     <linearGradient id="node-fill" x1="0" x2="0" y1="0" y2="1">
       <stop offset="0" stop-color="#62bfff"/>

@@ -115,6 +115,8 @@ section.side img.side {
   height: auto;
 }
 section.side ul, section.side ol { width: 48%; }
+/* tall (vertical) side diagram, e.g. the Liveliness animation */
+section.side img.liveimg { position: absolute; right: 40px; top: 138px; height: 524px; width: auto; }
 
 /* grouped-field slide (Sample): several short groups, tighter rhythm */
 section.groups { font-size: 19.5px; }
@@ -344,7 +346,11 @@ A standalone **information API**: it runs the same network browse as the scoutin
 
 ---
 
+<!-- _class: small side -->
+
 # Liveliness
+
+<img class="liveimg" src="../assets/zenoh-liveliness.svg" alt="Animation: a server with a liveliness Subscriber for robot/* (history=true) collects samples as robots connect and disconnect — Put robot/alice, Put robot/bob (green dots), then Delete robot/bob (red dot) accumulate in its list" />
 
 - A node declares a named **`LivelinessToken`** on a key expression — a lightweight presence signal.
 - A token stays **alive** until it is **undeclared**, or its **session is closed / disconnected** from the network.
@@ -353,16 +359,6 @@ A standalone **information API**: it runs the same network browse as the scoutin
   - **`declare_subscriber()`** — be notified as tokens appear (`Put`) or disappear (`Delete`).
   - The **`history`** option replays already-declared tokens to a new subscriber.
 - Ideal for **presence detection** and reacting to nodes joining or failing.
-
----
-
-<!-- _class: media -->
-
-# Liveliness in action
-
-A **server** declares a liveliness **`Subscriber`** for `robot/*` with **`history = true`** — as robots connect and disconnect, it is notified with **`Put`** and **`Delete`** samples routed to it.
-
-![h:418](../assets/zenoh-liveliness.svg)
 
 ---
 

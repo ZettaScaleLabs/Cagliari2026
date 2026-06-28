@@ -82,6 +82,5 @@ extension to preview and export `zenoh.md` directly.
 10. Reply
 11. Session
 12. Liveliness
-13. Liveliness in action
-14. Serialization
-15. Advanced Pub/Sub
+13. Serialization
+14. Advanced Pub/Sub
