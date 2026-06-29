@@ -252,13 +252,11 @@ Config sets all the parameters of the node: **`connect` / `listen` endpoints**, 
 
 # Session
 
-The **`Session`** is the main Zenoh object — it holds the runtime and the node's connection state. Opened with `zenoh::open(Config)`. Essentially the **whole Zenoh network API is provided through the session** — publish/subscribe, query/reply, liveliness, and so on — the only exception is **scouting**, which can also run on its own.
+The **`Session`** is the main Zenoh object — it holds the runtime and the node's connection state. Opened with `zenoh::open(Config)`. Essentially the **whole Zenoh network API is provided through the session** — publish/subscribe, query/reply, liveliness, and so on — the only exception is **scouting**, which is separate.
 
-## Connectivity API
+Each Zenoh node — what a session represents — has its own unique identifier **`ZenohId`** and is connected to other nodes. There is an API for obtaining this information:
 
-The session provides an API to **get information about its connections to other nodes**.
-
-- **`info()`** → `SessionInfo`: `zid()`, `routers_zid()`, `peers_zid()`, plus `links()` / `transports()`.
+- **`info()`** → `zid()`, `routers_zid()`, `peers_zid()`, `links()` / `transports()`.
 
 ---
 
