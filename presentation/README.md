@@ -75,15 +75,16 @@ extension to preview and export `zenoh.md` directly.
 3. Key Expressions
 4. Config
 5. Session
-6. Publish / Subscribe
-7. Get / Reply
-8. Sample
-9. Selector
-10. Matching
-11. Consolidation
-12. Reply
-13. Liveliness
-14. Serialization
-15. Advanced Pub/Sub
-16. Language bindings
-17. Links
+6. Scouting
+7. Publish / Subscribe
+8. Get / Reply
+9. Sample
+10. Reply
+11. Selector
+12. Matching
+13. Consolidation
+14. Liveliness
+15. Serialization
+16. Advanced Pub/Sub
+17. Language bindings
+18. Links

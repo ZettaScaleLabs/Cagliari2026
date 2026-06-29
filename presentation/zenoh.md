@@ -134,6 +134,11 @@ section .diorow figcaption { font-size: 14px; color: var(--muted); margin-top: -
 section .solo { text-align: center; margin: 6px 0 0; }
 section .solo img { width: 740px; height: auto; }
 
+/* scouting slide: text on the left, the two square diagrams stacked on the right */
+section.scouting > p, section.scouting > ul { width: 68%; }
+section.scouting .figs { position: absolute; right: 56px; top: 116px; width: 258px; display: flex; flex-direction: column; gap: 12px; }
+section.scouting .figs img { width: 258px; height: 258px; display: block; }
+
 /* selector breakdown chip */
 section .selector { font-size: 26px; margin: 6px 0 14px; }
 section .selector .kx { color: var(--zenoh-navy); font-weight: 700; }
@@ -233,7 +238,7 @@ Mikhail ILIN&nbsp;&nbsp;·&nbsp;&nbsp;Ivan PAEZ
 
 # Config
 
-Passed to `zenoh::open` — a **JSON5** document (a file, a string, or built in code) that tunes how a node behaves on the network. Its central choice is the node's **mode**:
+Passed to `zenoh::open` — a **`Config` object** that tunes how a node behaves on the network. It can be **loaded from JSON5 or YAML** (a file or a string) or **built directly in code**. Its central choice is the node's **mode**:
 
 - **`peer`** *(default)* — discovers neighbours via **multicast + gossip** scouting and auto-connects to them, forming a **dynamic mesh**; no router needed.
 - **`client`** — keeps a **single uplink** to one node (typically a **`router`**), found by a configured endpoint or **multicast scouting**; no gossip, no mesh.
@@ -247,21 +252,27 @@ Config sets all the parameters of the node: **`connect` / `listen` endpoints**, 
 
 # Session
 
-The **`Session`** is the main Zenoh object — it holds the runtime and the node's connection state. Opened with `zenoh::open(Config)`.
+The **`Session`** is the main Zenoh object — it holds the runtime and the node's connection state. Opened with `zenoh::open(Config)`. Essentially the **whole Zenoh network API is provided through the session** — publish/subscribe, query/reply, liveliness, and so on — the only exception is **scouting**, which is separate.
 
-## Connectivity API
+Each Zenoh node — what a session represents — has its own unique identifier **`ZenohId`** and is connected to other nodes. There is an API for obtaining this information:
 
-The session provides an API to **get information about its connections to other nodes**.
+- **`info()`** → `zid()`, `routers_zid()`, `peers_zid()`, `links()` / `transports()`.
 
-- **`info()`** → `SessionInfo`: `zid()`, `routers_zid()`, `peers_zid()`, plus `links()` / `transports()`.
+---
 
-## Scouting
+<!-- _class: small scouting -->
 
-The session can **establish connections to other nodes without configuring them explicitly** — peers are discovered automatically over UDP multicast or gossip while the session is opening.
+# Scouting
 
-### `zenoh::scout`
+When enabled, **scouting** runs automatically as a **session opens**: the node discovers others and connects to them with no endpoints configured. The standalone **`zenoh::scout`** does the same discovery **without establishing connections** — for information only. Two mechanisms:
 
-A standalone **information API**: it runs the same network browse as the scouting done internally at session open, but only to report the nodes it finds.
+- **UDP multicast** — a node broadcasts a scout message on the local network; the nodes that hear it reply with their addresses, and it connects to them.
+- **Gossip** — a node a peer is already connected to tells it about the other peers that peer knows, so it can connect to them directly.
+
+<div class="figs">
+<img src="../assets/zenoh-multicast.svg" alt="Animation: robots A, B and C are connected to each other; robot D broadcasts a UDP scout message, the three reply with their addresses (tcp/10.0.0.1, .2, .3), and robot D connects to all three" />
+<img src="../assets/zenoh-gossip.svg" alt="Animation: robot A is already connected to a router (tls/router.example.com); robot B connects to the router, the router gossips robot A's address (tcp/10.0.0.5) to it, and robot B connects directly to robot A" />
+</div>
 
 ---
 

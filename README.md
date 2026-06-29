@@ -9,6 +9,9 @@ microcontrollers to the cloud.
 - [Installation guide](zenoh/install.md) — install each language binding and run
   a publisher/subscriber pair to watch data flow, or build from source and run
   the bundled examples.
+- [Self-hosted router](zenoh/self-hosted-router.md) — run your own `zenohd` over
+  mutual TLS and let nodes discover each other through it via gossip, then talk
+  over direct, encrypted peer links.
 - [Challenge](zenoh/challenge.md) — the hackathon challenge: goal, the three
   levels, application ideas, deliverables, and how projects are evaluated.
 - [Presentation](https://zettascalelabs.github.io/Cagliari2026/) — a Marp slide
