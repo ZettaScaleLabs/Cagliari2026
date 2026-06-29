@@ -134,6 +134,12 @@ section .diorow figcaption { font-size: 14px; color: var(--muted); margin-top: -
 section .solo { text-align: center; margin: 6px 0 0; }
 section .solo img { width: 740px; height: auto; }
 
+/* scouting slide: each method bullet with its square diagram to the right */
+section.scouting .m { display: flex; align-items: center; gap: 22px; margin: 4px 0; }
+section.scouting .m .mt { flex: 1; position: relative; padding-left: 20px; }
+section.scouting .m .mt::before { content: "•"; position: absolute; left: 0; color: var(--zenoh-blue); font-weight: 700; }
+section.scouting .m img { width: 206px; height: 206px; flex: none; }
+
 /* selector breakdown chip */
 section .selector { font-size: 26px; margin: 6px 0 14px; }
 section .selector .kx { color: var(--zenoh-navy); font-weight: 700; }
@@ -255,13 +261,23 @@ The session provides an API to **get information about its connections to other 
 
 - **`info()`** → `SessionInfo`: `zid()`, `routers_zid()`, `peers_zid()`, plus `links()` / `transports()`.
 
-## Scouting
+---
 
-The session can **establish connections to other nodes without configuring them explicitly** — peers are discovered automatically over UDP multicast or gossip while the session is opening.
+<!-- _class: small scouting -->
 
-### `zenoh::scout`
+# Scouting
 
-A standalone **information API**: it runs the same network browse as the scouting done internally at session open, but only to report the nodes it finds.
+When enabled, **scouting** runs automatically as a **session opens**: the node discovers others and connects to them with no endpoints configured. The standalone **`zenoh::scout`** does the same discovery **without establishing connections** — for information only. Two mechanisms:
+
+<div class="m">
+<div class="mt"><strong>UDP multicast</strong> — a node broadcasts a scout message on the local network; the nodes that hear it reply with their addresses, and it connects to them.</div>
+<img src="../assets/zenoh-multicast.svg" alt="Animation: robots A, B and C are connected to each other; robot D broadcasts a UDP scout message, the three reply with their addresses (tcp/10.0.0.1, .2, .3), and robot D connects to all three" />
+</div>
+
+<div class="m">
+<div class="mt"><strong>Gossip</strong> — a node a peer is already connected to tells it about the other peers that peer knows, so it can connect to them directly.</div>
+<img src="../assets/zenoh-gossip.svg" alt="Animation: robot A is already connected to a router (tls/router.example.com); robot B connects to the router, the router gossips robot A's address (tcp/10.0.0.5) to it, and robot B connects directly to robot A" />
+</div>
 
 ---
 
