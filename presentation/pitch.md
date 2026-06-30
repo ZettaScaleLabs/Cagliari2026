@@ -134,22 +134,15 @@ section.prob .col.sol h3 { color: var(--zenoh-blue); }
 section.prob .arrow { align-self: center; display: flex; justify-content: center; padding: 0 8px; }
 section.prob .arrow img { width: 100%; height: auto; }
 section.prob .adopt { margin: 16px 0 0; }
-section.prob .adopt h2 { color: var(--zenoh-blue); font-size: 21px; margin: 0 0 5px; }
-section.prob .adopt h2::after {
-  content: ""; display: block; width: 64px; height: 4px; margin: 6px 0 0;
-  background: linear-gradient(90deg, var(--zenoh-blue), var(--zenoh-cyan)); border-radius: 3px;
-}
+section.prob .adopt h2 { color: var(--zenoh-navy); font-size: 21px; margin: 0 0 5px; }
+section.prob .adopt h2::after { display: none; }
 section.prob .logos { display: flex; align-items: stretch; gap: 14px; margin-top: 12px; }
 section.prob .logos .item { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
 section.prob .logos .lg { height: 46px; display: flex; align-items: center; justify-content: center; }
 section.prob .logos .lg img { max-height: 42px; max-width: 100%; width: auto; height: auto; }
 section.prob .logos .ds { margin-top: 8px; font-size: 12.5px; color: var(--muted); line-height: 1.25; }
-section.prob .logos .item.partner { background: #eef4ff; border-radius: 10px; padding: 6px 8px; }
-section.prob .logos .item.partner .ds { color: var(--zenoh-navy); font-weight: 600; }
-section.prob .logos .item.partner .tag {
-  display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .4px;
-  color: #fff; background: var(--zenoh-blue); border-radius: 6px; padding: 1px 7px; margin-bottom: 5px;
-}
+section.prob .source { margin: 12px 0 0; font-size: 12px; color: var(--muted); }
+section.prob .source a { color: var(--muted); }
 
 /* title slide */
 section.title {
@@ -216,9 +209,11 @@ One protocol across cloud, router and devices, with direct peer-to-peer links �
 
 <div class="adopt">
 
-## Zenoh adoption
+## Zenoh is adopted by:
 
-<div class="logos"><div class="item"><div class="lg"><img src="../assets/logo-ros.png" alt="ROS 2" /></div><div class="ds">ROS 2 middleware<br><code>rmw_zenoh</code></div></div><div class="item"><div class="lg"><img src="../assets/logo-woven.png" alt="Woven by Toyota" /></div><div class="ds">Software-defined<br>vehicles</div></div><div class="item"><div class="lg"><img src="../assets/logo-gm.png" alt="General Motors" /></div><div class="ds">Automotive<br>connectivity</div></div><div class="item"><div class="lg"><img src="../assets/logo-nxp.png" alt="NXP Semiconductors" /></div><div class="ds">Automotive<br>silicon</div></div><div class="item"><div class="lg"><img src="../assets/logo-eclipse-sdv.png" alt="Eclipse SDV" /></div><div class="ds">Open in-vehicle<br>stack</div></div><div class="item partner"><span class="tag">PARTNER</span><div class="lg"><img src="../assets/logo-o-cei.png" alt="O-CEI" /></div><div class="ds">Cloud·Edge·IoT continuum — Zenoh is its connectivity layer</div></div></div>
+<div class="logos"><div class="item"><div class="lg"><img src="../assets/logo-ros.png" alt="ROS 2" /></div><div class="ds">ROS 2 middleware<br><code>rmw_zenoh</code></div></div><div class="item"><div class="lg"><img src="../assets/logo-woven.png" alt="Woven by Toyota" /></div><div class="ds">Software-defined<br>vehicles</div></div><div class="item"><div class="lg"><img src="../assets/logo-gm.png" alt="General Motors" /></div><div class="ds">Automotive<br>connectivity</div></div><div class="item"><div class="lg"><img src="../assets/logo-nxp.png" alt="NXP Semiconductors" /></div><div class="ds">Automotive<br>silicon</div></div><div class="item"><div class="lg"><img src="../assets/logo-eclipse-sdv.png" alt="Eclipse SDV" /></div><div class="ds">Open in-vehicle<br>stack</div></div><div class="item"><div class="lg"><img src="../assets/logo-o-cei.png" alt="O-CEI" /></div><div class="ds">Hackathon partner —<br>Cloud·Edge·IoT continuum</div></div></div>
+
+<p class="source">Source: <a href="https://zenoh.io/media/">https://zenoh.io/media/</a></p>
 
 </div>
 
