@@ -115,36 +115,27 @@ section .chips span {
 }
 
 /* problem / solution opener: three rows of text + a horizontal diagram */
-section.prob { font-size: 19px; padding-top: 40px; padding-bottom: 28px; }
-section.prob h1 { font-size: 38px; }
-section.prob h1::after { margin-top: 7px; }
+section.prob { font-size: 17px; padding-top: 36px; padding-bottom: 30px; }
+section.prob h1 { font-size: 36px; }
+section.prob h1::after { margin-top: 6px; }
 section.prob .row {
   display: grid;
-  grid-template-columns: 33% 67%;
+  grid-template-columns: 34% 66%;
   align-items: center;
   column-gap: 14px;
-  margin: 9px 0;
+  margin: 6px 0;
 }
-section.prob .row h3 { margin: 0 0 3px; font-size: 19px; }
+section.prob .row h3 { margin: 0 0 3px; font-size: 18px; }
 section.prob .row p { margin: 2px 0; }
-section.prob .row ul { margin: 2px 0; }
-section.prob .row li { margin: 1px 0; }
-section.prob .row img { height: 132px; width: auto; display: block; }
-section.prob .good { color: #1f8b4c; font-weight: 700; }
-section.prob .bad  { color: #c0392b; font-weight: 600; }
+/* diagrams pushed to the right edge of their cell */
+section.prob .row img { height: 120px; width: auto; display: block; margin-left: auto; }
 section.prob .solution {
   background: #eef4ff;
   border-left: 5px solid var(--zenoh-blue);
   border-radius: 0 10px 10px 0;
-  padding: 4px 12px;
+  padding: 6px 12px;
 }
 section.prob .solution h3 { color: var(--zenoh-blue); }
-section.prob .bonus {
-  margin: 8px 0 0;
-  font-size: 17.5px;
-  color: var(--muted);
-}
-section.prob .bonus strong { color: var(--zenoh-navy); }
 
 /* title slide */
 section.title {
@@ -176,11 +167,10 @@ section.title h1::after {
 
 ### Pure cloud
 
-<span class="good">+ Simple</span>
-<span class="bad">– High latency, low bandwidth, breaks when the link drops</span>
+Simple to build, but every message round-trips through the cloud: high latency, low bandwidth, and nothing works when the link drops.
 
 </div>
-<img src="../assets/pitch-cloud.svg" alt="Two robots each connect over a long link straight to the cloud server" />
+<img src="../assets/pitch-cloud.svg" alt="Two robots each connect over a long link straight to the cloud" />
 </div>
 
 <div class="row">
@@ -188,8 +178,7 @@ section.title h1::after {
 
 ### Edge architecture
 
-<span class="good">+ Fast — processing stays local</span>
-<span class="bad">– Complex, heterogeneous: a different protocol on every hop (HTTPS, MQTT…)</span>
+An edge router keeps processing local and fast, but the system becomes complex and heterogeneous: a different protocol on every hop (HTTPS to the cloud, MQTT to the devices).
 
 </div>
 <img src="../assets/pitch-edge.svg" alt="Cloud connects to an edge router over HTTPS; robots connect to the router over MQTT" />
@@ -200,15 +189,11 @@ section.title h1::after {
 
 ### Zenoh — one protocol, every level
 
-- **Transport-agnostic**
-- **Arbitrary topology**
-- **Minimal wire overhead**
+Transport-agnostic, arbitrary-topology and minimal wire overhead — one protocol spans cloud, router and devices, and peers talk directly. Light enough even to connect the components *inside* a single robot: one protocol from the silicon to the cloud.
 
 </div>
 <img src="../assets/pitch-zenoh.svg" alt="Cloud, router and robots all speak Zenoh; the two robots also peer directly with each other" />
 </div>
-
-<p class="bonus"><strong>Bonus:</strong> Zenoh is light enough to also connect the components <em>inside</em> a single robot — the same protocol from the silicon to the cloud.</p>
 
 ---
 

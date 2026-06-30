@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 22 560 168" role="img" aria-label="Zenoh: cloud, router and robots on one protocol, robots also peering directly">
-  <title>Zenoh: cloud, router and robots on one protocol, robots also peering directly</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 26 560 150" role="img" aria-label="Zenoh: cloud, router and robots on one protocol; robots also peer directly">
+  <title>Zenoh: cloud, router and robots on one protocol; robots also peer directly</title>
 <defs>
     <linearGradient id="node-fill" x1="0" x2="0" y1="0" y2="1">
       <stop offset="0" stop-color="#62bfff"/>
@@ -25,10 +25,9 @@
         <polygon points="2,-2.5 11,-2.5 11,-5.5 16,0 11,5.5 11,2.5 2,2.5" transform="rotate(135)" fill="#072f61"/>
       </g>
     </g>
-    <g id="storage">
-      <use href="#computer" y="0"/>
-      <use href="#computer" y="-22"/>
-      <use href="#computer" y="-44"/>
+    <g id="cloud">
+      <path d="M-26,18 C-40,18 -41,-1 -27,-3 C-28,-22 -2,-26 6,-13 C12,-23 33,-19 28,-4 C40,-3 39,18 26,18 Z"
+            fill="url(#node-fill)" stroke="#072f61" stroke-width="3.2" stroke-linejoin="round"/>
     </g>
           <g id="robot" transform="translate(0, 1) scale(0.18) translate(-400, -300)">
 <g id="wheel_bl">
@@ -112,32 +111,27 @@
   </g>
   </defs>
 <style>
-    .bg { fill: #ffffff; }
-    .link { fill: none; stroke: #7aa7e0; stroke-width: 3.4; stroke-linecap: round; }
+    .link  { fill: none; stroke: #7aa7e0; stroke-width: 3.4; stroke-linecap: round; }
     .https { fill: none; stroke: #3a7fbf; stroke-width: 3.4; stroke-linecap: round; }
     .mqtt  { fill: none; stroke: #e08a2b; stroke-width: 3.4; stroke-linecap: round; stroke-dasharray: 2 7; }
     .zlink { fill: none; stroke: #147dff; stroke-width: 3.6; stroke-linecap: round; }
     .endpoint { filter: url(#softShadow); }
-    .name { fill: #0b3a82; font: 700 16px Arial, sans-serif; }
-    .proto { font: 700 13px "SFMono-Regular","Menlo","Consolas",monospace; }
+    .proto { font: 700 14px "SFMono-Regular","Menlo","Consolas",monospace; }
     .ph { fill: #2f6da3; } .pm { fill: #c0701c; } .pz { fill: #147dff; }
-    .tag { fill: #5b6b86; font: 600 13px Arial, sans-serif; }
   </style>
   <g id="links">
-    <path class="zlink" d="M118 96 L262 96"/>
-    <path class="zlink" d="M318 96 L470 56"/>
-    <path class="zlink" d="M318 96 L470 150"/>
-    <path class="zlink" d="M470 70 L470 136"/>
+    <path class="zlink" d="M130 100 L262 100"/>
+    <path class="zlink" d="M318 100 L470 60"/>
+    <path class="zlink" d="M318 100 L470 152"/>
+    <path class="zlink" d="M470 74 L470 138"/>
   </g>
   <g class="endpoint">
-    <g transform="translate(94 112) scale(1.25)"><use href="#storage"/></g>
-    <g transform="translate(290 96) scale(1.45)"><use href="#node"/></g>
-    <g transform="translate(470 56) scale(1.35)"><use href="#robot"/></g>
-    <g transform="translate(470 150) scale(1.35)"><use href="#robot"/></g>
+    <g transform="translate(96 100) scale(1.15)"><use href="#cloud"/></g>
+    <g transform="translate(290 100) scale(1.5)"><use href="#node"/></g>
+    <g transform="translate(470 60) scale(1.35)"><use href="#robot"/></g>
+    <g transform="translate(470 152) scale(1.35)"><use href="#robot"/></g>
   </g>
-  <text class="name" text-anchor="middle" x="94" y="180">Cloud</text>
-  <text class="name" text-anchor="middle" x="290" y="150">Zenoh router</text>
-  <text class="proto pz" text-anchor="middle" x="200" y="84">Zenoh</text>
-  <text class="proto pz" text-anchor="middle" x="408" y="62">Zenoh</text>
-  <text class="proto pz" text-anchor="end" x="455" y="107">direct</text>
+  <text class="proto pz" text-anchor="middle" x="196" y="90">Zenoh</text>
+  <text class="proto pz" text-anchor="middle" x="404" y="66">Zenoh</text>
+  <text class="proto pz" text-anchor="end"    x="456" y="110">direct</text>
 </svg>
