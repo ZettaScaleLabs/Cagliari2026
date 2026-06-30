@@ -17,3 +17,7 @@ microcontrollers to the cloud.
 - [Presentation](https://zettascalelabs.github.io/Cagliari2026/) — a Marp slide
   deck introducing Zenoh and its core concepts (source: [presentation/zenoh.md](presentation/zenoh.md);
   see [presentation/](presentation/) to build it).
+- [Pitch deck](https://zettascalelabs.github.io/Cagliari2026/presentation/pitch.html) —
+  a short Marp deck pitching the hackathon track: the Cloud-Edge-IoT architecture
+  evolution and Zenoh's place in it, who adopts Zenoh, the challenge, and the
+  support provided (source: [presentation/pitch.md](presentation/pitch.md)).

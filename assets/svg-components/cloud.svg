@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-40 -30 80 56" role="img" aria-labelledby="cloud-title cloud-desc">
+  <title id="cloud-title">Cloud icon</title>
+  <desc id="cloud-desc">A reusable blue cloud used for the cloud / internet node.</desc>
+  <defs>
+    <linearGradient id="node-fill" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#62bfff"/>
+      <stop offset="1" stop-color="#247fbd"/>
+    </linearGradient>
+  </defs>
+  <g id="cloud">
+    <path d="M-26,18
+             C-40,18 -41,-1 -27,-3
+             C-28,-22 -2,-26 6,-13
+             C12,-23 33,-19 28,-4
+             C40,-3 39,18 26,18
+             Z"
+          fill="url(#node-fill)" stroke="#072f61" stroke-width="3.2" stroke-linejoin="round"/>
+  </g>
+</svg>
