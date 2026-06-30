@@ -67,7 +67,7 @@ small on the local network (Level 2) and then grow into a cloud-connected one
 
   Here are a few experiments with it:
   - Game state sharing library and multiplayer Tetris: https://github.com/milyin/zenoh-arena
-  - Olivier's crab game?
+  - King of bots demo http://demo.zenoh.io/king-of-bots/
 
 - **Collaborative whiteboard or document editor** — every edit is published and
   every participant subscribes, for real-time shared drawing or text.
