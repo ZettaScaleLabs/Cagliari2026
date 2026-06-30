@@ -139,8 +139,17 @@ section.prob .adopt h2::after {
   content: ""; display: block; width: 64px; height: 4px; margin: 6px 0 0;
   background: linear-gradient(90deg, var(--zenoh-blue), var(--zenoh-cyan)); border-radius: 3px;
 }
-section.prob .adopt p { margin: 8px 0 0; font-size: 16.5px; }
-section.prob .adopt strong { color: var(--zenoh-navy); }
+section.prob .logos { display: flex; align-items: stretch; gap: 14px; margin-top: 12px; }
+section.prob .logos .item { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
+section.prob .logos .lg { height: 46px; display: flex; align-items: center; justify-content: center; }
+section.prob .logos .lg img { max-height: 42px; max-width: 100%; width: auto; height: auto; }
+section.prob .logos .ds { margin-top: 8px; font-size: 12.5px; color: var(--muted); line-height: 1.25; }
+section.prob .logos .item.partner { background: #eef4ff; border-radius: 10px; padding: 6px 8px; }
+section.prob .logos .item.partner .ds { color: var(--zenoh-navy); font-weight: 600; }
+section.prob .logos .item.partner .tag {
+  display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .4px;
+  color: #fff; background: var(--zenoh-blue); border-radius: 6px; padding: 1px 7px; margin-bottom: 5px;
+}
 
 /* title slide */
 section.title {
@@ -209,7 +218,7 @@ One protocol across cloud, router and devices, with direct peer-to-peer links �
 
 ## Zenoh adoption
 
-Already in the field — starting with **ROS 2**, where `rmw_zenoh` is the Zenoh middleware backed by **Open Robotics** and **Intrinsic**. It runs in production software-defined vehicles at **Woven by Toyota**, with automotive work at **General Motors**, **TTTech Auto** and **NXP**; it is adopted across the **Eclipse SDV** initiative and deployed in mobile robots at **Tractonomy**.
+<div class="logos"><div class="item"><div class="lg"><img src="../assets/logo-ros.png" alt="ROS 2" /></div><div class="ds">ROS 2 middleware<br><code>rmw_zenoh</code></div></div><div class="item"><div class="lg"><img src="../assets/logo-woven.png" alt="Woven by Toyota" /></div><div class="ds">Software-defined<br>vehicles</div></div><div class="item"><div class="lg"><img src="../assets/logo-gm.png" alt="General Motors" /></div><div class="ds">Automotive<br>connectivity</div></div><div class="item"><div class="lg"><img src="../assets/logo-nxp.png" alt="NXP Semiconductors" /></div><div class="ds">Automotive<br>silicon</div></div><div class="item"><div class="lg"><img src="../assets/logo-eclipse-sdv.png" alt="Eclipse SDV" /></div><div class="ds">Open in-vehicle<br>stack</div></div><div class="item partner"><span class="tag">PARTNER</span><div class="lg"><img src="../assets/logo-o-cei.png" alt="O-CEI" /></div><div class="ds">Cloud·Edge·IoT continuum — Zenoh is its connectivity layer</div></div></div>
 
 </div>
 
