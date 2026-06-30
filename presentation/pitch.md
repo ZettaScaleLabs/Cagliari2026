@@ -1,7 +1,7 @@
 ---
 marp: true
 title: Zenoh Challenge — Pitch
-description: The hackathon track in two slides
+description: A short pitch deck for the Cagliari 2026 hackathon track
 author: Mikhail ILIN, Ivan PAEZ
 paginate: true
 size: 16:9
