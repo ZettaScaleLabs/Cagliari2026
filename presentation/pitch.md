@@ -116,7 +116,6 @@ section .chips span {
 
 /* architecture-evolution opener: three columns (text over diagram) + arrows */
 section.prob { font-size: 16px; padding-top: 32px; padding-bottom: 26px; }
-section.prob h1 { font-size: 30px; }
 section.prob h1::after { margin-top: 6px; }
 section.prob .cols {
   display: grid;
@@ -167,7 +166,7 @@ section.title h1::after {
 
 <!-- _class: prob -->
 
-# Zenoh — the next step in cloud · edge · IoT architecture evolution
+# Zenoh — the next step in Cloud · Edge · IoT architecture evolution
 
 <div class="cols">
 
@@ -219,6 +218,29 @@ One protocol across cloud, router and devices, with direct peer-to-peer links �
 
 ---
 
+<!-- _class: cols2 small -->
+
+# What is Zenoh
+
+**Zenoh** is a location-transparent **publish / subscribe** and **query / reply** network protocol. Built as a **universal communication protocol** that works at every infrastructure level, **from microcontrollers to the cloud**.
+
+- **Location transparency**
+  Data is addressed by slash-separated keys — e.g. `room/sensor/temp` — not by node addresses.
+
+- **Transport-agnostic**
+  Runs over TCP, TLS, QUIC, UDP, and more — plus shared-memory transport with an enhanced API.
+
+- **Arbitrary topology**
+  Nodes connect directly or route through intermediaries; the topology can be preconfigured or decided at runtime.
+
+- **Wire efficiency**
+  Minimal overhead — you don't pay for features you don't use. The minimum header is just **5 bytes**.
+
+- **Wildcard support**
+  Subscribe to or request data with wildcards — `*/sensor/temp`, or `room/**` for everything under `room`.
+
+---
+
 <!-- _class: small -->
 
 # The Challenge — what you'll build
@@ -237,7 +259,7 @@ Pick a language you like and build a **prototype distributed app** whose instanc
 
 **Definition of Done** — a **GitHub repo** with the sources and clear build/run instructions; the **same app** runs peer-to-peer on the LAN (L2) and over the cloud (L3) without changing its logic.
 
-**A good Day-2 demo** — two laptops running your app find each other on the local network with no server, then a **remote peer joins through the cloud router** and it just works.
+**A good Day-2 demo** — an application whose instances interact **directly over the LAN**, or **through the cloud when the LAN is unavailable**, using the **Zenoh protocol**.
 
 </div>
 
@@ -257,7 +279,6 @@ This track suits anyone curious about **distributed systems, networking and real
 
 ## What we provide
 
-- **Repos & starting points** — the challenge guide, the `zenoh-ts` browser-chat example, the [zenoh-arena](https://github.com/milyin/zenoh-arena) game-state library, and the [zenoh-demos](https://github.com/eclipse-zenoh/zenoh-demos) gallery.
-- **Docs** — the Zenoh introduction, a verified installation guide, and the self-hosted-router setup.
-- **A cloud Zenoh router** with the access and **TLS keys** handed to you for Level 3.
-- **On-site mentoring / office hours** from the Zenoh team, with the **evaluation criteria shared up front** so you know what *good* looks like.
+- **Starting point** — the challenge and Zenoh installation guide at [github.com/ZettaScaleLabs/Cagliari2026](https://github.com/ZettaScaleLabs/Cagliari2026/).
+- **Docs** — Zenoh documentation, examples, and sources.
+- **Infrastructure** — a cloud Zenoh router with the access and **TLS keys** handed to you for Level 3.
