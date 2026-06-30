@@ -114,28 +114,33 @@ section .chips span {
   font-size: 0.92em;
 }
 
-/* problem / solution opener: three rows of text + a horizontal diagram */
-section.prob { font-size: 17px; padding-top: 36px; padding-bottom: 30px; }
-section.prob h1 { font-size: 36px; }
+/* architecture-evolution opener: three columns (text over diagram) + arrows */
+section.prob { font-size: 16px; padding-top: 32px; padding-bottom: 26px; }
+section.prob h1 { font-size: 30px; }
 section.prob h1::after { margin-top: 6px; }
-section.prob .row {
+section.prob .cols {
   display: grid;
-  grid-template-columns: 34% 66%;
-  align-items: center;
-  column-gap: 14px;
-  margin: 6px 0;
+  grid-template-columns: 1fr 76px 1fr 76px 1fr;
+  align-items: stretch;
+  margin: 16px 0 0;
 }
-section.prob .row h3 { margin: 0 0 3px; font-size: 18px; }
-section.prob .row p { margin: 2px 0; }
-/* diagrams pushed to the right edge of their cell */
-section.prob .row img { height: 120px; width: auto; display: block; margin-left: auto; }
-section.prob .solution {
-  background: #eef4ff;
-  border-left: 5px solid var(--zenoh-blue);
-  border-radius: 0 10px 10px 0;
-  padding: 6px 12px;
+section.prob .col { display: flex; flex-direction: column; padding: 8px 12px; }
+section.prob .col h3 { margin: 0 0 4px; font-size: 18px; }
+section.prob .col p { margin: 0; }
+/* diagrams sit at the bottom of every column so all three line up */
+section.prob .col img { width: 100%; height: auto; margin-top: auto; padding-top: 10px; }
+section.prob .col.sol { background: #eef4ff; border-radius: 12px; }
+section.prob .col.sol h3 { color: var(--zenoh-blue); }
+section.prob .arrow { align-self: center; display: flex; justify-content: center; padding: 0 8px; }
+section.prob .arrow img { width: 100%; height: auto; }
+section.prob .adopt { margin: 16px 0 0; }
+section.prob .adopt h2 { color: var(--zenoh-blue); font-size: 21px; margin: 0 0 5px; }
+section.prob .adopt h2::after {
+  content: ""; display: block; width: 64px; height: 4px; margin: 6px 0 0;
+  background: linear-gradient(90deg, var(--zenoh-blue), var(--zenoh-cyan)); border-radius: 3px;
 }
-section.prob .solution h3 { color: var(--zenoh-blue); }
+section.prob .adopt p { margin: 8px 0 0; font-size: 16.5px; }
+section.prob .adopt strong { color: var(--zenoh-navy); }
 
 /* title slide */
 section.title {
@@ -160,39 +165,52 @@ section.title h1::after {
 
 <!-- _class: prob -->
 
-# Cloud · Edge · IoT : the Zenoh solution
+# Zenoh — the next step in cloud · edge · IoT architecture evolution
 
-<div class="row">
-<div class="txt">
+<div class="cols">
+
+<div class="col">
 
 ### Pure cloud
 
-Simple to build, but every message round-trips through the cloud: high latency, low bandwidth, and nothing works when the link drops.
+Every device talks straight to the cloud. Simple, but high latency, low bandwidth, and nothing works when the link drops.
 
-</div>
 <img src="../assets/pitch-cloud.svg" alt="Two robots each connect over a long link straight to the cloud" />
+
 </div>
 
-<div class="row">
-<div class="txt">
+<div class="arrow"><img src="../assets/arrow-right.svg" alt="evolves into" /></div>
+
+<div class="col">
 
 ### Edge architecture
 
-An edge router keeps processing local and fast, but the system becomes complex and heterogeneous: a different protocol on every hop (HTTPS to the cloud, MQTT to the devices).
+An edge router adds fast, local processing — at the cost of complexity and a different protocol on every hop (HTTPS, MQTT…).
 
-</div>
 <img src="../assets/pitch-edge.svg" alt="Cloud connects to an edge router over HTTPS; robots connect to the router over MQTT" />
-</div>
-
-<div class="row solution">
-<div class="txt">
-
-### Zenoh — one protocol, every level
-
-Transport-agnostic, arbitrary-topology and minimal wire overhead — one protocol spans cloud, router and devices, and peers talk directly. Light enough even to connect the components *inside* a single robot: one protocol from the silicon to the cloud.
 
 </div>
+
+<div class="arrow"><img src="../assets/arrow-right.svg" alt="evolves into" /></div>
+
+<div class="col sol">
+
+### Zenoh
+
+One protocol across cloud, router and devices, with direct peer-to-peer links — transport-agnostic, any topology, minimal overhead, even *inside* a single robot.
+
 <img src="../assets/pitch-zenoh.svg" alt="Cloud, router and robots all speak Zenoh; the two robots also peer directly with each other" />
+
+</div>
+
+</div>
+
+<div class="adopt">
+
+## Zenoh adoption
+
+Already in the field — starting with **ROS 2**, where `rmw_zenoh` is the Zenoh middleware backed by **Open Robotics** and **Intrinsic**. It runs in production software-defined vehicles at **Woven by Toyota**, with automotive work at **General Motors**, **TTTech Auto** and **NXP**; it is adopted across the **Eclipse SDV** initiative and deployed in mobile robots at **Tractonomy**.
+
 </div>
 
 ---
