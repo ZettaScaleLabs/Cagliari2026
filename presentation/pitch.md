@@ -143,6 +143,11 @@ section.prob .logos .ds { margin-top: 8px; font-size: 12.5px; color: var(--muted
 section.prob .source { margin: 12px 0 0; font-size: 12px; color: var(--muted); }
 section.prob .source a { color: var(--muted); }
 
+/* supported-languages diagram beside "what we provide" on the closing slide */
+section.langs .provide { display: grid; grid-template-columns: 1fr 0.82fr; align-items: center; gap: 26px; }
+section.langs .provide h2 { margin-top: 0; }
+section.langs .provide img { width: 100%; height: auto; margin: 0; }
+
 /* title slide */
 section.title {
   background: radial-gradient(1200px 620px at 72% -12%, #16345f 0%, var(--zenoh-navy) 56%, #060d22 100%);
@@ -162,11 +167,46 @@ section.title h1::after {
   height: 6px;
   margin: 14px 0 0;
 }
+section.title p { margin: 0; }
+section.title p:nth-of-type(1) {
+  color: var(--zenoh-cyan);
+  font-size: 34px;
+  letter-spacing: 0.4px;
+  margin-top: 26px;
+}
+section.title p:nth-of-type(2) {
+  color: #c7d6ef;
+  font-size: 28px;
+  margin-top: 40px;
+}
+section.title p:nth-of-type(3) {
+  display: inline-block;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 18px 34px;
+  margin-top: 56px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.35);
+}
+section.title p:nth-of-type(3) img { vertical-align: middle; margin: 0 26px; }
 </style>
+
+<!-- _class: title -->
+<!-- _paginate: false -->
+<!-- _footer: '' -->
+
+# Eclipse Zenoh
+
+The next generation network protocol
+
+Mikhail ILIN&nbsp;&nbsp;·&nbsp;&nbsp;Ivan PAEZ
+
+![h:62](../assets/eclipse-foundation-logo.svg) ![h:84](../assets/zenoh-dragon.png) ![h:54](../assets/svg-components/zetta-scale-logo.svg)
+
+---
 
 <!-- _class: prob -->
 
-# Zenoh — the next step in Cloud · Edge · IoT architecture evolution
+# Eclipse Zenoh — the next step in Cloud · Edge · IoT architecture evolution
 
 <div class="cols">
 
@@ -196,7 +236,7 @@ An edge router adds fast, local processing — at the cost of complexity and a d
 
 <div class="col sol">
 
-### Zenoh
+### Eclipse Zenoh
 
 One protocol across cloud, router and devices, with direct peer-to-peer links — transport-agnostic, any topology, minimal overhead, even *inside* a single robot.
 
@@ -220,7 +260,7 @@ One protocol across cloud, router and devices, with direct peer-to-peer links �
 
 <!-- _class: cols2 small -->
 
-# What is Zenoh
+# What is Eclipse Zenoh
 
 **Zenoh** is a location-transparent **publish / subscribe** and **query / reply** network protocol. Built as a **universal communication protocol** that works at every infrastructure level, **from microcontrollers to the cloud**.
 
@@ -265,7 +305,7 @@ Pick a language you like and build a **prototype distributed app** whose instanc
 
 ---
 
-<!-- _class: small -->
+<!-- _class: small langs -->
 
 # Who it's for · what we provide
 
@@ -277,8 +317,15 @@ This track suits anyone curious about **distributed systems, networking and real
 - From **embedded / microcontroller** hackers to **web / cloud** developers and **game · IoT · robotics** builders.
 - People who like to **think out of the box** — originality is part of the score.
 
+<div class="provide">
+<div class="txt">
+
 ## What we provide
 
 - **Starting point** — the challenge and Zenoh installation guide at [github.com/ZettaScaleLabs/Cagliari2026](https://github.com/ZettaScaleLabs/Cagliari2026/).
 - **Docs** — Zenoh documentation, examples, and sources.
 - **Infrastructure** — a cloud Zenoh router with the access and **TLS keys** handed to you for Level 3.
+
+</div>
+<img src="../assets/zenoh-language-bindings.svg" alt="Zenoh language bindings: a Rust core wrapped by zenoh-c / zenoh-pico, zenoh-cpp, and Python, Java, Kotlin, Go and TypeScript bindings" />
+</div>
