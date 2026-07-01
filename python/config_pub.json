@@ -12,11 +12,6 @@
       "quic/81189db6.routers.a004eb94.dev.zettascale.cloud:7447"
     ]
   },
-  "listen": {
-    "endpoints": [
-      "tcp/0.0.0.0:0"
-    ]
-  },
   "downsampling": [],
   "metadata": {
     "name": "zetta-test-pub"
@@ -25,14 +20,13 @@
   "scouting": {
     "gossip": {
       "autoconnect": {
-        "peer": [],
         "router": []
       },
       "enabled": true,
-      "multihop": true
+      "multihop": false
     },
     "multicast": {
-      "enabled": true
+      "enabled": false
     }
   },
   "transport": {
